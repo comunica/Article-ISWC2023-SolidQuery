@@ -1,14 +1,16 @@
 ---
-title: "My Awesome Article"
+title: "Optimizing Link Traversal Query Execution via Structural Axioms"
 ---
 <header markdown="1">
 # <%= @item[:title] %>
 
+<!--
 {:#authors}
 - <%= person 'John Doe', 'http://www.example.org/', 'http://www.example.org/#me' %>
 
 {:#affiliations}
 - {:#myaffiliation} Awesome Inc.
+-->
 
 </header>
 
@@ -24,8 +26,12 @@ title: "My Awesome Article"
 <%= section 'abstract' %>
 
 <main>
-  <!-- Add sections by specifying their file name, excluding the '.md' suffix. -->
   <%= section 'introduction' %>
+  <%= section 'related-work' %>
+  <%= section 'use-case' %>
+  <%= section 'approach' %>
+  <%= section 'evaluation' %>
+  <%= section 'conclusions' %>
 </main>
 
 <footer></footer>
