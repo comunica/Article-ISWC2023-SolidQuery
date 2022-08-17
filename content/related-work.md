@@ -4,6 +4,15 @@
 Write me.
 {:.todo}
 
+### Link Traversal Query Processing
+
+Write me.
+{:.todo}
+
+Relevant paragraph from Olaf's databankenspectrum paper:
+> We notice that live-exploration-based query execution
+is similar to focused crawling as studied in the context of search engines for the WWW [6,2]. However, in focused crawling a discovered URI qualifies for lookup because of a high relevance for a specific topic; in live-exploration-based query execution, the relevance is more closely related to the task of answering the query at hand. Furthermore, the pur- pose of retrieving Web content is slightly different in both cases: Focused crawling, or Web crawling in general, is a pre-runtime (or background) process during which a system populates a search index or a local database; then, the run- time component of such a system provides query access to the populated data structure. Live exploration approaches, in contrast, retrieve data to answer a particular query; in these approaches, link-traversal-based data retrieval is an essen- tial part of the query execution process itself. Nonetheless, implementation techniques used for focused crawling, such as context graphs [8], might be applied in a live exploration approach for Linked Data query execution.
+
 ### Link Traversal Benchmarks
 
 Aside from the lack of reusable link traversal query engines,
@@ -35,3 +44,8 @@ Furthermore, it ships with a standard dataset for more convenient usage.
 
 Aside from these approaches, evaluation of link traversal engines
 is usually done via [hand crafted queries](cite:cites linktraversalsparql, linktraversalcaching, zeroknowldgequeryplanning, sihjoin).
+
+### Analysis of Decentralized Environments
+
+Some Solid papers and Mastodon if I can find any, and if space left.
+{:.todo}
