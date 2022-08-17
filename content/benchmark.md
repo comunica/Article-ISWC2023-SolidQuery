@@ -3,6 +3,7 @@
 
 Write me.
 Goal: Simulate and analyze structural properies of solid ecosystem.
+Derive motivation from benchmark from ldbc snb paper
 {:.todo}
 
 Benchmark aspects:
