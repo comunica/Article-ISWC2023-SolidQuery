@@ -14,7 +14,7 @@ The primary element within the [Solid protocol](cite:cites spec:solidprotocol) i
 the data vault (also known as *data pod*), is a user-owned space in which any kind of data can be stored.
 Users can choose where and how their vault is stored,
 by either [hosting it themselves](cite:cites solidcommunityserver),
-or by obtaining service-provided space by [a company](inruptpodspaces) or [government](flandersdatautility).
+or by obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
 Data vaults are loosely coupled to applications,
 where applications must request explicit access to the user for interacting with specific data.
 This loose coupling enables different applications to make use of the same data in an interoperable manner.
