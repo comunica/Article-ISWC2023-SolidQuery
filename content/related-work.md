@@ -6,16 +6,57 @@ Write me.
 
 ### Link Traversal Query Processing
 
-Write me.
-{:.todo}
+The Link Traversal Query Processing (LTQP) was introduced [more than a decade ago](cite:cites linktraversalpipeline)
+as a way to query over the Web of Linked Data as if it was a single globally distributed dataspace,
+without having to first indexing it in a single location.
+LTQP does this by employing the [*follow-your-nose* principle of Linked Data](cite:cites linkeddata) during query execution,
+where new RDF triples are continuously added to a local dataset by discovering new sources by following links between documents.
+For this, an [iterator-based pipeline](cite:cites linktraversalpipeline) was introduced
+that allows query execution to take place without having to wait until all links have been followed.
 
-Cite Alberto Mendelez papers? And focused crawling?
-{:.todo}
+Since query execution happens in parallel with source discovery in LTQP,
+traditional query optimization algorithms that happen before query execution using statistics of the dataset can not be used,
+as those statistics are not known yet.
+To cope with this problem, a [zero-knowledge query planning technique](cite:cites zeroknowldgequeryplanning)
+was introduced that orders triple patterns in a query based on several link traversal-specific heuristics.
 
-Relevant paragraph from Olaf's databankenspectrum paper:
-> We notice that live-exploration-based query execution
-is similar to focused crawling as studied in the context of search engines for the WWW [6,2]. However, in focused crawling a discovered URI qualifies for lookup because of a high relevance for a specific topic; in live-exploration-based query execution, the relevance is more closely related to the task of answering the query at hand. Furthermore, the pur- pose of retrieving Web content is slightly different in both cases: Focused crawling, or Web crawling in general, is a pre-runtime (or background) process during which a system populates a search index or a local database; then, the run- time component of such a system provides query access to the populated data structure. Live exploration approaches, in contrast, retrieve data to answer a particular query; in these approaches, link-traversal-based data retrieval is an essen- tial part of the query execution process itself. Nonetheless, implementation techniques used for focused crawling, such as context graphs [8], might be applied in a live exploration approach for Linked Data query execution.
-{:.todo}
+In practise, the number of links that could be followed within the Web of Linked Data can become very large.
+In the worst case, a single query could require traversing the whole Web, which is not feasible.
+Therefore, the [formal LTQP model](cite:cites linktraversalfoundations) has the option to configure different reachability criteria,
+which are different strategies for deciding which links to follow, each leading to different semantics of query result completeness.
+These reachability criteria are the following:
+
+cNone
+: No links are followed
+
+cMatch
+: Only those links in discovered triples are followed if those triples match with a triple pattern within the query.
+
+cAll
+: All links are followed
+
+[Context-based semantics](cite:cites linktraversalpropertypaths) is an extension of these reachability semantics
+that was introduced to be able to cope with property path expressions in the [SPARQL 1.1 language](cite:cites spec:sparqllang).
+Furthermore, next to query-driven reachability, [another extension](cite:cites guidedlinktraversal) of the LTQP model introduces
+the ability for data publishers to express which links should be followed.
+
+Next to filtering links via different reachability semantics,
+a second methodology for improving query result arrival times is through [*link prioritization*](cite:cites linktraversaloptimization).
+However, existing techniques are based on heuristics, which only sometimes result in faster query results compared to no prioritization.
+
+Even though [multiple query languages](cite:cites ldql, nautilod, ldpath) have been introduced specifically for LTQP,
+its [SPARQL-based execution model](cite:cites linktraversalsparql) is still the most widely used.
+Since SPARQL is the only language among these that is a standard, and the fact that it is more widely known and supported by different tools,
+we make use of it within this work.
+Nevertheless, the concepts within this work can be applied to other languages as well.
+
+LTQP is related to the idea of [SQL-based query execution over the Web](cite:cites queryingwwwsql, infogatheringwwww3ql).
+However, while LTQP considers the Web of Linked Data a large database using the RDF data model,
+these SQL-based approaches over the Web focus on querying attributes or content within Web pages.
+Furthermore, LTQP is also related to the concept of [focused crawling](cite:cites focusedcrawling, focusedcrawlingimproving),
+where crawlers search for Web pages of specific topics to populate a local database or index.
+Focus crawling techniques are however designed to run as a preprocessing step *before* query execution,
+while LTQP traverses documents *during* query execution.
 
 ### Link Traversal Benchmarks
 
