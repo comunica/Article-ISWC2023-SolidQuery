@@ -44,6 +44,7 @@ We do this by making use of specific structural properties within decentralized 
 that can be used for more effective source discovery and optimization of query execution.
 We apply our research to the Solid ecosystem,
 but these concepts are generalizable to [other decentralization initiatives](cite:cites mastodon, decentralizednanopubs).
+To the best of our knowledge, this is the first in-depth analysis of query execution within the Solid ecosystem.
 
 This article is structured as follows.
 In the next section ([](#related-work)), we discuss the related work,

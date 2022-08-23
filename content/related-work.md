@@ -1,8 +1,8 @@
 ## Related Work
 {:#related-work}
 
-Write me.
-{:.todo}
+In this section, we discuss the related work around Link Traversal Query Processing,
+and related benchmarks for this paradigm.
 
 ### Link Traversal Query Processing
 
@@ -89,8 +89,3 @@ Furthermore, it ships with a standard dataset for more convenient usage.
 
 Aside from these approaches, evaluation of link traversal engines
 is usually done via [hand crafted queries](cite:cites linktraversalsparql, linktraversalcaching, zeroknowldgequeryplanning, sihjoin).
-
-### Analysis of Decentralized Environments
-
-Some Solid papers and Mastodon if I can find any, and if space left.
-{:.todo}
