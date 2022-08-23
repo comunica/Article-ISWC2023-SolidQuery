@@ -5,4 +5,5 @@
 - We extended cMatch to also work with property paths (define formally?), and extended zero-knowledge planner.
 - LDP-based actors
 - Type index actor
+- Make use of subweb specification formalization to capture LDP and type idx
 {:.todo}

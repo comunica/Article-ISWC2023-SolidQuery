@@ -28,3 +28,8 @@ https://arxiv.org/pdf/2001.02299.pdf
 
 A table with choke points and queries
 {:.todo}
+
+### Statistics
+
+Number of vaults, triples per vault, total number of docs, docs per vault, ...
+{:.todo}
