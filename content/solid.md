@@ -108,14 +108,16 @@ Figure of all relevant Solid elements and query as abstraction layer?
 1. **Mapping query to a sequence of HTTP requests**:
 The query engine MUST have the ability to convert a declarative query into a sequence of one or more HTTP requests within or across data vaults.
 
-2. **Discover root storage of a WebD**:
+2. **Discovery and usage of LDP storage**:
 When given a link to a WebID profile, the query engine MUST be able discover and follow the `pim:storage` link to the storage root of the vault.
+Additionally, the query engine MUST be able to identify an LDP basic container, and follow (a subset of) links towards the resources within this container.
 
-3. **Traversal of LDP containers**:
-The query engine MUST be able to identify an LDP basic container, and follow (a subset of) links towards the resources within this container.
-
-4. **Discovery and usage of type indexes**:
+3. **Discovery and usage of type indexes**:
 The query engine MUST be able to discover and follow type index links from the WebID profile, and handle (a subset of) the type registration links.
+
+4. **Variability of vault structures**:
+The query engine SHOULD NOT make assumptions about the location of certain data within specific vaults
+without having an explicit and discoverable link path to it, e.g. via LDP storage or type indexes.
 
 5. **Authenticated requests**:
 To enable queries over private resources, the agent SHOULD be able to authenticate itself to the query engine using its WebID. The query engine can then use the authenticated session on behalf of the user to perform authorized HTTP requests over private resources.
