@@ -22,9 +22,10 @@ Compare duration of planning with query exec for discover queries and link follo
 Prove this with discover queries comparing just cMatch with cMatch+LDP:contains
 {:.todo}
 
-### Some structural properties are preferred over others
+### Some discovery methods are preferred over others
 
 Show that for queries where type index filtering applies, pim:storage is not necessary, and less links will have to be followed. Because type index is more selective. (pim:storage is a form of index as well! => use as fallback)
+This requires us to make an experiment with pim:storage disabled but type idx not
 {:.todo}
 
 ### Intra- versus intra-vault querying
