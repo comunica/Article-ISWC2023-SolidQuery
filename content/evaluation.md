@@ -6,35 +6,32 @@ Separate sections with smaller exps with different findings
 
 Research question: How well does link traversal query processing perform over decentralized environments with structural properties
 
-### Live exploration is required for heterogeneous fragmentations
+### Only reachability semantics are insufficient
 
-Show that hardcoded data access to specific files is not good, because different vaults have different frag strategies.
-Any findings by comparing different frag strategies?
+Also show cNone and cAll briefly, but those are either incorrect or too slow, and say we don't consider them further in this work.
 {:.todo}
 
-### Structural properties move bottleneck from number of links to query plan
-
-Compare duration of planning with query exec for discover queries and link following
+Prove this with discover queries comparing just cMatch with cMatch+pim:storage, cMatch+typeidx, cMatch+pim:storage+typeidx
 {:.todo}
 
-### Structural properties and cMatch are both necessary
-
-Prove this with discover queries comparing just cMatch with cMatch+LDP:contains
+But, cMatch is necessary for inter-pod traversal, while LDP and type index can only used for intra-pod querying. (show with a couple of queries and their correctness)
 {:.todo}
 
-### Some discovery methods are preferred over others
+### Type index is more selective than LDP container traversal
 
 Show that for queries where type index filtering applies, pim:storage is not necessary, and less links will have to be followed. Because type index is more selective. (pim:storage is a form of index as well! => use as fallback)
 This requires us to make an experiment with pim:storage disabled but type idx not
 {:.todo}
 
-### Intra- versus intra-vault querying
-
-Type index and other struct props are good for intra-pod querying, but for inter-vault querying, we also need cMatch, as we don't have cross-vault indexes (yet!).
-{:.todo}
-
 ### Zero-knowledge query planning is ineffective
 
-- To measure query plan perf: comp with a query that first indexes data locally via construct, and than proper query planning => downside: delays time until first result!
+- To measure query plan perf: comp with a query that first indexes data locally via construct (measure that time), and than proper query planning => downside: delays time until first result!
 	- Implement a link traversal actor that first traverses to find all triples, and then queries afterwards? Or just a simple hacked exp?
+{:.todo}
+
+### Live exploration is required for heterogeneous fragmentations
+
+Optional: if time left. (we could also just discuss this in conclusions if not time left)
+Show that hardcoded data access to specific files is not good, because different vaults have different frag strategies.
+Any findings by comparing different frag strategies?
 {:.todo}
