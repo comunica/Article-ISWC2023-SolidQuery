@@ -71,8 +71,16 @@ which results in 157.210 files over 1.529 data vaults using the default fragment
 In total, there are 3.556.159 triples across all files, with an average of 22,62 triples per file.
 Even though this scale can be increased arbitrarily high,
 we notice that this default scale can already stress existing LTQP approaches beyond their capabilities.
+Furthermore, 27 query templates are provided which can be instantiated any number of times to simulate a query workload.
 For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
 
+In summary, we introduce the following tools with SolidBench:
+
+- **Dataset generator**: consisting of SNB's existing generator, and a new dataset fragmenter.
+- **Query generator**: consisting of SNB's existing generator, and a new fragmentation-aware query template instantiator.
+- **Validation generator**: building on top of SNB's validator, produces fragmentation-aware correctness validation sets containing queries and expected results.
+- **Dataset server**: Convenient serving of fragmented datasets over HTTP.
+- **Benchmark runner**: incorporation into an existing benchmarking system for execution against query engines via the [SPARQL protocol](cite:cites spec:sparqlprot).
 
 <!--
 157210 files
@@ -90,8 +98,6 @@ Benchmark aspects:
 - 27 query templates covering different chokepoints (19 from SNB interactive and 8 new)
 - Tools to execute experiment and measurement of metrics
 -->
-
-
 
 figure with overview of benchmark components
 {:.todo}
@@ -200,7 +206,7 @@ we introduce the following *discover* queries dedicated for covering these choke
 - D7: All moderators in fora a person messaged on
 - D8: Other messages created by people that a person likes messages from
 
-Add anon link to templates
+Add anon link to templates (the queries readme file in solidbench)
 {:.todo}
 
 The correlation of these discover queries to choke points is summarized in ...TODO...
@@ -233,11 +239,46 @@ discover queries in terms of 33 existing choke points?
 
 **Query template instantiation**
 
-Write me
+This benchmark contains 27 query templates, from which 19 are derived from queries within SNB.
+These query templates can be instantiated multiple times for different resources, based on the dataset scale.
+By default, each template is instantiated five times, so that metrics can be averaged to reduce the effect of outliers.
+
+Due to the fragmentation and URI rewriting we apply on top of the SNB dataset,
+we were unable to make use of the standard SNB query templates and its method of query instantiation.
+Therefore, we have implemented a custom query template instantiation tool that takes into account these fragmentations.
+
+Link to anon version of the tool
 {:.todo}
+
+[](#template-discover-8) shows an example of the template for discover query 8,
+which covers the majority of choke points related to linking structures.
+It is instantiated with a person's WebID URI, and attempts to find all messages
+created by people that this person likes messages from.
+Since it starts from all liked messages of the starting person, then navigates to the creator of those messages,
+and then retrieves the contents of those messages, it covers CP L.6.
+Furthermore, since messages are fragmented in different ways across vaults, and the query spans different vaults, it covers CP L.7.
+Since messages can be captured within the user's type index, CP L.8 is also covered.
+Finally, since only message-related documents needs to be retrieved from the vaults,
+all other documents could potentially pruned out, covering CP L.9.
+
+<figure id="template-discover-8" class="listing">
+````/code/template-discover-8.txt````
+<figcaption markdown="block">
+SPARQL template for discover query 8.
+</figcaption>
+</figure>
 
 **Metrics**
 
-Metrics
-{:.todo}
+The most relevant performance metrics within SolidBench are the following:
 
+- **Query execution time**: The amount of time (milliseconds) it takes between sending the query to the query engine, and obtaining the final query result.
+- **Query result arrival times**: For each separate query result, the amount of time (milliseconds) between sending the query to the query engine, and obtaining that specific result.
+- **HTTP requests**: For a given query execution, the number of HTTP requests the engine issued during the execution of that query.
+- **Correctness**: A boolean value indicating whether or not the query results conform to the expected query results.
+
+For measuring query execution and result arrival times,
+a warmup round with all instantiated query templates must take place first.
+To ensure that we take into account the volatile nature of the Web and the live traversal property of LTQP,
+the HTTP cache of the query engine is flushed before every query execution,
+while this cache can still be used within the span of a single query execution.

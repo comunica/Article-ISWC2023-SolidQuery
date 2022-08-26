@@ -6,7 +6,7 @@ Separate sections with smaller exps with different findings
 
 Research question: How well does link traversal query processing perform over decentralized environments with structural properties
 
-### Only reachability semantics are insufficient
+### Solely reachability semantics are insufficient
 
 Also show cNone and cAll briefly, but those are either incorrect or too slow, and say we don't consider them further in this work.
 {:.todo}
@@ -27,6 +27,7 @@ This requires us to make an experiment with pim:storage disabled but type idx no
 
 - To measure query plan perf: comp with a query that first indexes data locally via construct (measure that time), and than proper query planning => downside: delays time until first result!
 	- Implement a link traversal actor that first traverses to find all triples, and then queries afterwards? Or just a simple hacked exp?
+- Say that indexed is only theoretical, as collecting all links requires traversal querying. Also show that some queries would produce infinite stream of urls. We just need better planning. Also optimal case follows all links in parallel.
 {:.todo}
 
 ### Live exploration is required for heterogeneous fragmentations
