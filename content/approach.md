@@ -12,24 +12,27 @@ To execute a query,
 our approach builds upon the heuristics-based [zero-knowledge query planning technique](cite:cites zeroknowldgequeryplanning)
 to construct a logical query plan ahead of query execution.
 This resulting plan produces a tree of logical query operators representing in what order the query should be executed.
-To execute this plan, the logical operators are execute by specific physical operators.
+To execute this plan, the logical operators are executed by specific physical operators.
 
-The physical query execution builds upon the [iterator-based pipeline approach](cite:cites linktraversalpipeline),
+Our physical query execution builds upon the [iterator-based pipeline approach](cite:cites linktraversalpipeline),
 which is [the most popular among LTQP implementations](cite:cites squin, sihjoin, diamondrete).
 This involves considering the execution plan as a [pipeline](cite:cites pipelining) of iterator-based physical operators,
 through which intermediary results can flow through these chained operators to produce results in a pull-based manner.
 
 Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalpipeline),
 we follow a [link queue-based approach](cite:cites linktraversaloptimization).
-Concretely, we consider the link queue as the basis of the pipeline tree,
-which is able to produce a (possibly infinite stream of RDF triples).
-This queue accepts links from a set of link extraction components,
+Concretely, we model our link queue as the basis of the pipeline tree,
+which is able to produce a (possibly infinite) stream of RDF triples.
+Our queue accepts links from a set of link extraction components,
 which are invoked for every document that has been dereferenced.
 This link queue is initialized with a set of seed URIs,
 and then continuously dereferences the URIs in the queue until it is empty.
 Since the link extractors are invoked after every dereference operation,
 this link queue may virtually become infinitely long.
 
+This link queue and link extractor approach is generic enough to implement
+[all the different methods](cite:cites linktraversalpipeline, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
+for determining and prioritizing links that need to be followed.
 For example, one link extractor may extract all objects of each RDF triple matching the `rdfs:seeAlso` predicate,
 while another link extractor may extract all components of each triple that matches with a triple pattern within the query.
 All link extractors only consider URIs as links,
@@ -41,14 +44,17 @@ into which a stream of triples is sent.
 The queue indexes all triples locally, to ensure that a triple pattern operator
 that is executed later in the execution process does not miss any triples.
 
-
-
 Cite RDF and SPARQL formal stuff
 {:.todo}
 
 Figure of link queue and how it's connected to everything and the link extractors
 {:.todo}
 
+
+
+Dedicated subsection on reachability semantics: Explain difference between my impl of extract-qp and extract-qp-query, and relation to cmatch and iterator, and which is more selective and may miss results (formal?)
+Also relate to context-based reachability semantics?
+{:.todo}
 
 ### Discovery of data vault
 
