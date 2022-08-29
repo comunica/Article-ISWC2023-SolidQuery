@@ -21,12 +21,14 @@ through which intermediary results can flow through these chained operators to p
 
 Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalpipeline),
 we follow a [link queue-based approach](cite:cites linktraversaloptimization).
-Concretely, we model our link queue as the basis of the pipeline tree,
+Concretely, we consider a continuously growing *triple source* as the basis of the pipeline tree,
 which is able to produce a (possibly infinite) stream of RDF triples.
-Our queue accepts links from a set of link extraction components,
-which are invoked for every document that has been dereferenced.
+This triple source is fed triples originating from a loop consisting of the *link queue*, *dereferencer*, and a set of *link extractors*.
+The link queue accepts links from a set of link extraction components,
+which are invoked for every document that has been dereferenced by the dereferencer.
+The dereferenced documents containing triples are also sent to the continuously growing triple source.
 This link queue is initialized with a set of seed URIs,
-and then continuously dereferences the URIs in the queue until it is empty.
+and the dereferencer then continuously dereferences the URIs in the queue until it is empty.
 Since the link extractors are invoked after every dereference operation,
 this link queue may virtually become infinitely long.
 
@@ -35,6 +37,8 @@ This link queue and link extractor approach is generic enough to implement
 for determining and prioritizing links that need to be followed.
 For example, one link extractor may extract all objects of each RDF triple matching the `rdfs:seeAlso` predicate,
 while another link extractor may extract all components of each triple that matches with a triple pattern within the query.
+Optionally, operators within the query pipeline may also push links directly into the link queue,
+which may enable implementation of [context-based reachability semantics](cite:cites linktraversalpropertypaths).
 All link extractors only consider URIs as links,
 and thereby ignore any matches for blank nodes and literals.
 
@@ -47,8 +51,14 @@ that is executed later in the execution process does not miss any triples.
 Cite RDF and SPARQL formal stuff
 {:.todo}
 
-Figure of link queue and how it's connected to everything and the link extractors
-{:.todo}
+<figure id="figure-link-queue">
+<img src="img/link-queue.svg" alt="Link queue">
+<figcaption markdown="block">
+Link queue, dereferencer and link extractors feeding triples into a triple source,
+which produces a continuous stream of triples to tuple-producing operators
+in a pipelined query execution.
+</figcaption>
+</figure>
 
 
 
