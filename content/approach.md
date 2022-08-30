@@ -42,14 +42,11 @@ which may enable implementation of [context-based reachability semantics](cite:c
 All link extractors only consider URIs as links,
 and thereby ignore any matches for blank nodes and literals.
 
-This queue is then connected to all tuple-producing SPARQL operators in the leaves of the query plan,
+This queue is then connected to all [tuple-producing SPARQL operators](cite:cites sparqlsemantics) in the leaves of the query plan,
 such as triple patterns and property path operators,
 into which a stream of triples is sent.
 The queue indexes all triples locally, to ensure that a triple pattern operator
 that is executed later in the execution process does not miss any triples.
-
-Cite RDF and SPARQL formal stuff
-{:.todo}
 
 <figure id="figure-link-queue">
 <img src="img/link-queue.svg" alt="Link queue">
@@ -59,12 +56,6 @@ which produces a continuous stream of triples to tuple-producing operators
 in a pipelined query execution.
 </figcaption>
 </figure>
-
-
-
-Dedicated subsection on reachability semantics: Explain difference between my impl of extract-qp and extract-qp-query, and relation to cmatch and iterator, and which is more selective and may miss results (formal?)
-Also relate to context-based reachability semantics?
-{:.todo}
 
 ### Discovery of data vault
 
