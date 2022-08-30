@@ -59,8 +59,37 @@ in a pipelined query execution.
 
 ### Discovery of data vault
 
-Write me
-{:.todo}
+So far, no reachability approaches exist
+that can handle the traversal of a Solid data vaults as described in [](#solid).
+Hence, we introduce an approach in this section.
+
+In order to achieve this traversal within a vault,
+we assume that the WebID document is available as seed URI,
+or that this WebID document has been discovered through some other reachability approach.
+As discussed in [](#solid), the root of a vault can be discovered from a WebID document
+by dereferencing the object URI referred to by the `pim:storage` predicate.
+Next, all resources within this vault can be discovered by recursively following `ldp:contains` links from the root LDP container.
+
+Note that we only consider triples for the `pim:storage` and `ldp:contains` predicates
+that have the current document URI as subject.
+If subjects contain fragment identifiers, we only consider them if the current document URI had this fragment identifier as well before it was dereferenced.
+For example, if a WebID with fragment identifier `#me` was discovered,
+then we only consider triples with the document URI + `#me` as subject.
+
+Formally, reachability approaches can be captured as [*reachability criteria*](cite:cites linktraversalfoundations).
+A reachability criterion $$c$$ is defined as a total computable function $$c : \mathcal{T} \times \mathcal{I} \times \mathcal{B} \rightarrow \{ \text{true}, \text{false} \}$$,
+where $$\mathcal{T}$$ is the infinite set of all possible data triples,
+$$\mathcal{I}$$ is the infinite set of all document URIs.
+and $$\mathcal{B}$$ is the infinite set of all possible query patterns.
+
+We can formalize our discovery approach for data vaults as the following reachability criterion:
+
+$$
+c_{\text{SolidVault}}(t, id, B) = \left\{ \begin{array}{ll}
+        \text{true}  & \text{if}\ t\ \text{matches}\ (id\ \text{pim:storage}\ ?\text{var})\\
+                     & \lor\ t\ \text{matches}\ (id\ \text{ldp:contains}\ ?\text{var}),\\
+        \text{false} & \text{else}.\end{array} \right.
+$$
 
 ### Discovery of type index
 
