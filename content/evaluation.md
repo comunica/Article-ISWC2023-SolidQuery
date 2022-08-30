@@ -21,6 +21,7 @@ But, cMatch is necessary for inter-pod traversal, while LDP and type index can o
 
 Show that for queries where type index filtering applies, pim:storage is not necessary, and less links will have to be followed. Because type index is more selective. (pim:storage is a form of index as well! => use as fallback)
 This requires us to make an experiment with pim:storage disabled but type idx not
+Say that type index is optional, so it can not be used on its own, as completeness can not be guaranteed
 {:.todo}
 
 ### Zero-knowledge query planning is ineffective

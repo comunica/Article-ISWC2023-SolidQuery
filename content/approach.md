@@ -59,9 +59,11 @@ in a pipelined query execution.
 
 ### Discovery of data vault
 
-So far, no reachability approaches exist
+So far, no discovery methods exist
 that can handle the traversal of a Solid data vaults as described in [](#solid).
 Hence, we introduce an approach in this section.
+
+#### Intuitive description
 
 In order to achieve this traversal within a vault,
 we assume that the WebID document is available as seed URI,
@@ -76,8 +78,36 @@ If subjects contain fragment identifiers, we only consider them if the current d
 For example, if a WebID with fragment identifier `#me` was discovered,
 then we only consider triples with the document URI + `#me` as subject.
 
-Formally, reachability approaches can be captured as [*reachability criteria*](cite:cites linktraversalfoundations).
-A reachability criterion $$c$$ is defined as a total computable function $$c : \mathcal{T} \times \mathcal{I} \times \mathcal{B} \rightarrow \{ \text{true}, \text{false} \}$$,
+#### Formal description
+
+Formally, reachability approaches are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
+However, since this formalization is restricted to considering either all or no URIs within specific data triples,
+it is not expressive enough to express the ability to only follow specific URIs within only subject, predicate, or object in data triples.
+Therefore, we formalize our reachability criterion as a *source selector*
+within the [subweb specification formalization](cite:cites guidedlinktraversal) that _is_ expressive enough to capture this.
+
+Within this formalization, a source selector $$\sigma$$ is defined as $$\sigma : \mathcal{W} \rightarrow 2^{\mathcal{U}}$$,
+where $$\mathcal{W}$$ is a Web of Linked Data, and $$\mathcal{U}$$ is the infinite set of all possible URIs.
+The Web of Linked Data $$\mathcal{W}$$ is a tuple $$\langle D, data, adoc \rangle$$,
+where $$D$$ is a set of documents, $$data$$ a function from $$D$$ to $$2^\mathcal{T}$$
+such that $$data(d)$$ is finite for each $$d \in D$$,
+$$adoc$$ a partial dereferencing function from $$\mathcal{U}$$ to $$D$$,
+and $$\mathcal{T}$$ is the set of all RDF triples.
+
+We can formalize our discovery approach for data vaults as the following source selector starting from a given WebID with URI $$s$$:
+
+$$
+\sigma_{\text{SolidVault}}(W) = \{ o \mid \langle s \text{ pim:storage } o \rangle \in data(adoc(s))\}
+$$
+
+Disjunctively coupled with this source selector $$\sigma_{\text{SolidVault}}$$,
+we can formalize the following source selector that can recursively traverse an LDP container:
+
+$$
+\sigma_{\text{LdpContainer}}(W) = \{ o \mid \forall s . \langle s \text{ ldp:contains } o \rangle \in data(adoc(s)\}
+$$
+
+<!--A reachability criterion $$c$$ is defined as a total computable function $$c : \mathcal{T} \times \mathcal{I} \times \mathcal{B} \rightarrow \{ \text{true}, \text{false} \}$$,
 where $$\mathcal{T}$$ is the infinite set of all possible data triples,
 $$\mathcal{I}$$ is the infinite set of all document URIs.
 and $$\mathcal{B}$$ is the infinite set of all possible query patterns.
@@ -90,11 +120,82 @@ c_{\text{SolidVault}}(t, id, B) = \left\{ \begin{array}{ll}
                      & \lor\ t\ \text{matches}\ (id\ \text{ldp:contains}\ ?\text{var}),\\
         \text{false} & \text{else}.\end{array} \right.
 $$
+-->
 
 ### Discovery of type index
 
-Write me
+As discussed in [](#solid), the type index provides a way to discover resources in a data vault by RDF classes.
+In this section, we introduce a discovery method that follows all links in the type index,
+and a filter-based discovery method that builds upon it by only following those type index links that match with a class mentioned in the query.
+
+#### Intuitive description
+
+As before, we consider a WebID document as a starting point.
+From this document, we follow the `solid:publicTypeIndex` and `solid:privateTypeIndex` links.
+For each discovered type index, we consider all `solid:TypeRegistration` resources,
+and follow their `solid:instance` and `solid:instanceContainer` links.
+
+As an optimization, we can also take into the type information within the type registrations within the type index,
+to only follow those links for classes that are of interest to the current query.
+Concretely, this involves considering the objects referred to by `solid:forClass` on each type registration.
+To know whether or not a class is relevant to the current query,
+we explicitly check for the occurrence of this class within the query as object within triples using the `rdf:type` predicate.
+In future work, more complex approaches for determining the relevance of a class to a query could be devised based on [inferencing](cite:cites rif).
+
+#### Formal description
+
+To discover type indexes and follow links within them,
+we formalize the following source selector from a given WebID with URI $$s$$ and a BGP $$B$$:
+
+$$
+\sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \\
+\begin{array}{lll}
+          & \forall i :   & (\langle s \text{ solid:publicTypeIndex } i \rangle \\
+          &               & \lor \langle s \text{ solid:privateTypeIndex } i \rangle) \\
+          &               & \in data(adoc(s))\\
+    \land & \forall r,c : & (\langle r \text{ rdf:type solid:TypeRegistration} \rangle \\
+          &               & \land \langle r \text{ solid:forClass } c \rangle) \in data(adoc(i))\\
+    \land &               & \phi(B, c) \\
+    \land &               & (\langle r \text{ solid:instance } o \rangle \\
+          &               & \lor \langle r \text{ solid:instanceContainer } o \rangle) \\
+          &               & \in data(adoc(i))\}
+\end{array}
+$$
+
+Since the `solid:instanceContainer` can link to other LDP containers,
+$$\sigma_{\text{SolidTypeIndex}}$$ should be disjunctively combined with $$\sigma_{\text{LdpContainer}}$$.
+
+In this formalization, we consider $$\phi(B, c)$$ a filtering function for determining which classes are considered within the type index.
+To consider _all_ type registrations within the type index, we can implement $$\phi(B, c)$$ as a function always returning `true`.
+To only consider those type registrations that match with a class mentioned in the query, we introduce the filtering function $$\phi_{\text{QueryClass}}$$:
+
+$$
+\phi_{\text{QueryClass}}(B, c) = \left\{ \begin{array}{ll}
+        \text{true}  & \text{if } \exists tp \in B : \\
+                     & \langle v \text{ rdf:type } c \rangle \text{ matches } tp\\
+        \text{false} & \text{else}.\end{array} \right.
+$$
+
+TODO: formalize BGPs and triples and RDF stuff
 {:.todo}
+
+<!--
+$$
+c_{\text{DiscoverSolidTypeIndex}}(t, id, B) = \left\{ \begin{array}{ll}
+        \text{true}  & \text{if}\ t\ \text{matches}\ (id\ \text{solid:publicTypeIndex}\ ?\text{var})\\
+                     & \lor\ t\ \text{matches}\ (id\ \text{solid:privateTypeIndex}\ ?\text{var})\\
+                     & \lor\ t\ \text{matches}\ (id\ \text{solid:privateTypeIndex}\ ?\text{var}),\\
+        \text{false} & \text{else}.\end{array} \right.
+$$
+
+$$
+c_{\text{FollowAllSolidTypeIndexLinks}}(t, id, B) = \left\{ \begin{array}{ll}
+        \text{true}  & \text{if}\ t\ \text{matches}\ (id\ \text{solid:publicTypeIndex}\ ?\text{var})\\
+                     & \lor\ t\ \text{matches}\ (id\ \text{solid:privateTypeIndex}\ ?\text{var})\\
+                     & \lor\ t\ \text{matches}\ (id\ \text{solid:privateTypeIndex}\ ?\text{var}),\\
+        \text{false} & \text{else}.\end{array} \right.
+$$
+-->
 
 ### Implementation
 
@@ -113,6 +214,7 @@ Our implementation supports users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no manual seed URIs have been passed.
 This fallback involves finding all URIs within the query, and adding them as seed URIs to the link queue.
 
+- taking into account auth and HTTP 403's
 - Cite linktraversalcaching
 - We extended cMatch to also work with property paths (define formally?), and extended zero-knowledge planner.
 - LDP-based actors
