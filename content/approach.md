@@ -148,17 +148,14 @@ To discover type indexes and follow links within them,
 we formalize the following source selector from a given WebID with URI $$s$$ and a BGP $$B$$:
 
 $$
-\sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \\
-\begin{array}{lll}
-          & \forall i :   & (\langle s \text{ solid:publicTypeIndex } i \rangle \\
-          &               & \lor \langle s \text{ solid:privateTypeIndex } i \rangle) \\
-          &               & \in data(adoc(s))\\
-    \land & \forall r,c : & (\langle r \text{ rdf:type solid:TypeRegistration} \rangle \\
-          &               & \land \langle r \text{ solid:forClass } c \rangle) \in data(adoc(i))\\
-    \land &               & \phi(B, c) \\
-    \land &               & (\langle r \text{ solid:instance } o \rangle \\
-          &               & \lor \langle r \text{ solid:instanceContainer } o \rangle) \\
-          &               & \in data(adoc(i))\}
+\sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \forall i,r,c : \phi(B, c) \\
+\begin{array}{ll}
+    \land & (\langle s \text{ solid:publicTypeIndex } i \rangle \lor \langle s \text{ solid:privateTypeIndex } i \rangle) \\
+          & \in data(adoc(s))\\
+    \land & (\langle r \text{ rdf:type solid:TypeRegistration} \rangle \\
+          & \land \langle r \text{ solid:forClass } c \rangle) \in data(adoc(i))\\
+    \land & (\langle r \text{ solid:instance } o \rangle \lor \langle r \text{ solid:instanceContainer } o \rangle) \\
+          & \in data(adoc(i))\}
 \end{array}
 $$
 
