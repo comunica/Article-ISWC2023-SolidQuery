@@ -74,7 +74,7 @@ Simplified example of a WebID profile in the Turtle serialization.
 
 ### Type Index
 
-The [Type Index](cite:cites spec:webidprofile) is a document that enables type-based resource discovery within a vault.
+The [Type Index](cite:cites spec:typeindex) is a document that enables type-based resource discovery within a vault.
 Users may have public or private type indexes, which respectively refer to data that are and are not publicly discoverable.
 A type index can contain type registration entries for different classes,
 where each registration has a link to resources containing instances of the corresponding class.
