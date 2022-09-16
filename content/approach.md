@@ -37,6 +37,12 @@ where $$D$$ is a set of documents, $$data$$ a function from $$D$$ to $$2^\mathca
 such that $$data(d)$$ is finite for each $$d \in D$$,
 and $$adoc$$ a partial dereferencing function from $$\mathcal{U}$$ to $$D$$.
 
+Based on these definitions, we define the set of all Solid data vaults as $$\Upsilon$$,
+where each Solid data vault $$\upsilon \in \Upsilon$$ is defined as a set of triples, where $$triples(\upsilon) \subseteq \mathcal{T}$$.
+For a Solid data vault $$\upsilon_{LDP}$$ exposed through the LDP interface,
+the triples contained in such a Solid vault are captured in different documents $$D_{\upsilon} \subseteq D$$.
+Hereby, $$triples(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}$$.
+
 ### Pipeline-based link queue
 
 To execute a query,
