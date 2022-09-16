@@ -4,19 +4,35 @@
 In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties"_.
 Within this work, we apply this to the structural properties of the decentralized environment provided by Solid,
 but findings may be generalizable.
-We provide an answer to this research question by simulating Solid data vaults using the benchmark introduced in [](#benchmark),
+We provide an answer to this research question by simulating Solid data vaults using the benchmark introduced in [](#benchmark) using the default configuration,
 and evaluating different approaches based on the implementation discussed in [](#approach).
 
+We first introduce the design of our experiment,
+followed by the results of these experiments,
+and a discussion of our results to answer our research question.
+
+### Experimental Design
+
+We make use of a full factorial experiment containing the following factors and values:
+
+- **Source selector strategy**: LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
+- **Reachability semantics**: cNone, cMatch, cAll
+
+Within the source selectors, the LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
+the Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
+and the Filtered Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$,
+
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
+The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 To foster reproducibility,
 the experimental setup, raw results, and scripts to process them will be made available after the double-blind review process.
 
-We first introduce the results of our experiments,
-followed by a discussion of these results to answer our research question.
-
 ### Experimental Results
 
-All results
+In this section, we present only those results that offer insights into the research question.
+
+All results (table)
+Say that we omit cNone and cAll (explain with numbers why)
 {:.todo}
 
 ### Discussion
