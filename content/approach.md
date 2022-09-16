@@ -2,9 +2,40 @@
 {:#approach}
 
 In this section, we introduce algorithms for handling the structural properties discussed in [](#solid).
-We start by discussing the link traversal approaches we build upon.
+We start by discussing the preliminaries of the formalities we will introduce.
+Next, we discuss the pipeline-based link queue approach.
 Then, we discuss two novel discovery approaches for LTQP.
 Finally, we discuss their implementations.
+
+### Formal preliminaries
+
+This section summarizes the semantics of [SPARQL query execution](cite:cites sparqlsemantics)
+and [LTQP](cite:cites linktraversalfoundations, guidedlinktraversal) that we build upon.
+
+The infinite set of *RDF triples* is formalized as $$ \mathcal{T} = (\mathcal{I} \cup \mathcal{B}) \times \mathcal{I} \times (\mathcal{I} \cup \mathcal{B} \cup \mathcal{L}) $$,
+where $$\mathcal{I}$$, $$\mathcal{B}$$, and $$\mathcal{L}$$ respectively denote the disjoint, infinite sets of IRIs, blank nodes, and literals.
+Furthermore, $$\mathcal{V}$$ is the infinite set of all variables that is disjoint from $$\mathcal{I}$$, $$\mathcal{B}$$, and $$\mathcal{L}$$.
+A tuple $$tp \in (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I} \cup \mathcal{L})$$ is called a *triple pattern*.
+A finite set of these triple pattern is called a *basic graph pattern* (BGP).
+More complex SPARQL query operators exist,
+but since BGPs form the foundational building block of a SPARQL query,
+we only consider BGPs for the remainder of this work.
+The query results of a SPARQL query $$P$$ over a set of RDF triples $$G$$ are called *solution mappings*,
+which are denoted by $$[[P]]_G$$, consisting of partial mappings $$\mu : \mathcal{V} \rightarrow (\mathcal{I} \cup \mathcal{B}\cup \mathcal{L})$$.
+An RDF triple $$t$$ *matches* a triple pattern $$tp$$ if $$\exists \mu : t = \mu[tp]$$, where $$\mu[tp]$$ is the triple pattern that is obtained by replacing all variables from $$\mu$$ in $$tp$$.
+
+Formally, the reachability approaches that were discussed in [](#related-work)
+that define which links should be followed during link traversal are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
+However, since this formalization is restricted to considering either all or no URIs within specific data triples,
+it is not expressive enough for only following specific URIs within only subject, predicate, or object in data triples.
+Therefore, we formalize new reachability criteria in this work *source selectors*
+within the [subweb specification formalization](cite:cites guidedlinktraversal) that _is_ expressive enough to capture this.
+Within this formalization, a source selector $$\sigma$$ is defined as $$\sigma : \mathcal{W} \rightarrow 2^{\mathcal{I}}$$,
+where $$\mathcal{W}$$ is a Web of Linked Data.
+The Web of Linked Data $$\mathcal{W}$$ is a tuple $$\langle D, data, adoc \rangle$$,
+where $$D$$ is a set of documents, $$data$$ a function from $$D$$ to $$2^\mathcal{T}$$
+such that $$data(d)$$ is finite for each $$d \in D$$,
+and $$adoc$$ a partial dereferencing function from $$\mathcal{U}$$ to $$D$$.
 
 ### Pipeline-based link queue
 
@@ -21,6 +52,7 @@ through which intermediary results can flow through these chained operators to p
 
 Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalpipeline),
 we follow a [link queue-based approach](cite:cites linktraversaloptimization).
+The architecture of this approach is visualized in [](#figure-link-queue).
 Concretely, we consider a continuously growing *triple source* as the basis of the pipeline tree,
 which is able to produce a (possibly infinite) stream of RDF triples.
 This triple source is fed triples originating from a loop consisting of the *link queue*, *dereferencer*, and a set of *link extractors*.
@@ -28,21 +60,21 @@ The link queue accepts links from a set of link extraction components,
 which are invoked for every document that has been dereferenced by the dereferencer.
 The dereferenced documents containing triples are also sent to the continuously growing triple source.
 This link queue is initialized with a set of seed URIs,
-and the dereferencer then continuously dereferences the URIs in the queue until it is empty.
+and the dereferencer continuously dereferences the URIs in the queue until it is empty.
 Since the link extractors are invoked after every dereference operation,
 this link queue may virtually become infinitely long.
 
 This link queue and link extractor approach is generic enough to implement
-[all the different methods](cite:cites linktraversalpipeline, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
+[the majority of methods](cite:cites linktraversalpipeline, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
 for determining and prioritizing links that need to be followed.
 For example, one link extractor may extract all objects of each RDF triple matching the `rdfs:seeAlso` predicate,
 while another link extractor may extract all components of each triple that matches with a triple pattern within the query.
 Optionally, operators within the query pipeline may also push links directly into the link queue,
 which may enable implementation of [context-based reachability semantics](cite:cites linktraversalpropertypaths).
-All link extractors only consider URIs as links,
+Link extractors only consider URIs as links,
 and thereby ignore any matches for blank nodes and literals.
 
-This queue is then connected to all [tuple-producing SPARQL operators](cite:cites sparqlsemantics) in the leaves of the query plan,
+The triple source is connected to all [tuple-producing SPARQL operators](cite:cites sparqlsemantics) in the leaves of the query plan,
 such as triple patterns and property path operators,
 into which a stream of triples is sent.
 The queue indexes all triples locally, to ensure that a triple pattern operator
@@ -65,7 +97,7 @@ Hence, we introduce an approach in this section.
 
 #### Intuitive description
 
-In order to achieve this traversal within a vault,
+In order to achieve link traversal within a vault,
 we assume that the WebID document is available as seed URI,
 or that this WebID document has been discovered through some other reachability approach.
 As discussed in [](#solid), the root of a vault can be discovered from a WebID document
@@ -80,31 +112,17 @@ then we only consider triples with the document URI + `#me` as subject.
 
 #### Formal description
 
-Formally, reachability approaches are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
-However, since this formalization is restricted to considering either all or no URIs within specific data triples,
-it is not expressive enough to express the ability to only follow specific URIs within only subject, predicate, or object in data triples.
-Therefore, we formalize our reachability criterion as a *source selector*
-within the [subweb specification formalization](cite:cites guidedlinktraversal) that _is_ expressive enough to capture this.
-
-Within this formalization, a source selector $$\sigma$$ is defined as $$\sigma : \mathcal{W} \rightarrow 2^{\mathcal{U}}$$,
-where $$\mathcal{W}$$ is a Web of Linked Data, and $$\mathcal{U}$$ is the infinite set of all possible URIs.
-The Web of Linked Data $$\mathcal{W}$$ is a tuple $$\langle D, data, adoc \rangle$$,
-where $$D$$ is a set of documents, $$data$$ a function from $$D$$ to $$2^\mathcal{T}$$
-such that $$data(d)$$ is finite for each $$d \in D$$,
-$$adoc$$ a partial dereferencing function from $$\mathcal{U}$$ to $$D$$,
-and $$\mathcal{T}$$ is the set of all RDF triples.
-
-We can formalize our discovery approach for data vaults as the following source selector starting from a given WebID with URI $$s$$:
+We can formalize our discovery approach for the roots of data vaults as the following source selector starting from a given WebID with URI $$i$$:
 
 $$
-\sigma_{\text{SolidVault}}(W) = \{ o \mid \langle s \text{ pim:storage } o \rangle \in data(adoc(s))\}
+\sigma_{\text{SolidVault}}(W) = \{ o \mid \langle i \text{ pim:storage } o \rangle \in data(adoc(i))\}
 $$
 
 Disjunctively coupled with this source selector $$\sigma_{\text{SolidVault}}$$,
 we can formalize the following source selector that can recursively traverse an LDP container:
 
 $$
-\sigma_{\text{LdpContainer}}(W) = \{ o \mid \forall s . \langle s \text{ ldp:contains } o \rangle \in data(adoc(s)\}
+\sigma_{\text{LdpContainer}}(W) = \{ o \mid \forall s : \langle s \text{ ldp:contains } o \rangle \in data(adoc(s)\}
 $$
 
 <!--A reachability criterion $$c$$ is defined as a total computable function $$c : \mathcal{T} \times \mathcal{I} \times \mathcal{B} \rightarrow \{ \text{true}, \text{false} \}$$,
@@ -125,8 +143,8 @@ $$
 ### Discovery of type index
 
 As discussed in [](#solid), the type index provides a way to discover resources in a data vault by RDF classes.
-In this section, we introduce a discovery method that follows all links in the type index,
-and a filter-based discovery method that builds upon it by only following those type index links that match with a class mentioned in the query.
+In this section, we introduce a discovery method that follows links in the type index.
+This discovery method contains an optional filter component that is able to only following those type index links that match with a class mentioned in the query.
 
 #### Intuitive description
 
@@ -148,33 +166,30 @@ To discover type indexes and follow links within them,
 we formalize the following source selector from a given WebID with URI $$s$$ and a BGP $$B$$:
 
 $$
-\sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \forall i,r,c : \phi(B, c) \\
+\sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \forall t,r,c : \phi(B, c) \\
 \begin{array}{ll}
-    \land & (\langle s \text{ solid:publicTypeIndex } i \rangle \lor \langle s \text{ solid:privateTypeIndex } i \rangle) \\
+    \land & (\langle s \text{ solid:publicTypeIndex } t \rangle \lor \langle s \text{ solid:privateTypeIndex } t \rangle) \\
           & \in data(adoc(s))\\
     \land & (\langle r \text{ rdf:type solid:TypeRegistration} \rangle \\
-          & \land \langle r \text{ solid:forClass } c \rangle) \in data(adoc(i))\\
+          & \land \langle r \text{ solid:forClass } c \rangle) \in data(adoc(t))\\
     \land & (\langle r \text{ solid:instance } o \rangle \lor \langle r \text{ solid:instanceContainer } o \rangle) \\
-          & \in data(adoc(i))\}
+          & \in data(adoc(t))\}
 \end{array}
 $$
 
 Since the `solid:instanceContainer` can link to other LDP containers,
 $$\sigma_{\text{SolidTypeIndex}}$$ should be disjunctively combined with $$\sigma_{\text{LdpContainer}}$$.
 
-In this formalization, we consider $$\phi(B, c)$$ a filtering function for determining which classes are considered within the type index.
-To consider _all_ type registrations within the type index, we can implement $$\phi(B, c)$$ as a function always returning `true`.
+In this formalization, we consider $$\phi(B, c)$$ a filtering predicate function for determining which classes are considered within the type index.
+To consider _all_ type registrations within the type index, we can implement $$\phi(B, c)$$ as a predicate always returning `true`.
 To only consider those type registrations that match with a class mentioned in the query, we introduce the filtering function $$\phi_{\text{QueryClass}}$$:
 
 $$
 \phi_{\text{QueryClass}}(B, c) = \left\{ \begin{array}{ll}
         \text{true}  & \text{if } \exists tp \in B : \\
-                     & \langle v \text{ rdf:type } c \rangle \text{ matches } tp\\
+                     & \langle ?v \text{ rdf:type } c \rangle \text{ matches } tp\\
         \text{false} & \text{else}.\end{array} \right.
 $$
-
-TODO: formalize BGPs and triples and RDF stuff
-{:.todo}
 
 <!--
 $$
