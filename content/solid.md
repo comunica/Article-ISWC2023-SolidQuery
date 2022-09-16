@@ -98,6 +98,7 @@ this can be abstracted away behind declarative queries that are to be executed b
 This also makes applications robust against changes or additions within the Solid protocol,
 where this only requires changes within the underlying query engine,
 as the application's declarative query can remain unchanged.
+As such, for the remainder of this article, we consider query engines taking up the task of finding data within and across data vaults.
 
 The [Solid protocol](cite:cites spec:solidprotocol) only establishes a minimal set of ground-rules to make data vaults and applications interoperable.
 Below, we list the requirements that query agents have if they want to provide query execution over one or more data vaults.
