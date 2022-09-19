@@ -15,7 +15,7 @@ and a discussion of our results to answer our research question.
 
 We make use of a full factorial experiment containing the following factors and values:
 
-- **Source selector strategy**: LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
+- **Source selector strategy**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
 
 Within the source selectors, the LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
@@ -30,10 +30,78 @@ the experimental setup, raw results, and scripts to process them will be made av
 ### Experimental Results
 
 In this section, we present only those results that offer insights into the research question.
+[](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
+show the aggregated results for the different combinations of our setup
+for the discover, short, and complex queries of the benchmark, respectively.
+Within these tables, the execution time, number of actual results, and correctness are averaged across all executed queries.
+The timeout column represents the total number of timeouts that took across all queries for a given combination.
+The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
-All results (table)
-Say that we omit cNone and cAll (explain with numbers why)
-{:.todo}
+<figure id="results-queries-discover" class="table" markdown="1">
+
+| Experiment | Time | Results | Correctness | Timeouts |
+| --- | ---: | ---: | ---: | ---: |
+| cnone-base | 38.23 | 0.00 | 0.00% | 0 |
+| cmatch-base | 4,416.88 | 1.25 | 12.50% | 0 |
+| call-base | 83,083.68 | 2.63 | 19.38% | 7 |
+| cnone-ldp | 2,360.75 | 20.50 | 74.14% | 0 |
+| cmatch-ldp | 19,141.25 | 39.13 | 99.14% | 0 |
+| call-ldp | 82,887.43 | 2.88 | 20.63% | 7 |
+| cnone-ldp-idx | 2,813.55 | 20.50 | 74.14% | 0 |
+| cmatch-ldp-idx | 17,100.58 | 39.13 | 99.14% | 0 |
+| call-ldp-idx | 79,936.70 | 3.50 | 23.75% | 7 |
+| cnone-ldp-idx-filt | 2,465.63 | 20.50 | 74.14% | 0 |
+| cmatch-ldp-idx-filt | 17,199.13 | 39.13 | 99.14% | 0 |
+| call-ldp-idx-filt | 80,306.60 | 3.63 | 24.38% | 7 |
+
+<figcaption markdown="block">
+Overview of the average execution times (ms), average number of results, correctness, and number of timeouts across all **discover** queries.
+</figcaption>
+</figure>
+
+<figure id="results-queries-short" class="table" markdown="1">
+
+| Experiment | Time | Results | Correctness | Timeouts |
+| --- | ---: | ---: | ---: | ---: |
+| cnone-base | 74.09 | 0.14 | 14.29% | 0 |
+| cmatch-base | 27,121.51 | 0.43 | 42.86% | 2 |
+| call-base | 119,300.34 | 0.29 | 28.57% | 7 |
+| cnone-ldp | 1,933.29 | 1.57 | 28.57% | 0 |
+| cmatch-ldp | 69,764.71 | 0.43 | 42.86% | 4 |
+| call-ldp | 119,335.40 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx | 2,816.43 | 1.57 | 28.57% | 0 |
+| cmatch-ldp-idx | 69,084.46 | 0.43 | 42.86% | 4 |
+| call-ldp-idx | 119,419.09 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx-filt | 2,170.37 | 1.57 | 28.57% | 0 |
+| cmatch-ldp-idx-filt | 69,599.86 | 0.43 | 42.86% | 4 |
+| call-ldp-idx-filt | 119,286.77 | 0.29 | 28.57% | 7 |
+
+<figcaption markdown="block">
+Overview of the average execution times (ms), average number of results, correctness, and number of timeouts across all **short** queries.
+</figcaption>
+</figure>
+
+<figure id="results-queries-complex" class="table" markdown="1">
+
+| Experiment | Time | Results | Correctness | Timeouts |
+| --- | ---: | ---: | ---: | ---: |
+| cnone-base | 12,875.77 | 0.00 | 0.00% | 1 |
+| cmatch-base | 16,692.83 | 0.50 | 2.50% | 4 |
+| call-base | 39,907.18 | 0.00 | 0.00% | 12 |
+| cnone-ldp | 19,071.62 | 0.00 | 0.00% | 4 |
+| cmatch-ldp | 38,281.22 | 0.00 | 0.00% | 11 |
+| call-ldp | 40,022.23 | 0.00 | 0.00% | 12 |
+| cnone-ldp-idx | 19,889.92 | 0.00 | 0.00% | 4 |
+| cmatch-ldp-idx | 37,504.05 | 0.00 | 0.00% | 11 |
+| call-ldp-idx | 39,655.95 | 0.00 | 0.00% | 12 |
+| cnone-ldp-idx-filt | 18,902.70 | 0.00 | 0.00% | 4 |
+| cmatch-ldp-idx-filt | 37,508.85 | 0.00 | 0.00% | 11 |
+| call-ldp-idx-filt | 39,682.78 | 0.00 | 0.00% | 12 |
+
+<figcaption markdown="block">
+Overview of the average execution times (ms), average number of results, correctness, and number of timeouts across all **complex** queries.
+</figcaption>
+</figure>
 
 ### Discussion
 
