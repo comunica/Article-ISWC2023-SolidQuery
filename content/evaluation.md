@@ -174,8 +174,25 @@ Query arrival times for D3 or D%? Or another query?
 
 #### Zero-knowledge query planning is ineffective
 
+<figure id="results-planning-effectiveness" class="table" markdown="1">
+
+| Query | Traversal-based | Index-based | Dereferencing | HTTP Requests |
+| --- | --: | --: | --: | --: |
+| D1 | 5,826.83 | 451.42 | 88.73% | 222 |
+| D2 | 6,043.50 | 646.77 | 61.80% | 223 |
+| D3 | 7,490.17 | 1,118.69 | 83.53% | 428 |
+| D4 | 5,734.25 | 509.56 | 81.67% | 228 |
+| D5 | 1,499.62 | 365.76 | 79.89% | 222 |
+| D8 | 4,739.88 | 2,292.81 | 92.51% | 217 |
+
+<figcaption markdown="block">
+TODO
+</figcaption>
+</figure>
+
 - As shown above, http reqs reduced but not exec time. Because of query plan! (Go over heuristics planner to show why not works for solid?)
-- To measure query plan perf: comp with a query that first indexes data locally via construct (measure that time), and than proper query planning => downside: delays time until first result!
+- Based on oracle emitting all links we need
+- To measure query plan perf: comp with a query that first indexes data locally via construct (measure that time), and than proper query planning => downside: delays time until first result! (also not always possible for infinite link queues!)
 	- Implement a link traversal actor that first traverses to find all triples, and then queries afterwards? Or just a simple hacked exp?
 - Say that indexed is only theoretical, as collecting all links requires traversal querying. Also show that some queries would produce infinite stream of urls. We just need better planning. Also optimal case follows all links in parallel.
 {:.todo}
