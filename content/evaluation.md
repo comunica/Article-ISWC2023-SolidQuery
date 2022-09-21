@@ -143,8 +143,8 @@ Discover queries therefore depend on an overview of the vault, while short queri
 
 #### Type index discovery is highly selective
 
-When comparing the number of HTTP requests and query execution times for different data vault discovery approaches in [](#results-queries-discover),
-we can observe that usage of the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery.
+When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in [](#results-queries-discover),
+we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery.
 To explain this behaviour in more detail, [](#figure-link-queue) shows the average query execution times of each discover query separately,
 for the different combinations of data vault discovery approaches.
 
@@ -169,11 +169,12 @@ But because no link pruning takes place during LDP-based discovery,
 all of the documents within the vaults still need to be requested over HTTP.
 
 
-Query arrival times for D3? Or another query?
+Query arrival times for D3 or D%? Or another query?
 {:.todo}
 
 #### Zero-knowledge query planning is ineffective
 
+- As shown above, http reqs reduced but not exec time. Because of query plan! (Go over heuristics planner to show why not works for solid?)
 - To measure query plan perf: comp with a query that first indexes data locally via construct (measure that time), and than proper query planning => downside: delays time until first result!
 	- Implement a link traversal actor that first traverses to find all triples, and then queries afterwards? Or just a simple hacked exp?
 - Say that indexed is only theoretical, as collecting all links requires traversal querying. Also show that some queries would produce infinite stream of urls. We just need better planning. Also optimal case follows all links in parallel.

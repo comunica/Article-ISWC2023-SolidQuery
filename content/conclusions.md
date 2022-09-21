@@ -6,6 +6,7 @@
 - The ability to close the world around solid pods create query opt opoortunities
 - Say that type index is optional, so it can not be used on its own, as completeness can not be guaranteed.
 - Better combination of LDP+idx needed, where pruning of idx can help LDP better.
+- Decomposing parts of the query plan for different parts of the type index also requires adaptive query planning
 - Best termination condition is a LIMIT in the query? (but incompat with ORDER BY...)
 - Mention need for new datastructures (see ideas note)
 - Need for adaptive query planning! (mention eddy-like adaptive operation of the link queue (walking without a map - section 3), but it doesn't consider adaptivity of the query plan)
