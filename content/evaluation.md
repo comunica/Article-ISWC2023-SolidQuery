@@ -167,7 +167,7 @@ we can observe that using the type index leads to fewer HTTP requests and faster
 To explain this behaviour in more detail, [](#figure-queries_indexvsstorage_time_relative) shows the average query execution times of each discover query separately,
 for the different combinations of data vault discovery approaches.
 To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](#linktraversaloptimization).
-The [appendix](#appendix-evaluation) contains more detailed query result arrival times for several of these queries.
+The [appendix](#appendix-evaluation) contains more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
 Furthermore, [](#figure-queries_indexvsstorage_http) shows the average number of HTTP requests for each of those discover queries.
 
 <figure id="figure-queries_indexvsstorage_time_relative">
