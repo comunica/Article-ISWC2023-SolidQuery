@@ -35,64 +35,63 @@ In this section, we present only those results that offer insights into the rese
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
 show the aggregated results for the different combinations of our setup
 for the discover, short, and complex queries of the benchmark, respectively.
-Within these tables, the execution time, number of actual results, and correctness are averaged across all executed queries.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
 The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
 <figure id="results-queries-discover" class="table" markdown="1">
 
-| Experiment | Time | Requests | Results | Correctness | Timeouts |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 43 | 8 | 0.00 | 0.00% | 0 |
-| cmatch-base | 4,658 | 437 | 1.25 | 12.50% | 0 |
-| call-base | 83,734 | 446 | 2.88 | 20.63% | 7 |
-| cnone-idx | 2,040 | 291 | 20.50 | 74.14% | 0 |
-| cmatch-idx | 16,529 | 664 | 39.13 | 99.14% | 0 |
-| call-idx | 80,597 | 478 | 3.63 | 24.38% | 7 |
-| cnone-idx-filt | 1,926 | 278 | 20.50 | 74.14% | 0 |
-| cmatch-idx-filt | 16,253 | 631 | 39.13 | 99.14% | 0 |
-| call-idx-filt | 80,439 | 482 | 3.50 | 23.75% | 7 |
-| cnone-ldp | 2,431 | 342 | 20.50 | 74.14% | 0 |
-| cmatch-ldp | 19,113 | 831 | 39.13 | 99.14% | 0 |
-| call-ldp | 83,691 | 442 | 2.88 | 20.63% | 7 |
-| cnone-ldp-idx | 2,844 | 406 | 20.50 | 74.14% | 0 |
-| cmatch-ldp-idx | 17,026 | 733 | 39.13 | 99.14% | 0 |
-| call-ldp-idx | 80,234 | 476 | 3.63 | 24.38% | 7 |
-| cnone-ldp-idx-filt | 2,879 | 405 | 20.50 | 74.14% | 0 |
-| cmatch-ldp-idx-filt | 16,903 | 750 | 39.13 | 99.14% | 0 |
-| call-ldp-idx-filt | 80,228 | 467 | 3.63 | 24.38% | 7 |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| cnone-base | 43 | 0 | 8 | 0.00 | 0.00% | 0 |
+| cmatch-base | 4,658 | 0 | 437 | 1.25 | 12.50% | 0 |
+| call-base | 83,734 | 118,969 | 446 | 2.88 | 20.63% | 7 |
+| cnone-idx | 2,040 | 2,742 | 291 | 20.50 | 74.14% | 0 |
+| **cmatch-idx** | **16,529** | **4,094** | **664** | **39.13** | **99.14%** | **0** |
+| call-idx | 80,597 | 119,282 | 478 | 3.63 | 24.38% | 7 |
+| cnone-idx-filt | 1,926 | 1,720 | 278 | 20.50 | 74.14% | 0 |
+| **cmatch-idx-filt** | **16,253** | **4,072** | **631** | **39.13** | **99.14%** | **0** |
+| call-idx-filt | 80,439 | 118,657 | 482 | 3.50 | 23.75% | 7 |
+| cnone-ldp | 2,431 | 3,845 | 342 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp** | **19,113** | **6,277** | **831** | **39.13** | **99.14%** | **0** |
+| call-ldp | 83,691 | 119,010 | 442 | 2.88 | 20.63% | 7 |
+| cnone-ldp-idx | 2,844 | 4,088 | 406 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp-idx** | **17,026** | **6,390** | **733** | **39.13** | **99.14%** | **0** |
+| call-ldp-idx | 80,234 | 118,688 | 476 | 3.63 | 24.38% | 7 |
+| cnone-ldp-idx-filt | 2,879 | 3,976 | 405 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp-idx-filt** | **16,903** | **5,876** | **750** | **39.13** | **99.14%** | **0** |
+| call-ldp-idx-filt | 80,228 | 119,214 | 467 | 3.63 | 24.38% | 7 |
 
 <figcaption markdown="block">
-Overview of the average execution times (ms), total number of HTTP requests, average number of results, correctness, and number of timeouts across all 8 **discover** queries.
+Overview of the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution times (ms), average number of HTTP requests per query $$\overline{req}$$, total number of results ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all 8 **discover** queries. Combinations with the highest correctness value are marked in bold.
 </figcaption>
 </figure>
 
 <figure id="results-queries-short" class="table" markdown="1">
 
-| Experiment | Time | Requests | Results | Correctness | Timeouts |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 80 | 15 | 0.14 | 14.29% | 0 |
-| cmatch-base | 27,429 | 596 | 0.43 | 42.86% | 2 |
-| call-base | 119,280 | 0 | 0.29 | 28.57% | 7 |
-| cnone-idx | 2,023 | 121 | 1.57 | 28.57% | 0 |
-| cmatch-idx | 69,039 | 275 | 0.43 | 42.86% | 4 |
-| call-idx | 119,521 | 0 | 0.29 | 28.57% | 7 |
-| cnone-idx-filt | 1,995 | 121 | 1.57 | 28.57% | 0 |
-| cmatch-idx-filt | 68,785 | 275 | 0.43 | 42.86% | 4 |
-| call-idx-filt | 119,699 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp | 2,372 | 140 | 1.57 | 28.57% | 0 |
-| cmatch-ldp | 69,403 | 291 | 0.43 | 42.86% | 4 |
-| call-ldp | 119,237 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx | 2,784 | 164 | 1.57 | 28.57% | 0 |
-| cmatch-ldp-idx | 68,973 | 307 | 0.43 | 42.86% | 4 |
-| call-ldp-idx | 119,196 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx-filt | 2,833 | 164 | 1.57 | 28.57% | 0 |
-| cmatch-ldp-idx-filt | 69,138 | 307 | 0.43 | 42.86% | 4 |
-| call-ldp-idx-filt | 119,599 | 0 | 0.29 | 28.57% | 7 |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| cnone-base | 80 | 11 | 15 | 0.14 | 14.29% | 0 |
+| cmatch-base | 27,429 | 372 | 596 | 0.43 | 42.86% | 2 |
+| call-base | 119,280 | 118,672 | 0 | 0.29 | 28.57% | 7 |
+| cnone-idx | 2,023 | 46 | 121 | 1.57 | 28.57% | 0 |
+| **cmatch-idx** | **69,039** | **118,656** | **275** | **0.43** | **42.86%** | **4** |
+| call-idx | 119,521 | 118,863 | 0 | 0.29 | 28.57% | 7 |
+| cnone-idx-filt | 1,995 | 68 | 121 | 1.57 | 28.57% | 0 |
+| **cmatch-idx-filt** | **68,785** | **118,509** | **275** | **0.43** | **42.86%** | **4** |
+| call-idx-filt | 119,699 | 118,705 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp | 2,372 | 74 | 140 | 1.57 | 28.57% | 0 |
+| **cmatch-ldp** | **69,403** | **119,325** | **291** | **0.43** | **42.86%** | **4** |
+| call-ldp | 119,237 | 118,733 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx | 2,784 | 75 | 164 | 1.57 | 28.57% | 0 |
+| **cmatch-ldp-idx** | **68,973** | **118,256** | **307** | **0.43** | **42.86%** | **4** |
+| call-ldp-idx | 119,196 | 118,933 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx-filt | 2,833 | 82 | 164 | 1.57 | 28.57% | 0 |
+| **cmatch-ldp-idx-filt** | **69,138** | **118,525** | **307** | **0.43** | **42.86%** | **4** |
+| call-ldp-idx-filt | 119,599 | 118,733 | 0 | 0.29 | 28.57% | 7 |
 
 <figcaption markdown="block">
-Overview of the average execution times (ms), total number of HTTP requests, average number of results, correctness, and number of timeouts across all 7 **short** queries.
+Overview of the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution times (ms), average number of HTTP requests per query $$\overline{req}$$, total number of results ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all 8 **short** queries. Combinations with the highest correctness value are marked in bold.
 </figcaption>
 </figure>
 
