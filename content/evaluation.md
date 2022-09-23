@@ -44,18 +44,24 @@ The correctness of each query execution is calculated as the percentage of expec
 
 | Experiment | Time | Requests | Results | Correctness | Timeouts |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 38 | 8 | 0.00 | 0.00% | 0 |
-| cmatch-base | 4,417 | 425 | 1.25 | 12.50% | 0 |
-| call-base | 83,084 | 450 | 2.63 | 19.38% | 7 |
-| cnone-ldp | 2,361 | 342 | 20.50 | 74.14% | 0 |
-| cmatch-ldp | 19,141 | 825 | 39.13 | 99.14% | 0 |
-| call-ldp | 82,887 | 449 | 2.88 | 20.63% | 7 |
-| cnone-ldp-idx | 2,814 | 406 | 20.50 | 74.14% | 0 |
-| cmatch-ldp-idx | 17,101 | 763 | 39.13 | 99.14% | 0 |
-| call-ldp-idx | 79,937 | 466 | 3.50 | 23.75% | 7 |
-| cnone-ldp-idx-filt | 2,466 | 400 | 20.50 | 74.14% | 0 |
-| cmatch-ldp-idx-filt | 17,199 | 762 | 39.13 | 99.14% | 0 |
-| call-ldp-idx-filt | 80,307 | 458 | 3.63 | 24.38% | 7 |
+| cnone-base | 43 | 8 | 0.00 | 0.00% | 0 |
+| cmatch-base | 4,658 | 437 | 1.25 | 12.50% | 0 |
+| call-base | 83,734 | 446 | 2.88 | 20.63% | 7 |
+| cnone-idx | 2,040 | 291 | 20.50 | 74.14% | 0 |
+| cmatch-idx | 16,529 | 664 | 39.13 | 99.14% | 0 |
+| call-idx | 80,597 | 478 | 3.63 | 24.38% | 7 |
+| cnone-idx-filt | 1,926 | 278 | 20.50 | 74.14% | 0 |
+| cmatch-idx-filt | 16,253 | 631 | 39.13 | 99.14% | 0 |
+| call-idx-filt | 80,439 | 482 | 3.50 | 23.75% | 7 |
+| cnone-ldp | 2,431 | 342 | 20.50 | 74.14% | 0 |
+| cmatch-ldp | 19,113 | 831 | 39.13 | 99.14% | 0 |
+| call-ldp | 83,691 | 442 | 2.88 | 20.63% | 7 |
+| cnone-ldp-idx | 2,844 | 406 | 20.50 | 74.14% | 0 |
+| cmatch-ldp-idx | 17,026 | 733 | 39.13 | 99.14% | 0 |
+| call-ldp-idx | 80,234 | 476 | 3.63 | 24.38% | 7 |
+| cnone-ldp-idx-filt | 2,879 | 405 | 20.50 | 74.14% | 0 |
+| cmatch-ldp-idx-filt | 16,903 | 750 | 39.13 | 99.14% | 0 |
+| call-ldp-idx-filt | 80,228 | 467 | 3.63 | 24.38% | 7 |
 
 <figcaption markdown="block">
 Overview of the average execution times (ms), total number of HTTP requests, average number of results, correctness, and number of timeouts across all 8 **discover** queries.
@@ -66,18 +72,24 @@ Overview of the average execution times (ms), total number of HTTP requests, ave
 
 | Experiment | Time | Requests | Results | Correctness | Timeouts |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 74 | 15 | 0.14 | 14.29% | 0 |
-| cmatch-base | 27,122 | 596 | 0.43 | 42.86% | 2 |
-| call-base | 119,300 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp | 1,933 | 126 | 1.57 | 28.57% | 0 |
-| cmatch-ldp | 69,765 | 291 | 0.43 | 42.86% | 4 |
-| call-ldp | 119,335 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx | 2,816 | 164 | 1.57 | 28.57% | 0 |
-| cmatch-ldp-idx | 69,084 | 307 | 0.43 | 42.86% | 4 |
-| call-ldp-idx | 119,419 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx-filt | 2,170 | 161 | 1.57 | 28.57% | 0 |
-| cmatch-ldp-idx-filt | 69,600 | 305 | 0.43 | 42.86% | 4 |
-| call-ldp-idx-filt | 119,287 | 0 | 0.29 | 28.57% | 7 |
+| cnone-base | 80 | 15 | 0.14 | 14.29% | 0 |
+| cmatch-base | 27,429 | 596 | 0.43 | 42.86% | 2 |
+| call-base | 119,280 | 0 | 0.29 | 28.57% | 7 |
+| cnone-idx | 2,023 | 121 | 1.57 | 28.57% | 0 |
+| cmatch-idx | 69,039 | 275 | 0.43 | 42.86% | 4 |
+| call-idx | 119,521 | 0 | 0.29 | 28.57% | 7 |
+| cnone-idx-filt | 1,995 | 121 | 1.57 | 28.57% | 0 |
+| cmatch-idx-filt | 68,785 | 275 | 0.43 | 42.86% | 4 |
+| call-idx-filt | 119,699 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp | 2,372 | 140 | 1.57 | 28.57% | 0 |
+| cmatch-ldp | 69,403 | 291 | 0.43 | 42.86% | 4 |
+| call-ldp | 119,237 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx | 2,784 | 164 | 1.57 | 28.57% | 0 |
+| cmatch-ldp-idx | 68,973 | 307 | 0.43 | 42.86% | 4 |
+| call-ldp-idx | 119,196 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx-filt | 2,833 | 164 | 1.57 | 28.57% | 0 |
+| cmatch-ldp-idx-filt | 69,138 | 307 | 0.43 | 42.86% | 4 |
+| call-ldp-idx-filt | 119,599 | 0 | 0.29 | 28.57% | 7 |
 
 <figcaption markdown="block">
 Overview of the average execution times (ms), total number of HTTP requests, average number of results, correctness, and number of timeouts across all 7 **short** queries.
@@ -105,6 +117,12 @@ Overview of the average execution times (ms), total number of HTTP requests, ave
 Overview of the average execution times (ms), total number of HTTP requests, average number of results, correctness, and number of timeouts across all 12 **complex** queries.
 </figcaption>
 </figure>
+
+Update complex results table once experiments are done
+{:.todo}
+
+In each table, make the rows with highest correctness bold.
+{:.todo}
 
 These results show that there are combinations of approaches that achieve a very high level of correctness for discover queries,
 and an average level of correctness for short queries.
