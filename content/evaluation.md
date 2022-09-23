@@ -170,6 +170,8 @@ Furthermore, [](#figure-queries_indexvsstorage_http) shows the average number of
 <img src="img/experiments/queries_indexvsstorage_time_relative.svg" alt="Relative execution times of discover queries for index versus storage">
 <figcaption markdown="block">
 Relative query execution times for all discover queries with different combinations of data vault discovery with cMatch.
+The bar indicates the average execution times, while the whiskers indicate the maximum and minimum execution times.
+The star marker indicates the average time until first result.
 </figcaption>
 </figure>
 
