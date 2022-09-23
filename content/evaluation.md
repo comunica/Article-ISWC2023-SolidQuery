@@ -31,71 +31,72 @@ Each query template in the benchmark was instantiated five times, which resulted
 
 ### Experimental Results
 
-In this section, we present only those results that offer insights into the research question.
+In this section, we present results that offer insights into the research question.
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
 show the aggregated results for the different combinations of our setup
 for the discover, short, and complex queries of the benchmark, respectively.
+Concretely, each table shows the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution times (ms), the average ($$\overline{t}_1$$) and median $$\tilde{t}_1$$ time until first result (ms), average number of HTTP requests per query $$\overline{req}$$, total number of results ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
 The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
-<figure id="results-queries-discover" class="table" markdown="1">
+<figure id="results-queries-discover" class="table" markdown="1" class="table-smaller-font">
 
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 43 | 0 | 8 | 0.00 | 0.00% | 0 |
-| cmatch-base | 4,658 | 0 | 437 | 1.25 | 12.50% | 0 |
-| call-base | 83,734 | 118,969 | 446 | 2.88 | 20.63% | 7 |
-| cnone-idx | 2,040 | 2,742 | 291 | 20.50 | 74.14% | 0 |
-| **cmatch-idx** | **16,529** | **4,094** | **664** | **39.13** | **99.14%** | **0** |
-| call-idx | 80,597 | 119,282 | 478 | 3.63 | 24.38% | 7 |
-| cnone-idx-filt | 1,926 | 1,720 | 278 | 20.50 | 74.14% | 0 |
-| **cmatch-idx-filt** | **16,253** | **4,072** | **631** | **39.13** | **99.14%** | **0** |
-| call-idx-filt | 80,439 | 118,657 | 482 | 3.50 | 23.75% | 7 |
-| cnone-ldp | 2,431 | 3,845 | 342 | 20.50 | 74.14% | 0 |
-| **cmatch-ldp** | **19,113** | **6,277** | **831** | **39.13** | **99.14%** | **0** |
-| call-ldp | 83,691 | 119,010 | 442 | 2.88 | 20.63% | 7 |
-| cnone-ldp-idx | 2,844 | 4,088 | 406 | 20.50 | 74.14% | 0 |
-| **cmatch-ldp-idx** | **17,026** | **6,390** | **733** | **39.13** | **99.14%** | **0** |
-| call-ldp-idx | 80,234 | 118,688 | 476 | 3.63 | 24.38% | 7 |
-| cnone-ldp-idx-filt | 2,879 | 3,976 | 405 | 20.50 | 74.14% | 0 |
-| **cmatch-ldp-idx-filt** | **16,903** | **5,876** | **750** | **39.13** | **99.14%** | **0** |
-| call-ldp-idx-filt | 80,228 | 119,214 | 467 | 3.63 | 24.38% | 7 |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| cnone-base | 43 | 0 | N/A | N/A | 8 | 0.00 | 0.00% | 0 |
+| cmatch-base | 4,658 | 0 | 32,846 | 31,615 | 437 | 1.25 | 12.50% | 0 |
+| call-base | 83,734 | 118,813 | 34,808 | 34,360 | 446 | 2.88 | 20.63% | 7 |
+| cnone-idx | 2,040 | 674 | 762 | 634 | 291 | 20.50 | 74.14% | 0 |
+| **cmatch-idx** | **16,529** | **1,867** | **3,483** | **973** | **664** | **39.13** | **99.14%** | **0** |
+| call-idx | 80,597 | 118,512 | 28,240 | 26,950 | 478 | 3.63 | 24.38% | 7 |
+| cnone-idx-filt | 1,926 | 644 | 696 | 703 | 278 | 20.50 | 74.14% | 0 |
+| **cmatch-idx-filt** | **16,253** | **1,504** | **3,287** | **933** | **631** | **39.13** | **99.14%** | **0** |
+| call-idx-filt | 80,439 | 118,433 | 29,193 | 31,133 | 482 | 3.50 | 23.75% | 7 |
+| cnone-ldp | 2,431 | 794 | 916 | 895 | 342 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp** | **19,113** | **2,452** | **5,356** | **1,496** | **831** | **39.13** | **99.14%** | **0** |
+| call-ldp | 83,691 | 118,740 | 35,220 | 35,439 | 442 | 2.88 | 20.63% | 7 |
+| cnone-ldp-idx | 2,844 | 1,072 | 971 | 1,005 | 406 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp-idx** | **17,026** | **3,108** | **3,476** | **1,575** | **733** | **39.13** | **99.14%** | **0** |
+| call-ldp-idx | 80,234 | 118,352 | 27,841 | 29,887 | 476 | 3.63 | 24.38% | 7 |
+| cnone-ldp-idx-filt | 2,879 | 1,017 | 1,073 | 976 | 405 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp-idx-filt** | **16,903** | **2,241** | **3,493** | **1,429** | **750** | **39.13** | **99.14%** | **0** |
+| call-ldp-idx-filt | 80,228 | 118,218 | 27,069 | 29,430 | 467 | 3.63 | 24.38% | 7 |
 
 <figcaption markdown="block">
-Overview of the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution times (ms), average number of HTTP requests per query $$\overline{req}$$, total number of results ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all 8 **discover** queries. Combinations with the highest correctness value are marked in bold.
+Aggregated results for the different combinations across all 8 **discover** queries.
 </figcaption>
 </figure>
 
-<figure id="results-queries-short" class="table" markdown="1">
+<figure id="results-queries-short" class="table" markdown="1" class="table-smaller-font">
 
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 80 | 11 | 15 | 0.14 | 14.29% | 0 |
-| cmatch-base | 27,429 | 372 | 596 | 0.43 | 42.86% | 2 |
-| call-base | 119,280 | 118,672 | 0 | 0.29 | 28.57% | 7 |
-| cnone-idx | 2,023 | 46 | 121 | 1.57 | 28.57% | 0 |
-| **cmatch-idx** | **69,039** | **118,656** | **275** | **0.43** | **42.86%** | **4** |
-| call-idx | 119,521 | 118,863 | 0 | 0.29 | 28.57% | 7 |
-| cnone-idx-filt | 1,995 | 68 | 121 | 1.57 | 28.57% | 0 |
-| **cmatch-idx-filt** | **68,785** | **118,509** | **275** | **0.43** | **42.86%** | **4** |
-| call-idx-filt | 119,699 | 118,705 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp | 2,372 | 74 | 140 | 1.57 | 28.57% | 0 |
-| **cmatch-ldp** | **69,403** | **119,325** | **291** | **0.43** | **42.86%** | **4** |
-| call-ldp | 119,237 | 118,733 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx | 2,784 | 75 | 164 | 1.57 | 28.57% | 0 |
-| **cmatch-ldp-idx** | **68,973** | **118,256** | **307** | **0.43** | **42.86%** | **4** |
-| call-ldp-idx | 119,196 | 118,933 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx-filt | 2,833 | 82 | 164 | 1.57 | 28.57% | 0 |
-| **cmatch-ldp-idx-filt** | **69,138** | **118,525** | **307** | **0.43** | **42.86%** | **4** |
-| call-ldp-idx-filt | 119,599 | 118,733 | 0 | 0.29 | 28.57% | 7 |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| cnone-base | 80 | 5 | 0 | 0 | 15 | 0.14 | 14.29% | 0 |
+| cmatch-base | 27,429 | 197 | 190 | 64 | 596 | 0.43 | 42.86% | 2 |
+| call-base | 119,280 | 118,717 | 6,008 | 1,305 | 0 | 0.29 | 28.57% | 7 |
+| cnone-idx | 2,023 | 75 | 855 | 861 | 121 | 1.57 | 28.57% | 0 |
+| **cmatch-idx** | **69,039** | **118,412** | **1,095** | **202** | **275** | **0.43** | **42.86%** | **4** |
+| call-idx | 119,521 | 118,937 | 2,586 | 828 | 0 | 0.29 | 28.57% | 7 |
+| cnone-idx-filt | 1,995 | 64 | 827 | 866 | 121 | 1.57 | 28.57% | 0 |
+| **cmatch-idx-filt** | **68,785** | **117,814** | **1,128** | **362** | **275** | **0.43** | **42.86%** | **4** |
+| call-idx-filt | 119,699 | 118,765 | 2,007 | 1,099 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp | 2,372 | 79 | 1,274 | 1,194 | 140 | 1.57 | 28.57% | 0 |
+| **cmatch-ldp** | **69,403** | **118,999** | **1,012** | **92** | **291** | **0.43** | **42.86%** | **4** |
+| call-ldp | 119,237 | 118,749 | 6,400 | 6,798 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx | 2,784 | 71 | 1,247 | 1,224 | 164 | 1.57 | 28.57% | 0 |
+| **cmatch-ldp-idx** | **68,973** | **117,888** | **1,219** | **617** | **307** | **0.43** | **42.86%** | **4** |
+| call-ldp-idx | 119,196 | 118,906 | 3,823 | 914 | 0 | 0.29 | 28.57% | 7 |
+| cnone-ldp-idx-filt | 2,833 | 109 | 1,247 | 1,167 | 164 | 1.57 | 28.57% | 0 |
+| **cmatch-ldp-idx-filt** | **69,138** | **118,235** | **1,228** | **388** | **307** | **0.43** | **42.86%** | **4** |
+| call-ldp-idx-filt | 119,599 | 118,820 | 3,580 | 396 | 0 | 0.29 | 28.57% | 7 |
 
 <figcaption markdown="block">
-Overview of the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution times (ms), average number of HTTP requests per query $$\overline{req}$$, total number of results ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all 8 **short** queries. Combinations with the highest correctness value are marked in bold.
+Aggregated results for the different combinations across all 7 **short** queries.
 </figcaption>
 </figure>
 
-<figure id="results-queries-complex" class="table" markdown="1">
+<figure id="results-queries-complex" class="table" markdown="1" class="table-smaller-font">
 
 | Experiment | Time | Requests | Results | Correctness | Timeouts |
 | --- | ---: | ---: | ---: | ---: | ---: |
@@ -113,14 +114,11 @@ Overview of the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution ti
 | call-ldp-idx-filt | 39,683 | 0 | 0.00 | 0.00% | 12 |
 
 <figcaption markdown="block">
-Overview of the average execution times (ms), total number of HTTP requests, average number of results, correctness, and number of timeouts across all 12 **complex** queries.
+Aggregated results for the different combinations across all 12 **complex** queries.
 </figcaption>
 </figure>
 
 Update complex results table once experiments are done
-{:.todo}
-
-In each table, make the rows with highest correctness bold.
 {:.todo}
 
 These results show that there are combinations of approaches that achieve a very high level of correctness for discover queries,
@@ -159,8 +157,6 @@ while the short queries target only details of specific resources.
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
 
 #### Type index discovery is more selective than LDP-based discovery
-
-**Query execution times**
 
 When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in [](#results-queries-discover),
 we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery.
