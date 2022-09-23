@@ -164,6 +164,7 @@ to only follow those links for classes that are of interest to the current query
 Concretely, this involves considering the objects referred to by `solid:forClass` on each type registration.
 To know whether or not a class is relevant to the current query,
 we explicitly check for the occurrence of this class within the query as object within triples using the `rdf:type` predicate.
+For subjects in the query without `rdf:type` predicate, the matching class is unknown, which is why we consider all type registrations in this case.
 In future work, more complex approaches for determining the relevance of a class to a query could be devised based on [inferencing](cite:cites rif).
 
 #### Formal description
@@ -194,6 +195,8 @@ $$
 \phi_{\text{QueryClass}}(B, c) = \left\{ \begin{array}{ll}
         \text{true}  & \text{if } \exists tp \in B : \\
                      & \langle ?v \text{ rdf:type } c \rangle \text{ matches } tp\\
+                     & \text{or if } \exists s : \langle s \text{ } ?p \text{ } ?o \rangle \in B \\
+                     & \land \{ o \mid \langle s \text{ rdf:type } o \in B \} = \empty \\
         \text{false} & \text{else}.\end{array} \right.
 $$
 
