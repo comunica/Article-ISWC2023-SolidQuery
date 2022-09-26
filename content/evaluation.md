@@ -208,6 +208,22 @@ which allows the query to terminate earlier with fewer HTTP requests.
 The execution times of D4 in [](#figure-queries_indexvsstorage_time_relative) are an outlier,
 due to the very low absolute execution times (~1ms).
 
+<figure id="results-queries-cmatch-wins" class="table" markdown="1" class="table-smaller-font">
+
+|  | base | idx | idx-filt | ldp | ldp-idx | ldp-idx-filt |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: |
+| Wins | 0 | 10 | 15 | 5 | 5 | 0 |
+
+<figcaption markdown="block">
+The number of queries each approach achieves the lowest query execution time for across all **cMatch-based** approaches over all 8 **discover** queries with 5 instantiations.
+A win for a certain approach is only considered if the results are correct for this query.
+Five queries are missing due to no approaches achieving correct results.
+</figcaption>
+</figure>
+
+Discuss the table above in text.
+{:.todo}
+
 #### Zero-knowledge query planning is ineffective
 
 <figure id="results-planning-effectiveness" class="table" markdown="1">
