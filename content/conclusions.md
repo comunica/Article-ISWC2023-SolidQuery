@@ -9,7 +9,7 @@
 - Decomposing parts of the query plan for different parts of the type index also requires adaptive query planning
 - Best termination condition is a LIMIT in the query? (but incompat with ORDER BY...)
 - Mention need for new datastructures (see ideas note)
-- Need for adaptive query planning! (mention eddy-like adaptive operation of the link queue (walking without a map - section 3), but it doesn't consider adaptivity of the query plan)
+- Need for adaptive query planning! (mention eddy-like adaptive operation of the link queue (walking without a map - section 3), but it doesn't consider adaptivity of the query plan) (also mentioned in linkeddatamanagement)
 - Important finding: walking without a map (conclusions) says that fundamental problem in LTQP is finding data as early as possible, but we show that this is solved for solid, and that main problem here is query planning!
 - LDQL not needed, because type idx and ldp give us navigational things (this is not something the developer should have to express, because this is different in different pods!)
 - Need for better query containment for type index

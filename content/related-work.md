@@ -44,6 +44,14 @@ Next to filtering links via different reachability semantics,
 a second methodology for improving query result arrival times is through [*link prioritization*](cite:cites linktraversaloptimization).
 However, existing techniques are based on heuristics, which only sometimes result in faster query results compared to no prioritization.
 
+LTQP is considered an [*integrated* query execution approach](cite:cites linkeddatamanagement),
+where data retrieval is done *during* query execution.
+This is in contrast to two-phase query execution approaches,
+which involve retrieving and indexing data *before* query execution.
+While [two-phase approaches](cite:cites summaries, comparingsummaries) are able to produce better query plans using traditional cardinality-based planning techniques,
+they have to wait for the data retrieval phase to be completed,
+which may be impractical or even impossible for certain queries.
+
 Even though [multiple query languages](cite:cites ldql, nautilod, ldpath) have been introduced specifically for LTQP,
 its [SPARQL-based execution model](cite:cites linktraversalsparql) is still the most widely used.
 Since SPARQL is the only language among these that is a standard, and the fact that it is more widely known and supported by different tools,

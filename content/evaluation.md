@@ -222,33 +222,71 @@ because this query leads to a prioritization of selective links via the type ind
 which allows the query to terminate earlier with fewer HTTP requests.
 
 In general, these results hint that the filtered type index approach performs better than the other approaches.
-However, due to the minimal difference in terms of execution time and number of HTTP requests,
+However, due to the minimal difference in terms of execution time,
 the performance of all approaches can be considered equivalent.
 
 #### Zero-knowledge query planning is ineffective
 
+While it may seem obvious to assume that higher query execution times are caused by a higher number of links that need to be dereferenced,
+we observe no significant correlation (*p = 0.76*) of this within the cMatch-based discovery approaches discussed before.
+As such, the main bottleneck in this case appears to be not the number of links to traverse.
+Instead, our analysis suggests that the efficiency of the query plan is the primary influencer of query execution times.
+
+To empirically prove this finding, we compare the execution times of our default integrated query execution approach
+with a two-phase query execution approach that we implemented in the same query engine.
+Instead of following links during query execution as in the integrated approach,
+the two-phase approach first follows links to index all discovered triples,
+and processes the query in the traditional *optimize-then-execute* manner.
+This two-phase approach is based on an oracle that provides all query-relevant links, which we determined by analyzing the request logs during the execution of the integrated approach.
+Therefore, this two-phase approach is merely a theoretical case,
+which delays time until first results due to prior indexing,
+and which may not always be achievable in practise due to infinitely growing link queues for some queries.
+The results of this experiment are shown in [](#results-planning-effectiveness).
+
 <figure id="results-planning-effectiveness" class="table" markdown="1">
 
-| Query | Traversal-based | Index-based | Dereferencing | HTTP Requests |
+| Query | Integrated | Two-phase | Dereferencing | HTTP Requests |
 | --- | --: | --: | --: | --: |
 | D1 | 5,826.83 | 451.42 | 88.73% | 222 |
 | D2 | 6,043.50 | 646.77 | 61.80% | 223 |
 | D3 | 7,490.17 | 1,118.69 | 83.53% | 428 |
 | D4 | 5,734.25 | 509.56 | 81.67% | 228 |
 | D5 | 1,499.62 | 365.76 | 79.89% | 222 |
+| D6 | 2,360.60 | 310.79 | 56.07% | 121 |
+| D7 | 3,226.30 | 316.05 | 64.52% | 121 |
 | D8 | 4,739.88 | 2,292.81 | 92.51% | 217 |
 
 <figcaption markdown="block">
-TODO
+The query execution times of all 8 **discover** queries for both the standard integrated approach using cMatch and filtered type index-based discovery,
+and the two-phase approach that uses an oracle to determine query-relevant links.
+The _Dereferencing_ column indicates the percentage of time the two-phase approach spent on dereferencing all HTTP requests.
+The last column indicates the number of HTTP requests per query, which are equal for the integrated and two-phase approaches.
 </figcaption>
 </figure>
 
-- As shown above, http reqs reduced but not exec time. Because of query plan! (Go over heuristics planner to show why not works for solid?)
-- Based on oracle emitting all links we need
-- To measure query plan perf: comp with a query that first indexes data locally via construct (measure that time), and than proper query planning => downside: delays time until first result! (also not always possible for infinite link queues!)
-	- Implement a link traversal actor that first traverses to find all triples, and then queries afterwards? Or just a simple hacked exp?
-- Say that indexed is only theoretical, as collecting all links requires traversal querying. Also show that some queries would produce infinite stream of urls. We just need better planning. Also optimal case follows all links in parallel.
-{:.todo}
+These results show that the two-phase approach is an order of magnitude faster for all queries compared to the integrated approach.
+The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization),
+since it has access to an indexed triple store with planning-relevant information such as cardinality estimates.
+Since the integrated approach finds new triples _during_ query execution,
+it is unable to use this information for traditional query planning.
+Instead, our integrated approach makes use of the [zero-knowledge query planning technique](cite:cites zeroknowldgequeryplanning)
+that makes use of heuristics to plan the query before execution.
+
+Since the only difference between the implementations of the integrated and two-phase approach is in how they plan the query,
+we can derive the query plan of the integrated approach is very ineffective.
+As such, there is clear need for better query planning during integrated execution,
+and the two-phase approach shows that performance may become an order of magnitude better.
+
+[Zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) is ineffective in our experiments
+because it has been designed under the assumptions of open Linked Data,
+while it does not match with the structural assumptions of specific decentralized environments such as Solid.
+For example, one of the heuristics within this planner deprioritizes triple patterns with vocabulary terms, such as `rdf:type`,
+since they are usually the least selective.
+However, when a Solid type index is present, such vocabulary terms may instead become _very selective_,
+which means that those would benefit from prioritization.
+As such, there is a need for alternative query planners that take into account the structural assumptions within specific decentralized environments.
+
+<!--
 
 #### Live exploration is required for heterogeneous fragmentations
 
@@ -256,3 +294,5 @@ Optional: if time left. (we could also just discuss this in conclusions if not t
 Show that hardcoded data access to specific files is not good, because different vaults have different frag strategies.
 Any findings by comparing different frag strategies?
 {:.todo}
+
+-->
