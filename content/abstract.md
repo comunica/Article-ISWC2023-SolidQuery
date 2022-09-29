@@ -1,7 +1,7 @@
 ## Abstract
 <!-- Context      -->
-As a way to counter societal and economic problems with centralization,
-decentralization efforts such as Solid lead to data being spread over a massive number of Linked Data documents on the Web.
+As a way to counter societal and economic problems with data centralization on the Web,
+decentralization efforts such as Solid lead to data being spread over a massive number of Linked Data documents across the Web.
 This raises significant technical issues when querying over this data as if it was a global Knowledge Graph,
 since this data can not be centralized due to legal reasons,
 and current (federated) querying techniques have not been designed to handle this large scale of data distribution.
@@ -15,15 +15,17 @@ In this article,
 we analyze the structural properties of the Solid decentralization ecosystem that are relevant for query execution,
 and provide a benchmark in which Solid environments can be simulated.
 Furthermore, we introduce LTQP algorithms based on these structural properties,
-and evaluate its effectiveness.
+and evaluate their effectiveness.
 <!-- Findings     -->
-Our experiments show that ...TODO...
+Our experiments show that these new algorithms are able to achieve correct query results in the order of seconds,
+which was not possible before with existing algorithms.
+We also show their limitations with respect to more complex queries.
 <!-- Conclusion   -->
 This works shows that a traversal-based querying method using structural assumptions is effective for querying over decentralized environments,
-but that significant advances are needed in the area of query planning for LTQP.
+but that more advances are needed in the area of query planning for LTQP to handle more complex queries.
 <!-- Perspectives -->
 This opens the window towards query-driven decentralized applications,
-in which application developers interact with decentralized environments using declarative queries as if it was a single centralized database.
+in which application developers interact with decentralized environments using declarative queries as if they were a single centralized database.
 
 
 <span id="keywords" rel="schema:about"><span class="title">Keywords</span>
