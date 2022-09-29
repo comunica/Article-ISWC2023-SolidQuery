@@ -19,7 +19,7 @@ and provide the _SolidBench_ benchmark to simulate Solid environments representa
 We introduce LTQP algorithms leveraging these structural properties,
 and evaluate their effectiveness.
 <!-- Findings     -->
-Our experiments indicate that these new algorithms obtain query results in the order of seconds,
+Our experiments indicate that these new algorithms obtain complete query results in the order of seconds,
 which existing algorithms cannot achieve.
 We discuss limitations with respect to more complex queries.
 <!-- Conclusion   -->
