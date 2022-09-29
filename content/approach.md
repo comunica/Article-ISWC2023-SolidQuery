@@ -244,7 +244,7 @@ Instead, our implementation makes use of LDP container traversal and the Solid t
 To provide a stable reference implementation that can be used for the experiments in this work and future research,
 our implementation focuses on extensibility and reusability.
 We do this by implementing all logic in configurable modules that are extensively tested through integration and unit tests with 100% code coverage.
-Our implementation will be made available as open-source after the double-blind review process.
+Our implementation is available as open-source under the MIT license at [https://anonymous.4open.science/r/webconf-2023-querysolid-impl/](https://anonymous.4open.science/r/webconf-2023-querysolid-impl/).
 
 Our implementation builds upon best practises in LTQP and lessons learned from [other implementations](cite:cites squin) including,
 the use of [client-side caching](cite:cites linktraversalcaching),

@@ -25,7 +25,7 @@ and the Filtered Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and 
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 To foster reproducibility,
-the experimental setup, raw results, and scripts to process them will be made available after the double-blind review process.
+the experimental setup, raw results, and scripts to process them are available as open-source on [https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/](https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/).
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries, 35 short queries, and 60 complex queries.
 

@@ -82,6 +82,8 @@ In summary, we introduce the following tools with SolidBench:
 - **Dataset server**: Convenient serving of fragmented datasets over HTTP.
 - **Benchmark runner**: incorporation into an existing benchmarking system for execution against query engines via the [SPARQL protocol](cite:cites spec:sparqlprot).
 
+The benchmark is available under the MIT license at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/).
+
 <!--
 157210 files
 1529 pods
@@ -191,9 +193,6 @@ we introduce the following *discover* queries dedicated for covering these choke
 - D7: All moderators in fora a person messaged on
 - D8: Other messages created by people that a person likes messages from
 
-Add anon link to templates (the queries readme file in solidbench)
-{:.todo}
-
 The correlation of these discover queries to choke points is summarized in [](#chokepoints-discover).
 
 <figure id="chokepoints-discover" class="table" markdown="1">
@@ -215,6 +214,8 @@ The correlation of these discover queries to choke points is summarized in [](#c
 Coverage of choke points on linking structures for discover queries.
 </figcaption>
 </figure>
+
+More details on all query templates can be found at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/templates/queries/README.md](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/templates/queries/README.md).
 
 **Query template instantiation**
 
