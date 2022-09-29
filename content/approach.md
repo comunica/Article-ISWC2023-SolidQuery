@@ -1,9 +1,13 @@
 ## Approach
 {:#approach}
 
-In this section, we introduce algorithms for handling the structural properties discussed in [](#solid).
+In this section, we introduce techniques for handling the structural properties discussed in [](#solid).
+Our goal is not to introduce additional components or structural properties to the Solid ecosystem,
+but instead, we aim to make use of what the Solid ecosystem provides today,
+and investigate how we can handle query execution over this as performant as possible.
+
 We start by discussing the preliminaries of the formalities we will introduce.
-Next, we discuss the pipeline-based link queue approach.
+Next, we discuss our pipeline-based link queue approach.
 Then, we discuss two novel discovery approaches for LTQP.
 Finally, we discuss their implementations.
 
@@ -25,10 +29,11 @@ which are denoted by $$[[P]]_G$$, consisting of partial mappings $$\mu : \mathca
 An RDF triple $$t$$ *matches* a triple pattern $$tp$$ if $$\exists \mu : t = \mu[tp]$$, where $$\mu[tp]$$ is the triple pattern that is obtained by replacing all variables from $$\mu$$ in $$tp$$.
 
 Formally, the reachability approaches that were discussed in [](#related-work)
-that define which links should be followed during link traversal are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
+define which links should be followed during link traversal,
+and are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
 However, since this formalization is restricted to considering either all or no URIs within specific data triples,
 it is not expressive enough for only following specific URIs within only subject, predicate, or object in data triples.
-Therefore, we formalize new reachability criteria in this work *source selectors*
+Therefore, we formalize new reachability criteria in this work as *source selectors*
 within the [subweb specification formalization](cite:cites guidedlinktraversal) that _is_ expressive enough to capture this.
 Within this formalization, a source selector $$\sigma$$ is defined as $$\sigma : \mathcal{W} \rightarrow 2^{\mathcal{I}}$$,
 where $$\mathcal{W}$$ is a Web of Linked Data.
@@ -76,7 +81,7 @@ for determining and prioritizing links that need to be followed.
 For example, one link extractor may extract all objects of each RDF triple matching the `rdfs:seeAlso` predicate,
 while another link extractor may extract all components of each triple that matches with a triple pattern within the query.
 Optionally, operators within the query pipeline may also push links directly into the link queue,
-which may enable implementation of [context-based reachability semantics](cite:cites linktraversalpropertypaths).
+which enables implementation of [context-based reachability semantics](cite:cites linktraversalpropertypaths).
 Link extractors only consider URIs as links,
 and thereby ignore any matches for blank nodes and literals.
 
@@ -154,12 +159,12 @@ This discovery method contains an optional filter component that is able to only
 
 #### Intuitive description
 
-As before, we consider a WebID document as a starting point.
+As before, we consider a WebID document as the starting point.
 From this document, we follow the `solid:publicTypeIndex` and `solid:privateTypeIndex` links.
 For each discovered type index, we consider all `solid:TypeRegistration` resources,
 and follow their `solid:instance` and `solid:instanceContainer` links.
 
-As an optimization, we can also take into the type information within the type registrations within the type index,
+As an optimization, we can also take into account the type information within the registrations of the type index,
 to only follow those links for classes that are of interest to the current query.
 Concretely, this involves considering the objects referred to by `solid:forClass` on each type registration.
 To know whether or not a class is relevant to the current query,
@@ -170,7 +175,7 @@ In future work, more complex approaches for determining the relevance of a class
 #### Formal description
 
 To discover type indexes and follow links within them,
-we formalize the following source selector from a given WebID with URI $$s$$ and a BGP $$B$$:
+we formalize the following source selector from a given WebID with URI $$s$$ when querying a BGP $$B$$:
 
 $$
 \sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \forall t,r,c : \phi(B, c) \\
@@ -225,12 +230,20 @@ Concretely, we have implemented the pipeline-based link queue as a separate modu
 and we provide multiple link extractors corresponding to the different source selectors introduced in previous sections.
 Our implementation has full SPARQL 1.1 support, and consists of pipelined implementations of all monotonic SPARQL operators.
 This pipelined implementation is important for iterative tuple processing in a non-blocking manner,
-because since the link queue may virtually become infinitely long,
-and stream of triples sent to tuple-producing operators may also be infinitely long.
+because the link queue may virtually become infinitely long,
+and the stream of triples sent to tuple-producing operators may also be infinitely long.
 
-To provide a stable reference implementation that can be used for the experiments in this work, and a basis for future research,
+Our implementation focuses on the SPARQL query language,
+and does not make use of alternative LTQP-specific query languages
+such as [LDQL](cite:cites ldql) that incorporate link navigation paths into the query.
+As discussed in [](#solid), different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
+As such, it is important that link navigation is *decoupled* from the query if we want queries to be reusable for different Solid users,
+as link paths to data may differ across different data vaults.
+Instead, our implementation makes use of LDP container traversal and the Solid type index to replace explicit navigation links.
+
+To provide a stable reference implementation that can be used for the experiments in this work and future research,
 our implementation focuses on extensibility and reusability.
-We do this by implementing all logic is configurable modules that are extensively tested through integration and unit tests with 100% code coverage.
+We do this by implementing all logic in configurable modules that are extensively tested through integration and unit tests with 100% code coverage.
 Our implementation will be made available as open-source after the double-blind review process.
 
 Our implementation builds upon best practises in LTQP and lessons learned from [other implementations](cite:cites squin) including,
@@ -242,7 +255,7 @@ Furthermore, our implementation supports users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no manual seed URIs have been passed.
 This fallback involves finding all URIs within the query, and adding them as seed URIs to the link queue.
 
-Therefore, this implementation meet the requirements for a query engine that can query over one or more Solid data vaults, as discussed in [](#solid).
+Therefore, this implementation meets the requirements for a query engine that can query over one or more Solid data vaults, as discussed in [](#solid).
 This also includes the ability to perform authenticated requires to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we run enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.

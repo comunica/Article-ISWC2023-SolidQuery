@@ -12,7 +12,7 @@ Finally, we list requirements for enabling query execution within the Solid ecos
 
 A primary element within the [Solid protocol](cite:cites spec:solidprotocol) is
 the data vault (also known as *data pod*), which is a user-owned space in which any kind of data can be stored.
-Users can choose where and how their vault is stored,
+Users can choose where and how their vault is stored on the Web,
 by either [hosting it themselves](cite:cites solidcommunityserver),
 or by obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
 Data vaults are loosely coupled to applications,
