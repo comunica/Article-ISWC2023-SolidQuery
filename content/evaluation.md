@@ -159,6 +159,7 @@ This difference exists because the discover workload contains queries that disco
 while the short queries target only details of specific resources. 
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
 The remainder of this discussion only focuses on discover queries, since these achieve the highest level of correctness.
+As such, the short and complex queries highlight opportunities for improvement in future work.
 
 #### Type index and LDP discovery perform similarly
 

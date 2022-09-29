@@ -3,7 +3,7 @@
 
 User-oriented decentralized applications require results in the order of seconds or less to [avoid losing the user's attention](cite:cites uiresponsetime).
 Our work has shown that Link Traversal Query Processing is able to achieve such timings,
-especially as it is able to produce results in an iterative manner, with first results are mostly produced in less than a second.
+especially as it is able to produce results in an iterative manner, with first results mostly being produced in less than a second.
 As such, LTQP with the algorithms introduced in this work are effective for querying over decentralized environments with specific structural properties,
 but there are open research opportunities for optimizing more complex queries as provided by our benchmark.
 We have shown this by applying LTQP to simulated Solid environments, for which we have introduced specific algorithms for capturing these structural properties.
@@ -31,16 +31,16 @@ Since LTQP leads to data being discovered during query execution,
 So far, these techniques have only seem limited adoption within [LTQP](cite:cites linktraversaloptimization)
 and [SPARQL query processing](cite:cites sparql_adaptive_anapsid, sparql_adaptive_ldeddies, sparql_adaptive_robust).
 For example, we see many opportunities in decomposing parts of the query plan upon discovery of Solid type index entries,
-which requires an adaptive query plan optimizer upon discovery of such type indexes.
+which requires a type index-aware adaptive query plan optimizer.
 
 Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance.
-In this work, we have only scratched the surface of what is possible.
+However, we have only scratched the surface of what is possible in this work.
 On the one hand, usage of this type index can be further improved.
 While we only made us of this index for explicit `rdf:type` occurrences in the query,
-this could be extended to also consider implicit knowledge via [inferencing](cite:cites rif).
+this could be extended to also consider implicit type knowledge via [inferencing](cite:cites rif).
 Furthermore, [query containment techniques](cite:cites sparqlquerycontainment) could be investigated for determining which parts of the query match with index entries,
 which could also lead to better a combination of type index and LDP-based discovery.
-On the other hand, alternatives to the type index could offer other more expressivity.
+On the other hand, alternatives to the type index could offer more expressivity.
 For example, the [Shape Trees](cite:cites spec:shapetrees) specification offers a similar index for Solid vaults,
 but instead makes use of nested [ShEx](cite:cites spec:shex) shape definitions for expressing data locations.
 Next to that, the incorporation of more expressive [Linked Data Fragments interfaces](cite:cites ldf, smartkg, sage, wisekg, spf, brtpf) in certain Solid vaults
@@ -53,4 +53,4 @@ while many similar open questions remain for write-queries for updating data wit
 
 This work provides an answer to the increasing need of querying techniques across decentralized environments,
 and uncovers the next steps that are needed for resolving current limitations.
-As such, this brings us closer towards a decentralized Web where users can be in full control over their data.
+As such, this brings us one step closer towards a decentralized Web where users can be in full control over their data.
