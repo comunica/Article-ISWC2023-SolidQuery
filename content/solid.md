@@ -103,9 +103,6 @@ As such, for the remainder of this article, we consider query engines taking up 
 The [Solid protocol](cite:cites spec:solidprotocol) only establishes a minimal set of ground-rules to make data vaults and applications interoperable.
 Below, we list the requirements that query agents have if they want to provide query execution over one or more data vaults.
 
-Figure of all relevant Solid elements and query as abstraction layer?
-{:.todo}
-
 1. **Mapping query to a sequence of HTTP requests**:
 The query engine MUST have the ability to convert a declarative query into a sequence of one or more HTTP requests within or across data vaults.
 
