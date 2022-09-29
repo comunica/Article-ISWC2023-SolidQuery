@@ -6,12 +6,12 @@ and related benchmarks for this paradigm.
 
 ### Link Traversal Query Processing
 
-The Link Traversal Query Processing (LTQP) was introduced [more than a decade ago](cite:cites linktraversalpipeline)
+The Link Traversal Query Processing (LTQP) was introduced [more than a decade ago](cite:cites linktraversalsparql)
 as a way to query over the Web of Linked Data as if it was a single globally distributed dataspace,
 without having to first indexing it in a single location.
 LTQP does this by employing the [*follow-your-nose* principle of Linked Data](cite:cites linkeddata) during query execution,
 where new RDF triples are continuously added to a local dataset by discovering new sources by following links between documents.
-For this, an [iterator-based pipeline](cite:cites linktraversalpipeline) was introduced
+For this, an [iterator-based pipeline](cite:cites linktraversalsparql) was introduced
 that allows query execution to take place without having to wait until all links have been followed.
 
 Since query execution happens in parallel with source discovery in LTQP,

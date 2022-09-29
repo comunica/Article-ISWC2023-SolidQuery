@@ -51,12 +51,12 @@ to construct a logical query plan ahead of query execution.
 This resulting plan produces a tree of logical query operators representing in what order the query should be executed.
 To execute this plan, the logical operators are executed by specific physical operators.
 
-Our physical query execution builds upon the [iterator-based pipeline approach](cite:cites linktraversalpipeline),
+Our physical query execution builds upon the [iterator-based pipeline approach](cite:cites linktraversalsparql),
 which is [the most popular among LTQP implementations](cite:cites squin, sihjoin, diamondrete).
 This involves considering the execution plan as a [pipeline](cite:cites pipelining) of iterator-based physical operators,
 through which intermediary results can flow through these chained operators to produce results in a pull-based manner.
 
-Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalpipeline),
+Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalsparql),
 we follow a [link queue-based approach](cite:cites linktraversaloptimization).
 The architecture of this approach is visualized in [](#figure-link-queue).
 Concretely, we consider a continuously growing *triple source* as the basis of the pipeline tree,
@@ -71,7 +71,7 @@ Since the link extractors are invoked after every dereference operation,
 this link queue may virtually become infinitely long.
 
 This link queue and link extractor approach is generic enough to implement
-[the majority of methods](cite:cites linktraversalpipeline, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
+[the majority of methods](cite:cites linktraversalsparql, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
 for determining and prioritizing links that need to be followed.
 For example, one link extractor may extract all objects of each RDF triple matching the `rdfs:seeAlso` predicate,
 while another link extractor may extract all components of each triple that matches with a triple pattern within the query.
@@ -237,7 +237,7 @@ Our implementation builds upon best practises in LTQP and lessons learned from [
 the use of [client-side caching](cite:cites linktraversalcaching),
 the different [reachability semantics](cite:cites linktraversalfoundations),
 [zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) applied to arbitrary join operations instead of only triple patterns in BGPs,
-and [more](cite:cites linktraversalpipeline).
+and [more](cite:cites linktraversalsparql).
 Furthermore, our implementation supports users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no manual seed URIs have been passed.
 This fallback involves finding all URIs within the query, and adding them as seed URIs to the link queue.
