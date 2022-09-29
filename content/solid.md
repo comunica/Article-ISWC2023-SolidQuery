@@ -119,7 +119,8 @@ The query engine MUST be able to discover and follow type index links from the W
 4. **Variability of vault structures**:
 The query engine SHOULD NOT make assumptions about the location of certain data within specific vaults
 without having an explicit and discoverable link path to it, e.g. via LDP storage or type indexes.
-This is important for the interoperability of Solid apps because different apps may store similar data in different locations within vaults.
+This is important for the interoperability of Solid apps because different apps or user preferences
+may lead to the storage of similar data in different locations within vaults.
 
 5. **Authenticated requests**:
 To enable queries over private resources, the agent SHOULD be able to authenticate itself to the query engine using its WebID. The query engine can then use the authenticated session on behalf of the user to perform authorized HTTP requests over private resources.

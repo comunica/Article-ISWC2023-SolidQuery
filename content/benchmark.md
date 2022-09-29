@@ -3,7 +3,7 @@
 
 In this section, we introduce *SolidBench*, a benchmark that enables reproducible performance measurements
 of different query execution approaches within a decentralized environment.
-For this, SolidBench simulates a decentralized Solid environment with corresponding workload.
+For this, SolidBench simulates a decentralized Solid environment with corresponding workload representative of a social networking application.
 Hereafter, we start by explaining the design considerations of the benchmark and our use case scenario, after which we introduce an overview of SolidBench.
 Next, we zoom in on important details of the benchmark, such as fragmentation of the data and the query workload.
 
@@ -39,7 +39,7 @@ This means that chains of comments can span across different data vaults.
 ### SolidBench Overview
 
 To avoid reinventing the wheel, we build upon the well-established [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive, ldbc_snb_details),
-which models a social network akin to Facebook, and meets the requirements of our desired use case scenario.
+which models a social network akin to Facebook, and meets most of the requirements of our desired use case scenario.
 
 However, since SNB was designed to evaluate the performance of centralized query engine,
 its dataset generator outputs its dataset in a single large file, e.g. serialized as RDF Turtle.
@@ -52,7 +52,7 @@ To simplify evaluation and testing,
 we also provide a built-in Web server that can serve the generated data vaults over HTTP using a single command,
 which is done using a slimmed-down version of the [Community Solid Server](cite:cites solidcommunityserver).
 This server disables authentication and authorization by default,
-so that evaluations can focus on the performance of query execution.
+so evaluations can focus on the performance of query execution.
 
 For the query workload, we build upon the *interactive* workload of SNB,
 and extend it with additional queries to cover link-related choke points.
@@ -67,7 +67,7 @@ Furthermore, we incorporate our benchmark into an existing benchmarking system (
 which enables convenient creation and execution of this benchmark with query engines in reproducible manner.
 
 By default, SolidBench sets the scale factor of the SNB generator to 0.1,
-which results in 157.210 files over 1.529 data vaults using the default fragmentation strategy.
+which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.
 In total, there are 3.556.159 triples across all files, with an average of 22,62 triples per file.
 Even though this scale can be increased arbitrarily high,
 we notice that this default scale can already stress existing LTQP approaches beyond their capabilities.
@@ -99,20 +99,11 @@ Benchmark aspects:
 - Tools to execute experiment and measurement of metrics
 -->
 
-figure with overview of benchmark components
-{:.todo}
-
-Link to anonimized source code
-{:.todo}
-
-Table with all config options? Maybe just in appendix?
-{:.todo}
-
 ### Fragmentation
 
 In order to convert the centralized dataset produced by SNB into a decentralized environment,
 we provide a tool that can fragment datasets using different fragmentation strategies.
-While this tool provides is highly configurable in terms of its strategies using a declarative JSON-LD-based configuration files,
+While this tool is highly configurable in terms of its strategies using declarative JSON-LD-based configuration files,
 we only summarize its functionality in terms of two fragmentation dimensions.
 Finally, we illustrate its functionality by discussing different fragmentation strategies for handling posts and comments within the SNB dataset.
 All strategies within this tool are implemented in a streaming manner,
@@ -135,7 +126,7 @@ or certain triples to be appended upon matching with a certain triple pattern.
 
 **Strategies for fragmenting posts and comments**
 
-Based on the two fragmentation dimension discussed above,
+Based on the two fragmentation dimensions discussed above,
 our fragmenter can be configured to manage different fragmentation strategies
 for posts and comments in the SNB data schema.
 While these strategies can be applied to both posts and comments,
@@ -151,12 +142,6 @@ By default, SolidBench makes use of the composite strategy,
 which results in fragmentation variance across the different vaults,
 which is realistic for the Solid ecosystem.
 
-Mention noise
-{:.todo}
-
-Figure with data model (fragmented)?
-{:.todo}
-
 ### Workload
 
 As mentioned above, we make use of the *interactive* workload of SNB,
@@ -165,7 +150,7 @@ We consider other SNB workloads (such as the business intelligence workload) out
 since these perform dataset analytics, which requires access to the whole dataset,
 which is not feasible in decentralization environments such as Solid where data can reside behind access control.
 Furthermore, we also focus solely on the class of read-only queries due to the scope of this article,
-but the concepts can easily be extended towards write queries.
+but our approach can easily be extended towards write queries.
 
 The SNB interactive workload consists of two classes of query templates: *short* and *complex* read queries.
 Since these queries cover the choke points related to linking structures only partially,
@@ -209,7 +194,7 @@ we introduce the following *discover* queries dedicated for covering these choke
 Add anon link to templates (the queries readme file in solidbench)
 {:.todo}
 
-The correlation of these discover queries to choke points is summarized in ...TODO...
+The correlation of these discover queries to choke points is summarized in [](#chokepoints-discover).
 
 <figure id="chokepoints-discover" class="table" markdown="1">
 
@@ -231,24 +216,15 @@ Coverage of choke points on linking structures for discover queries.
 </figcaption>
 </figure>
 
-Existing queries in terms of choke points on linking structures?
-{:.todo}
-
-discover queries in terms of 33 existing choke points?
-{:.todo}
-
 **Query template instantiation**
 
-This benchmark contains 27 query templates, from which 19 are derived from queries within SNB.
+Our benchmark contains 27 query templates, from which 19 are derived from queries within SNB.
 These query templates can be instantiated multiple times for different resources, based on the dataset scale.
 By default, each template is instantiated five times, so that metrics can be averaged to reduce the effect of outliers.
 
 Due to the fragmentation and URI rewriting we apply on top of the SNB dataset,
 we were unable to make use of the standard SNB query templates and its method of query instantiation.
 Therefore, we have implemented a custom query template instantiation tool that takes into account these fragmentations.
-
-Link to anon version of the tool
-{:.todo}
 
 [](#template-discover-8) shows an example of the template for discover query 8,
 which covers the majority of choke points related to linking structures.
@@ -275,10 +251,10 @@ The most relevant performance metrics within SolidBench are the following:
 - **Query execution time**: The amount of time (milliseconds) it takes between sending the query to the query engine, and obtaining the final query result.
 - **Query result arrival times**: For each separate query result, the amount of time (milliseconds) between sending the query to the query engine, and obtaining that specific result.
 - **HTTP requests**: For a given query execution, the number of HTTP requests the engine issued during the execution of that query.
-- **Correctness**: A boolean value indicating whether or not the query results conform to the expected query results.
+- **Correctness**: A boolean value indicating whether or not the query results conform to the expected query results. (_Can be a percentage when aggregating over multiple queries_)
 
 For measuring query execution and result arrival times,
 a warmup round with all instantiated query templates must take place first.
 To ensure that we take into account the volatile nature of the Web and the live traversal property of LTQP,
-the HTTP cache of the query engine is flushed before every query execution,
+the HTTP cache of the query engine must be flushed before every query execution,
 while this cache can still be used within the span of a single query execution.
