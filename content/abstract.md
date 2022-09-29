@@ -1,7 +1,7 @@
 ## Abstract
 <!-- Context      -->
-As a way to counter societal and economic problems with data centralization on the Web,
-decentralization efforts such as Solid lead to data being spread over a massive number of Linked Data documents across the Web.
+To counter societal and economic problems caused by data centralization on the Web,
+decentralization efforts such as Solid lead to data being spread over a massive number of permissioned Linked Data documents across the Web.
 This raises significant technical issues when querying over this data as if it was a global Knowledge Graph,
 since this data can not be centralized due to legal reasons,
 and current (federated) querying techniques have not been designed to handle this large scale of data distribution.
@@ -21,10 +21,10 @@ Our experiments show that these new algorithms are able to achieve correct query
 which was not possible before with existing algorithms.
 We also show their limitations with respect to more complex queries.
 <!-- Conclusion   -->
-This works shows that a traversal-based querying method using structural assumptions is effective for querying over decentralized environments,
+This works shows that a traversal-based querying method using structural assumptions can be effective for querying over decentralized environments,
 but that more advances are needed in the area of query planning for LTQP to handle more complex queries.
 <!-- Perspectives -->
-This opens the window towards query-driven decentralized applications,
+This work opens the window towards query-driven decentralized applications,
 in which application developers interact with decentralized environments using declarative queries as if they were a single centralized database.
 
 
@@ -33,7 +33,7 @@ in which application developers interact with decentralized environments using d
 <a href="https://en.wikipedia.org/wiki/Resource_Description_Framework" resource="http://dbpedia.org/resource/Resource_Description_Framework">RDF</a>,
 <a href="https://en.wikipedia.org/wiki/SPARQL" resource="http://dbpedia.org/resource/SPARQL">SPARQL</a>,
 Link Traversal,
-Solid
+<a href="https://solidproject.org/" resource="https://solidproject.org/">Solid</a>
 </span>
 
 <!--<span class="printonly" id="acmreferenceformat">
