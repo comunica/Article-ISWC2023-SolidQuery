@@ -10,8 +10,8 @@ Finally, we list requirements for enabling query execution within the Solid ecos
 
 ### Data Vault
 
-The primary element within the [Solid protocol](cite:cites spec:solidprotocol) is
-the data vault (also known as *data pod*), is a user-owned space in which any kind of data can be stored.
+A primary element within the [Solid protocol](cite:cites spec:solidprotocol) is
+the data vault (also known as *data pod*), which is a user-owned space in which any kind of data can be stored.
 Users can choose where and how their vault is stored,
 by either [hosting it themselves](cite:cites solidcommunityserver),
 or by obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
@@ -24,7 +24,7 @@ using elements of the [Linked Data Platform (LDP) specification](spec:ldp).
 Directories are represented using *LDP Basic Containers*,
 which can contain any number of resources that correspond to RDF or non-RDF documents,
 or other nested basic containers.
-For the rest of this article, we will only consider the processing RDF documents within vaults.
+For the remainder of this article, we will only consider the processing RDF documents within vaults.
 Resources within vaults can be read by sending HTTP GET requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
 If the vault supports this, resources can be modified or created using HTTP PATCH and POST requests.
@@ -33,31 +33,31 @@ If the vault supports this, resources can be modified or created using HTTP PATC
 <figure id="example-ldpcontainer" class="listing">
 ````/code/ldpcontainer.ttl````
 <figcaption markdown="block">
-Example in the Turtle serialization of a LDP container in a Solid data vault containing one file and two directories.
+Example in the Turtle serialization of an LDP container in a Solid data vault containing one file and two directories.
 </figcaption>
 </figure>
 
-Data vaults are meant to contain not only public data, but also private data.
+Data vaults can contain not only public data, but also private data.
 Therefore, users can configure who can access or modify files within their vault in a fine-grained manner
-using techniques such as [ACL](cite:cites spec:wac) and [ACP](spec:acp).
+using techniques such as [ACL](cite:cites spec:wac) and [ACP](cite:cites spec:acp).
 This configuration is usually done by referring to the *WebID* of users,
 which will be elaborated upon in the next section.
 
 ### WebID Profile
 
-Any agent (person or organization) within the Solid ecosystem can establish their identity by a URI, called a WebID.
+Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a *WebID*.
 These agents can authenticate themselves using the [Solid OIDC protocol](cite:cites spec:solidoidc),
-which is required for authorization during reading and writing of resources behind access control.
-The Solid OIDC protocol is fully decentralized, which means that anyone is free to choose or set up their own identity provider.
+which is required for authorization during the reading and writing of resources behind access control.
+The Solid OIDC protocol is fully decentralized, which means that anyone can choose or set up their own identity provider.
 
 According to the [WebID profile specification](cite:cites spec:webidprofile),
 each WebID URI should be dereferenceable, and return a WebID profile document.
 Next to basic information of the agent such as its name and contact details,
-this document should contain several links:
+this document should contain several links to
 
-- Identity provider to authenticate the WebID.
-- Root LDP container of its data vault.
-- Public and private type indexes.
+1. An identity provider to authenticate the WebID,
+2. The root LDP container of its data vault, and
+3. public and private type indexes.
 
 A WebID profile is allowed to be split up into multiple document,
 which are referred to each other using the `rdfs:seeAlso` predicate.
@@ -119,6 +119,7 @@ The query engine MUST be able to discover and follow type index links from the W
 4. **Variability of vault structures**:
 The query engine SHOULD NOT make assumptions about the location of certain data within specific vaults
 without having an explicit and discoverable link path to it, e.g. via LDP storage or type indexes.
+This is important for the interoperability of Solid apps because different apps may store similar data in different locations within vaults.
 
 5. **Authenticated requests**:
 To enable queries over private resources, the agent SHOULD be able to authenticate itself to the query engine using its WebID. The query engine can then use the authenticated session on behalf of the user to perform authorized HTTP requests over private resources.
