@@ -1,7 +1,7 @@
 ## Introduction
 {:#introduction}
 
-Even though the Web has transformed our world to become more interconnected than before,
+Even though the Web has transformed our world to become more interconnected than ever before,
 the Web is becoming increasingly centralized in recent years, contrary to [its original vision](cite:cites webproposal).
 Today, the majority of data on the Web is flowing towards isolated *data silos*,
 which are in the hands of large companies.
@@ -16,7 +16,7 @@ to give people back control over their own data
 by decentralizing data on the Web instead of making use of centralized data silos.
 Initiatives such as [Solid](cite:cites solid) do this by allowing users to store any kind of data in their own personal data vault,
 which are in full control by the users.
-These data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are represented as collections of [Linked Data documents](cite:cites linkeddata).
+These data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are often represented as collections of [Linked Data documents](cite:cites linkeddata).
 The presence of such data vaults results in a massive distribution of data,
 where practical cases such as social networking applications could require accessing thousands or even millions of documents
 across different data vaults across the Web.
@@ -34,13 +34,13 @@ Therefore, these federated querying techniques are currently not suitable for de
 
 [*Link Traversal Query Processing (LTQP)*](cite:cites linktraversal, linktraversalfoundations)
 is an alternative query execution paradigm that is more promising for handling querying over large decentralized environments.
-It is identified by its ability to query over a continuously growing range of documents which are discovered during query execution
+It is identified by its ability to query over a continuously growing range of documents that are discovered during query execution
 by following hyperlinks between Linked Data documents using the [*follow-your-nose* principle](cite:cites linkeddata).
 While LTQP has mainly been a theoretically interesting technique, it has not seen any practical use cases so far.
 
 In this work, we prove that LTQP is not only interesting in theory,
 but that it is an effective paradigm for handling querying execution within large decentralized environments.
-We do this by making use of specific structural properties within decentralized environments
+We do this by exploiting specific structural properties within decentralized environments
 that can be used for more effective source discovery and optimization of query execution.
 We apply our research to the Solid ecosystem,
 but these concepts are generalizable to [other decentralization initiatives](cite:cites mastodon, decentralizednanopubs).
