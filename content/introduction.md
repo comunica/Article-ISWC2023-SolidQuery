@@ -2,10 +2,10 @@
 {:#introduction}
 
 Even though the Web has transformed our world to become more interconnected than ever before,
-the Web is becoming increasingly centralized in recent years, contrary to [its original vision](cite:cites webproposal).
+the Web has become increasingly *centralized* in recent years, contrary to [its original vision](cite:cites webproposal).
 Today, the majority of data on the Web is flowing towards isolated *data silos*,
 which are in the hands of large companies.
-This siloization of data leads to a variety of problems,
+This siloization of data leads to a various problems,
 ranging from issues with cross-silo interoperability and vendor lock-in
 to privacy issues and the fact that data is in control by companies instead of users.
 
@@ -18,7 +18,12 @@ Initiatives such as [Solid](cite:cites solid) do this by allowing users to store
 which are in full control by the users.
 These data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are often represented as collections of [Linked Data documents](cite:cites linkeddata).
 The presence of such data vaults results in a massive distribution of data,
-where practical cases such as social networking applications could require accessing thousands or even millions of documents
+where practical cases such as social networking applications could require accessing
+<span class="placeholder printonly">
+<span style="display: block; height: 9em;"></span>
+<!-- This is a dummy placeholder for the ACM first page footnote -->
+</span>
+thousands or even millions of documents
 across different data vaults across the Web.
 However, these applications can not yet be built today,
 due to the lack of effective query execution techniques that are capable of handling the requirements of decentralized environments such as Solid.
