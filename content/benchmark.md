@@ -251,7 +251,7 @@ The most relevant performance metrics within SolidBench are the following:
 - **Query execution time**: The amount of time (milliseconds) it takes between sending the query to the query engine, and obtaining the final query result.
 - **Query result arrival times**: For each separate query result, the amount of time (milliseconds) between sending the query to the query engine, and obtaining that specific result.
 - **HTTP requests**: For a given query execution, the number of HTTP requests the engine issued during the execution of that query.
-- **Correctness**: A boolean value indicating whether or not the query results conform to the expected query results. (_Can be a percentage when aggregating over multiple queries_)
+- **Correctness**: The percentage of query results conforming to the expected query results.
 
 For measuring query execution and result arrival times,
 a warmup round with all instantiated query templates must take place first.

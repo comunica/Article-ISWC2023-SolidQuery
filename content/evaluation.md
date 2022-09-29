@@ -35,7 +35,7 @@ In this section, we present results that offer insights into the research questi
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
 show the aggregated results for the different combinations of our setup
 for the discover, short, and complex queries of the benchmark, respectively.
-Concretely, each table shows the average ($$\overline{t}$$) and median $$\tilde{t}$$ execution times (ms), the average ($$\overline{t}_1$$) and median $$\tilde{t}_1$$ time until first result (ms), average number of HTTP requests per query $$\overline{req}$$, total number of results ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
+Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
 The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
@@ -73,7 +73,7 @@ Aggregated results for the different combinations across all 8 **discover** quer
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | cnone-base | 80 | 5 | 0 | 0 | 15 | 0.14 | 14.29% | 0 |
-| cmatch-base | 27,429 | 197 | 190 | 64 | 596 | 0.43 | 42.86% | 2 |
+| **cmatch-base** | **27,429** | **197** | **190** | **64** | **596** | **0.43** | **42.86%** | **2** |
 | call-base | 119,280 | 118,717 | 6,008 | 1,305 | 0 | 0.29 | 28.57% | 7 |
 | cnone-idx | 2,023 | 75 | 855 | 861 | 121 | 1.57 | 28.57% | 0 |
 | **cmatch-idx** | **69,039** | **118,412** | **1,095** | **202** | **275** | **0.43** | **42.86%** | **4** |
@@ -101,22 +101,22 @@ Aggregated results for the different combinations across all 7 **short** queries
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | cnone-base | 13,128 | 2 | N/A | N/A | 11 | 0.00 | 0.00% | 1 |
-| cmatch-base | 16,574 | 2 | 3 | 2 | 1,619 | 0.50 | 2.50% | 4 |
+| **cmatch-base** | **16,574** | **2** | **3** | **2** | **1,619** | **0.50** | **2.50%** | **4** |
 | call-base | 39,648 | 0 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
 | cnone-idx | 19,478 | 0 | N/A | N/A | 262 | 0.00 | 0.00% | 4 |
-| **cmatch-idx** | **37,182** | **0** | **N/A** | **N/A** | **71** | **0.00** | **0.00%** | **11** |
+| cmatch-idx | 37,182 | 0 | N/A | N/A | 71 | 0.00 | 0.00% | 11 |
 | call-idx | 39,881 | 0 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
 | cnone-idx-filt | 17,472 | 0 | N/A | N/A | 264 | 0.00 | 0.00% | 4 |
-| **cmatch-idx-filt** | **37,179** | **0** | **N/A** | **N/A** | **71** | **0.00** | **0.00%** | **11** |
+| cmatch-idx-filt | 37,179 | 0 | N/A | N/A | 71 | 0.00 | 0.00% | 11 |
 | call-idx-filt | 40,095 | 0 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
 | cnone-ldp | 18,802 | 0 | N/A | N/A | 344 | 0.00 | 0.00% | 4 |
-| **cmatch-ldp** | **38,911** | **0** | **N/A** | **N/A** | **81** | **0.00** | **0.00%** | **11** |
+| cmatch-ldp | 38,911 | 0 | N/A | N/A | 81 | 0.00 | 0.00% | 11 |
 | call-ldp | 40,056 | 0 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
 | cnone-ldp-idx | 19,656 | 0 | N/A | N/A | 400 | 0.00 | 0.00% | 4 |
-| **cmatch-ldp-idx** | **38,100** | **0** | **N/A** | **N/A** | **87** | **0.00** | **0.00%** | **11** |
+| cmatch-ldp-idx | 38,100 | 0 | N/A | N/A | 87 | 0.00 | 0.00% | 11 |
 | call-ldp-idx | 40,067 | 0 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
 | cnone-ldp-idx-filt | 19,528 | 0 | N/A | N/A | 389 | 0.00 | 0.00% | 5 |
-| **cmatch-ldp-idx-filt** | **37,676** | **0** | **N/A** | **N/A** | **110** | **0.00** | **0.00%** | **11** |
+| cmatch-ldp-idx-filt | 37,676 | 0 | N/A | N/A | 110 | 0.00 | 0.00% | 11 |
 | call-ldp-idx-filt | 40,044 | 0 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
 
 <figcaption markdown="block">
