@@ -15,10 +15,10 @@ and a discussion of our results to answer our research question.
 
 We make use of a full factorial experiment containing the following factors and values:
 
-- **Source selector strategy**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
+- **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
 
-Within the source selectors, the LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
+Within the vault discovery methods, the LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
 the Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
 and the Filtered Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$,
 
@@ -134,13 +134,13 @@ Hence, we consider this last query category too complex for current link travers
 #### Intra-vault and inter-vault data discovery
 
 The results above show that if we desire correct results,
-that the combination of cMatch semantics together at least one of the data vault discovery methods is required.
+that the combination of cMatch semantics together with at least one of the data vault discovery methods is required.
 This combination is needed because our workload contains queries that either target data within a single vault (e.g. D1),
 or data spanning multiple data vaults (e.g. D8).
 While the different data vault discovery methods are able to discover data *within* vaults,
 the reachability of cMatch is required to discover data *across* multiple vaults.
 
-Due to this, cNone (follow no links) is an ineffective replacement for cMatch (follow links matching query),
+Due to this, cNone (follow no links) is an ineffective replacement for cMatch (follow links matching query) even when combined with discovery methods,
 because link traversal across multiple vaults will not take place, which will lead to too few query results.
 Concretely, for discover queries cNone can only achieve a completeness of 74.14% for discover queries and 28.57% for short queries,
 compared to respectively 99.14% and 42.86% for cMatch.
@@ -155,9 +155,10 @@ Our results show that solely using reachability semantics (cMatch or cAll) witho
 where a completeness of only up to 12.50% or 19.38% can be achieved.
 However, when looking at the short queries category, solely using reachability semantics appears to be sufficient,
 with the number of HTTP requests and query execution time even being lower.
-This difference exists because the discover category contains queries that discover data related to a certain person or resource,
+This difference exists because the discover workload contains queries that discover data related to a certain person or resource,
 while the short queries target only details of specific resources. 
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
+The remainder of this discussion only focuses on discover queries, since these achieve the highest level of correctness.
 
 #### Type index and LDP discovery perform similarly
 
@@ -229,7 +230,7 @@ the performance of all approaches can be considered equivalent.
 
 While it may seem obvious to assume that higher query execution times are caused by a higher number of links that need to be dereferenced,
 we observe no significant correlation (*p = 0.76*) of this within the cMatch-based discovery approaches discussed before.
-As such, the main bottleneck in this case appears to be not the number of links to traverse.
+As such, the main bottleneck in this case appears not to be the number of links to traverse.
 Instead, our analysis suggests that the efficiency of the query plan is the primary influencer of query execution times.
 
 To empirically prove this finding, we compare the execution times of our default integrated query execution approach
@@ -264,7 +265,8 @@ The last column indicates the number of HTTP requests per query, which are equal
 </figcaption>
 </figure>
 
-These results show that the two-phase approach is an order of magnitude faster for all queries compared to the integrated approach.
+These results show that the two-phase approach is an order of magnitude faster for all queries compared to the integrated approach,
+even when taking into account time for dereferencing.
 The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization),
 since it has access to an indexed triple store with planning-relevant information such as cardinality estimates.
 Since the integrated approach finds new triples _during_ query execution,
@@ -275,10 +277,10 @@ that makes use of heuristics to plan the query before execution.
 Since the only difference between the implementations of the integrated and two-phase approach is in how they plan the query,
 we can derive the query plan of the integrated approach is very ineffective.
 As such, there is clear need for better query planning during integrated execution,
-and the two-phase approach shows that performance may become an order of magnitude better.
+and the two-phase approach shows that performance could become up to an order of magnitude better.
 
 [Zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) is ineffective in our experiments
-because it has been designed under the assumptions of open Linked Data,
+because it has been designed under the assumptions of Linked Open Data,
 while it does not match with the structural assumptions of specific decentralized environments such as Solid.
 For example, one of the heuristics within this planner deprioritizes triple patterns with vocabulary terms, such as `rdf:type`,
 since they are usually the least selective.
