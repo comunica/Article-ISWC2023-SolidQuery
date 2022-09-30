@@ -29,7 +29,6 @@ These applications cannot effectively be built today
 due to the lack of query execution techniques that are capable of handling the requirements of decentralized environments such as Solid.
 
 The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on centralized use cases,
-<span class="comment" data-author="RV">need consistent capitalization of KG everywhere; I don't mind which one</span>
 where all data is captured in a single or a small number of sources, usually exposed as [SPARQL endpoints](cite:cites spec:sparqlprot).
 Even though [several federated query execution approaches exist](cite:cites fedx, tpf, hibiscus),
 they have been designed for federating over *a few (~10) large sources*,

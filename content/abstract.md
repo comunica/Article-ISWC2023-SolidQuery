@@ -3,7 +3,7 @@
 To counter societal and economic problems caused by data silos on the Web,
 efforts such as Solid strive to reclaim private data by storing it in permissioned documents over a large number of personal vaults across the Web.
 <!-- Need         -->
-Building applications on top of such a decentralized knowledge graph
+Building applications on top of such a decentralized Knowledge Graph
 involves significant technical challenges:
 centralized aggregation prior to query processing is excluded for legal reasons,
 and current federated querying techniques cannot handle this large scale of distribution
