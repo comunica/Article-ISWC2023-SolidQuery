@@ -268,7 +268,7 @@ The last column indicates the number of HTTP requests per query, which are equal
 
 These results show that the two-phase approach is an order of magnitude faster for all queries compared to the integrated approach,
 even when taking into account time for dereferencing.
-The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization),
+The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization, sparqlbgpoptimization),
 since it has access to an indexed triple store with planning-relevant information such as cardinality estimates.
 Since the integrated approach finds new triples _during_ query execution,
 it is unable to use this information for traditional query planning.

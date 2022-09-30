@@ -30,7 +30,7 @@ due to the lack of query execution techniques that are capable of handling the r
 
 The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on centralized use cases,
 where all data is captured in a single or a small number of sources, usually exposed as [SPARQL endpoints](cite:cites spec:sparqlprot).
-Even though [several federated query execution approaches exist](cite:cites fedx, tpf, hibiscus),
+Even though [several federated query execution approaches exist](cite:cites fedx, tpf, hibiscus, splendid),
 they have been designed for federating over *a few (~10) large sources*,
 while decentralized environments such as Solid are identified by *a large number (~millions) of small sources*.
 Furthermore, many federated query execution techniques assume all sources to be known prior to query execution,

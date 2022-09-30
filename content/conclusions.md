@@ -40,9 +40,11 @@ While we only made us of this index for explicit `rdf:type` occurrences in the q
 this could be extended to also consider implicit type knowledge via [inferencing](cite:cites rif).
 Furthermore, [query containment techniques](cite:cites sparqlquerycontainment) could be investigated for determining which parts of the query match with index entries,
 which could also lead to better a combination of type index and LDP-based discovery.
-On the other hand, alternatives to the type index could offer more expressivity.
+On the other hand, alternatives to the type index could offer more expressivity,
+such as [characteristics sets](cite:cites characteristicssets) and [other summarization techniques](cite:cites comparingsummaries).
 For example, the [Shape Trees](cite:cites spec:shapetrees) specification offers a similar index for Solid vaults,
-but instead makes use of nested [ShEx](cite:cites spec:shex) shape definitions for expressing data locations.
+but instead makes use of nested [ShEx](cite:cites spec:shex) shape definitions for expressing data locations,
+which could be used for both data discovery and [query optimization](cite:cites shapestats).
 Next to that, the incorporation of more expressive [Linked Data Fragments interfaces](cite:cites ldf, smartkg, sage, wisekg, spf, brtpf) in certain Solid vaults
 could introduce interesting trade-offs in terms of server and client query execution effort.
 However, since different vaults could expose different types of interfaces,
