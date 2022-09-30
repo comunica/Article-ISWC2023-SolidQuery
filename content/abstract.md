@@ -1,7 +1,7 @@
 ## Abstract
 <!-- Context      -->
 To counter societal and economic problems caused by data silos on the Web,
-efforts such as Solid strive to reclaim private data by storing it in permissioned documents across a large number of personal vaults across the Web.
+efforts such as Solid strive to reclaim private data by storing it in permissioned documents over a large number of personal vaults across the Web.
 <!-- Need         -->
 Building applications on top of such a decentralized knowledge graph
 involves significant technical challenges:
@@ -21,7 +21,7 @@ and evaluate their effectiveness.
 <!-- Findings     -->
 Our experiments indicate that these new algorithms obtain complete query results in the order of seconds,
 which existing algorithms cannot achieve.
-We discuss limitations with respect to more complex queries.
+Furthermore, we discuss limitations with respect to more complex queries.
 <!-- Conclusion   -->
 This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization,
 but that advances are needed in the area of query planning for LTQP to handle more complex queries.
@@ -32,6 +32,7 @@ in which declarative queries shield developers from the inherent complexity of a
 
 <span id="keywords" rel="schema:about"><span class="title">Keywords</span>
 <a href="https://en.wikipedia.org/wiki/Linked_Data" resource="http://dbpedia.org/resource/Linked_Data">Linked Data</a>,
+<a href="https://en.wikipedia.org/wiki/Decentralization" resource="http://dbpedia.org/resource/Decentralization">Decentralization</a>,
 <a href="https://en.wikipedia.org/wiki/Resource_Description_Framework" resource="http://dbpedia.org/resource/Resource_Description_Framework">RDF</a>,
 <a href="https://en.wikipedia.org/wiki/SPARQL" resource="http://dbpedia.org/resource/SPARQL">SPARQL</a>,
 Link Traversal,
