@@ -33,6 +33,23 @@ Aggregated results for the different combinations across all 12 **complex** quer
 </figcaption>
 </figure>
 
+### Winning Combinations for Discover Queries
+
+[](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
+
+<figure id="results-queries-cmatch-wins" class="table" markdown="1" class="table-smaller-font">
+
+|  | idx | idx-filt | ldp | ldp-idx | ldp-idx-filt |
+| --- | ---: | ---: | ---: | ---: | ---: |
+| Wins | 10 | 15 | 5 | 5 | 0 |
+
+<figcaption markdown="block">
+The number of queries each approach achieves the lowest query execution time for across all **cMatch-based** approaches over all 8 **discover** queries with 5 instantiations.
+A win for a certain approach is only considered if the results are correct for this query.
+Five queries are missing due to no approaches achieving correct results.
+</figcaption>
+</figure>
+
 ### Diefficiency Plots
 
 [](#figure-querytimes_d1-3) and [](#figure-querytimes_d2-3) show the query result arrival times for D1 and D2 respectively

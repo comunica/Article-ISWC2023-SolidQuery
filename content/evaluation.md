@@ -143,7 +143,6 @@ for the different combinations of data vault discovery approaches.
 To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
 The [appendix](#appendix-evaluation) contains more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
 Furthermore, [](#figure-queries_indexvsstorage_http) shows the average number of HTTP requests for each of those discover queries.
-Finally, [](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
 
 <figure id="figure-queries_indexvsstorage_time_relative">
 <img src="img/experiments/queries_indexvsstorage_time_relative.svg" alt="Relative execution times of discover queries for index versus storage">
@@ -158,19 +157,6 @@ The star marker indicates the average time until first result.
 <img src="img/experiments/queries_indexvsstorage_http.svg" alt="HTTP requests of discover queries for index versus storage">
 <figcaption markdown="block">
 Average number of HTTP requests for all discover queries with different combinations of data vault discovery with cMatch.
-</figcaption>
-</figure>
-
-<figure id="results-queries-cmatch-wins" class="table" markdown="1" class="table-smaller-font">
-
-|  | idx | idx-filt | ldp | ldp-idx | ldp-idx-filt |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Wins | 10 | 15 | 5 | 5 | 0 |
-
-<figcaption markdown="block">
-The number of queries each approach achieves the lowest query execution time for across all **cMatch-based** approaches over all 8 **discover** queries with 5 instantiations.
-A win for a certain approach is only considered if the results are correct for this query.
-Five queries are missing due to no approaches achieving correct results.
 </figcaption>
 </figure>
 
