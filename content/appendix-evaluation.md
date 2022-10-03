@@ -5,7 +5,7 @@
 
 [](#results-queries-complex) shows the aggregated query results for all complex queries.
 
-<figure id="results-queries-complex" class="table" markdown="1" class="table-smaller-font">
+<figure id="results-queries-complex" markdown="1" class="table table-smaller-font">
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -37,7 +37,7 @@ Aggregated results for the different combinations across all 12 **complex** quer
 
 [](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
 
-<figure id="results-queries-cmatch-wins" class="table" markdown="1" class="table-smaller-font">
+<figure id="results-queries-cmatch-wins" markdown="1" class="table table-smaller-font">
 
 |  | idx | idx-filt | ldp | ldp-idx | ldp-idx-filt |
 | --- | ---: | ---: | ---: | ---: | ---: |

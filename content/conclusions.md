@@ -30,7 +30,7 @@ Since LTQP leads to data being discovered during query execution,
 [adaptive query planning](cite:cites adaptive_book) techniques are highly promising.
 So far, these techniques have only seem limited adoption within [LTQP](cite:cites linktraversaloptimization)
 and [SPARQL query processing](cite:cites sparql_adaptive_anapsid, sparql_adaptive_ldeddies, sparql_adaptive_robust).
-For example, we see many opportunities in decomposing parts of the query plan upon discovery of Solid type index entries,
+For example, we see many opportunities in decomposing parts of the query plan over Solid type index entries upon index discovery,
 which requires a type index-aware adaptive query plan optimizer.
 
 Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance.

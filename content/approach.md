@@ -1,7 +1,7 @@
 ## Approach
 {:#approach}
 
-In this section, we introduce techniques for handling the structural properties discussed in [](#solid).
+In this section, we introduce techniques for handling Solid's structural properties discussed in [](#solid).
 Our goal is not to introduce additional components or structural properties to the Solid ecosystem,
 but instead, we use what the Solid ecosystem provides today,
 and investigate how to query over this as performant as possible.
@@ -118,7 +118,7 @@ then we only consider triples with the document URI + `#me` as subject.
 
 #### Formal description
 
-We can formalize our discovery approach for the roots of data vaults as the following source selector starting from a given WebID with URI $$i$$
+We can formalize our discovery approach for the roots of data vaults as a following source selector starting from a given WebID with URI $$i$$
 as $$\sigma_{\text{SolidVault}}(W) = \{ o \mid \langle i \text{ pim:storage } o \rangle \in data(adoc(i))\}$$.
 Disjunctively coupled with this,
 we can formalize a source selector that can recursively traverse an LDP container as
@@ -176,7 +176,7 @@ $$
 \end{array}
 $$
 
-Since the `solid:instanceContainer` links to LDP containers,
+Since `solid:instanceContainer` links to LDP containers,
 $$\sigma_{\text{SolidTypeIndex}}$$ should be disjunctively combined with $$\sigma_{\text{LdpContainer}}$$.
 
 In this formalization, we consider $$\phi(B, c)$$ a filtering predicate function for determining which classes are considered within the type index.
@@ -241,7 +241,7 @@ Furthermore, our implementation supports users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
 This fallback finds all URIs within the query, and adds them as seed URIs to the link queue.
 
-Hence, this implementation meets the requirements for a query engine that can query over one or more Solid data vaults, as discussed in [](#solid).
+Hence, this implementation meets the requirements of a query engine that can query over one or more Solid data vaults, as discussed in [](#solid).
 This also includes the ability to perform authenticated requires to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we run enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.

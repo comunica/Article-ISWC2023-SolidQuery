@@ -20,11 +20,11 @@ where applications must request explicit access to the user for interacting with
 This loose coupling enables different applications to use the same data interoperably.
 
 Currently, data vaults are primarily file-based, and are exposed on the Web as a REST API
-using elements of the [Linked Data Platform (LDP) specification](spec:ldp).
+using elements of the [Linked Data Platform (LDP) specification](cite:cites spec:ldp).
 Directories are represented using *LDP Basic Containers*,
-which can contain any number of resources that correspond to RDF or non-RDF documents,
+which can contain any number of resources that correspond to RDF or non-RDF documents (via `ldp:contains` links),
 or other nested basic containers.
-For the remainder of this article, we will only consider the processing RDF documents within vaults.
+For the remainder of this article, we will only consider the processing of RDF documents within vaults.
 Resources within vaults can be read by sending HTTP GET requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
 If the vault supports this, resources can be modified or created using HTTP PATCH and POST requests.
@@ -45,10 +45,10 @@ which is required for authorizing access during the reading and writing of resou
 According to the [WebID profile specification](cite:cites spec:webidprofile),
 each WebID URI should be dereferenceable, and return a WebID profile document.
 Next to basic information of the agent such as its name and contact details,
-this document should contain links to 1) the root LDP container of its data vault, and
+this document should contain links to 1) the root LDP container of its data vault (via `pim:storage`), and
 2) public and private type indexes.
 An example is shown in [appendix](#appendix-listings).
-We omit further details on WebID profiles due to their irrelevance within this work.
+We omit further WebID details due to their irrelevance within this work.
 
 ### Type Index
 
@@ -74,7 +74,7 @@ Below, we list the requirements that query agents need to have for enabling quer
 Convert a query into a sequence of HTTP requests across data vaults.
 
 2. **Discovery and usage of LDP storage**:
-Discover and follow the `pim:storage` link in a WebID profile to the storage root of the vault,
+Discover and follow the link in a WebID profile to the storage root of the vault,
 identify an LDP basic container, and follow (a subset of) links towards the resources within this container.
 
 3. **Discovery and usage of type indexes**:

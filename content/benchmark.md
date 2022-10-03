@@ -42,7 +42,7 @@ To avoid reinventing the wheel, we build upon the well-established [Social Netwo
 which models a social network akin to Facebook, and meets most of the requirements of our desired use case scenario.
 
 However, since SNB was designed to evaluate the performance of centralized query engine,
-its dataset generator outputs its dataset in a single large file, e.g. serialized as RDF Turtle.
+its dataset generator outputs a dataset in a single large file, e.g. serialized as RDF Turtle.
 Since our aim is to simulate a decentralized social network,
 we introduce a fragmentation layer on top of this generator.
 This fragmenter is able to take in any dataset as input,
@@ -52,7 +52,7 @@ To simplify evaluation and testing,
 we also provide a built-in Web server that can serve the generated data vaults over HTTP using a single command,
 which is done using a slimmed-down version of the [Community Solid Server](cite:cites solidcommunityserver).
 This server disables authentication and authorization by default,
-so evaluations can focus on query performance.
+so experiments can focus on query performance.
 
 For the query workload, we build upon the *interactive* workload of SNB,
 and extend it with additional queries to cover link-related choke points.
@@ -150,7 +150,7 @@ We consider other SNB workloads (such as the business intelligence workload) out
 since these perform dataset analytics, which requires access to the whole dataset,
 which is not feasible in decentralization environments such as Solid where data can reside behind access control.
 Furthermore, we also focus solely on the class of read-only queries due to the scope of this article,
-but our approach can easily be extended towards write queries.
+but our approach can be extended towards write queries.
 
 The SNB interactive workload consists of two classes of query templates: *short* and *complex* read queries.
 Since these queries cover the choke points related to linking structures only partially,

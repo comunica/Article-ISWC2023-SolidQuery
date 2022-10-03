@@ -35,7 +35,7 @@ Each query template in the benchmark was instantiated five times, which resulted
 
 ### Experimental Results
 
-<figure id="results-queries-discover" class="table" markdown="1" class="table-smaller-font">
+<figure id="results-queries-discover" markdown="1" class="table table-smaller-font">
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -63,7 +63,7 @@ Aggregated results for the different combinations across all 8 **discover** quer
 </figcaption>
 </figure>
 
-<figure id="results-queries-short" class="table" markdown="1" class="table-smaller-font">
+<figure id="results-queries-short" markdown="1" class="table table-smaller-font">
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
@@ -126,10 +126,10 @@ leading to a lower number of HTTP requests and lower query execution times.
 
 Since cAll leads to all links being followed, including those followed by cMatch,
 it is theoretically a sufficient replacement for cMatch.
-However, our results show that too many links are being followed, which leads to timeouts for nearly all queries.
+However, our results show that too many links are being followed with cAll, which leads to timeouts for nearly all queries.
 
 Our results show that solely using reachability semantics (cMatch or cAll) without a data discovery method is insufficient for discover queries,
-where a completeness of only up to 12.50% or 19.38% can be achieved.
+where a completeness of only up to 12.50% or 19.38% can be achieved for discover queries.
 However, when looking at the short queries category, solely using reachability semantics appears to be sufficient,
 with the number of HTTP requests and query execution time even being lower.
 This difference exists because the discover workload contains queries that discover data related to a certain person or resource,
@@ -176,7 +176,7 @@ This is because those queries target a possibly empty subset of the type index e
 which means that a significant range of links can be pruned out,
 which leads to a major reduction in the number of HTTP requests,
 which is a main bottleneck in link traversal.
-However, for two queries (D4, D5), the filter-enabled becomes slower than the non-filtered type index approach.
+However, for two queries (D4, D5), the filter-enabled approach becomes slower than the non-filtered type index approach.
 This is because those queries perform relatively fast across all approaches,
 while the processing overhead of type index filtering becomes too high compared to its potential benefit.
 Statistically, this difference has no significance in terms of execution time (*p = 0.81*) and number of HTTP requests (*p = 0.68*).
@@ -224,7 +224,7 @@ The results of this experiment are shown in [](#results-planning-effectiveness).
 | D8 | 4,739.88 | 2,292.81 | 217 |
 
 <figcaption markdown="block">
-Integrated and two-phase query execution times of discover queries, with number of HTTP requests per query.
+Integrated and two-phase execution times (ms) of discover queries, with number of HTTP requests per query.
 </figcaption>
 </figure>
 
