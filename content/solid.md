@@ -17,7 +17,7 @@ by either [hosting it themselves](cite:cites solidcommunityserver),
 or by obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
 Data vaults are loosely coupled to applications,
 where applications must request explicit access to the user for interacting with specific data.
-This loose coupling enables different applications to make use of the same data in an interoperable manner.
+This loose coupling enables different applications to use the same data interoperably.
 
 Currently, data vaults are primarily file-based, and are exposed on the Web as a REST API
 using elements of the [Linked Data Platform (LDP) specification](spec:ldp).
@@ -33,12 +33,12 @@ If the vault supports this, resources can be modified or created using HTTP PATC
 <figure id="example-ldpcontainer" class="listing">
 ````/code/ldpcontainer.ttl````
 <figcaption markdown="block">
-Example in the Turtle serialization of an LDP container in a Solid data vault containing one file and two directories.
+An LDP container in a Solid data vault containing one file and two directories in the Turtle serialization.
 </figcaption>
 </figure>
 
 Data vaults can contain not only public data, but also private data.
-Therefore, users can configure who can access or modify files within their vault in a fine-grained manner
+Therefore, users can configure who can access or modify files within their vault
 using techniques such as [ACL](cite:cites spec:wac) and [ACP](cite:cites spec:acp).
 This configuration is usually done by referring to the *WebID* of users,
 which will be elaborated upon in the next section.
@@ -46,29 +46,21 @@ which will be elaborated upon in the next section.
 ### WebID Profile
 
 Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a *WebID*.
-These agents can authenticate themselves using the [Solid OIDC protocol](cite:cites spec:solidoidc),
-which is required for authorization during the reading and writing of resources behind access control.
-The Solid OIDC protocol is fully decentralized, which means that anyone can choose or set up their own identity provider.
+These agents can authenticate themselves using the decentralized [Solid OIDC protocol](cite:cites spec:solidoidc),
+which is required for authorizing access during the reading and writing of resources.
 
 According to the [WebID profile specification](cite:cites spec:webidprofile),
 each WebID URI should be dereferenceable, and return a WebID profile document.
 Next to basic information of the agent such as its name and contact details,
-this document should contain several links to
-
-1. An identity provider to authenticate the WebID,
-2. The root LDP container of its data vault, and
-3. public and private type indexes.
-
-A WebID profile is allowed to be split up into multiple document,
-which are referred to each other using the `rdfs:seeAlso` predicate.
-There are more WebID profiles elements, but we omit these due to their irrelevance in this work,
-such as the link to the preferences file and notifications inbox.
-[](#example-webidprofile) contains a simplified example of such a WebID profile.
+this document should contain links to 1) the root LDP container of its data vault, and
+2) public and private type indexes.
+An example is shown in [](#example-webidprofile).
+We omit further details on WebID profiles due to their irrelevance within this work.
 
 <figure id="example-webidprofile" class="listing">
 ````/code/webidprofile.ttl````
 <figcaption markdown="block">
-Simplified example of a WebID profile in the Turtle serialization.
+A simplified WebID profile in Turtle.
 </figcaption>
 </figure>
 
@@ -94,36 +86,36 @@ Example of a type index with entries for posts and comments in the Turtle serial
 ### Requirements for query engines
 
 Instead of requiring all application developers to reinvent the wheel by manually discovering application-relevant elements within data vaults,
-this can be abstracted away behind declarative queries that are to be executed by reusable query engines.
+this can be abstracted away behind declarative queries.
 This also makes applications robust against changes or additions within the Solid protocol,
 where this only requires changes within the underlying query engine,
 as the application's declarative query can remain unchanged.
-As such, for the remainder of this article, we consider query engines taking up the task of finding data within and across data vaults.
+As such, we consider query engines for finding data within and across data vaults.
 
 The [Solid protocol](cite:cites spec:solidprotocol) only establishes a minimal set of ground-rules to make data vaults and applications interoperable.
-Below, we list the requirements that query agents have if they want to provide query execution over one or more data vaults.
+Below, we list the requirements that query agents need to have for enabling query execution over data vaults.
 
 1. **Mapping query to a sequence of HTTP requests**:
-The query engine MUST have the ability to convert a declarative query into a sequence of one or more HTTP requests within or across data vaults.
+Convert a query into a sequence of HTTP requests across data vaults.
 
 2. **Discovery and usage of LDP storage**:
-When given a link to a WebID profile, the query engine MUST be able discover and follow the `pim:storage` link to the storage root of the vault.
-Additionally, the query engine MUST be able to identify an LDP basic container, and follow (a subset of) links towards the resources within this container.
+Discover and follow the `pim:storage` link in a WebID profile to the storage root of the vault,
+identify an LDP basic container, and follow (a subset of) links towards the resources within this container.
 
 3. **Discovery and usage of type indexes**:
-The query engine MUST be able to discover and follow type index links from the WebID profile, and handle (a subset of) the type registration links.
+Discover and follow type index links from the WebID profile, and handle (a subset of) the type registration links.
 
 4. **Variability of vault structures**:
-The query engine SHOULD NOT make assumptions about the location of certain data within specific vaults
-without having an explicit and discoverable link path to it, e.g. via LDP storage or type indexes.
+Make no assumptions about the location of certain data within vaults
+without an explicit and discoverable link path to it, e.g. via LDP storage or type indexes.
 This is important for the interoperability of Solid apps because different apps or user preferences
 may lead to the storage of similar data in different locations within vaults.
 
 5. **Authenticated requests**:
-To enable queries over private resources, the agent SHOULD be able to authenticate itself to the query engine using its WebID. The query engine can then use the authenticated session on behalf of the user to perform authorized HTTP requests over private resources.
+Perform authenticated HTTP requests on behalf of the user after authentication with a WebID, to enable querying over private resources.
 
 While these requirements apply to both read and write queries,
 we will focus on read-only queries for the remainder of this article.
 Furthermore, given the Linked Data nature of Solid,
 we will focus on queries using the [SPARQL query language](cite:cites spec:sparqllang) for the remainder of this article.
-Nevertheless, these concepts can also be applied to write queries and other query languages.
+Nevertheless, these concepts can also be applied to write-queries and other query languages.
