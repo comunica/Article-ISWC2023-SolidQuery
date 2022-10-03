@@ -12,7 +12,7 @@ and a discussion of our results to answer our research question.
 
 <span class="placeholder printonly">
 <span style="display: block; height: 3em;"></span>
-<!-- This is a dummy placeholder for the ACM first page footnote -->
+<!-- This is a dummy placeholder -->
 </span>
 
 ### Experimental Design
