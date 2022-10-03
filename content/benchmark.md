@@ -63,8 +63,8 @@ Since we focus on read-only queries in this work, we do not consider the write q
 
 All aspects of this benchmark are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
 ranging from fragmentation strategies to properties of query templates.
-Furthermore, we incorporate our benchmark into an existing benchmark runner (*name omitted due to double-blind review process*),
-which enables convenient creation and execution of this benchmark.
+Furthermore, our benchmark is included in an existing benchmark runner (*name omitted due to double-blind review process*),
+which simplifies its execution.
 
 By default, SolidBench sets the scale factor of the SNB generator to 0.1,
 which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.

@@ -3,12 +3,17 @@
 
 In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties"_.
 Within this work, we apply this to the structural properties of the decentralized environment provided by Solid,
-but findings may be generalizable.
+but findings may be generalizable to other decentralized environments.
 We provide an answer to this research question by simulating Solid data vaults using the benchmark introduced in [](#benchmark) using the default configuration,
 and evaluating different approaches based on the implementation discussed in [](#approach).
 We first introduce the design of our experiment,
-followed by its results,
+followed by presenting our experimental results,
 and a discussion of our results to answer our research question.
+
+<span class="placeholder printonly">
+<span style="display: block; height: 3em;"></span>
+<!-- This is a dummy placeholder for the ACM first page footnote -->
+</span>
 
 ### Experimental Design
 
@@ -24,21 +29,11 @@ and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\t
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 To foster reproducibility,
-the experimental setup, raw results, and processing scripts are open-source on [https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/](https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/).
+the experimental setup, raw results, and processing scripts are available as open-source on [https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/](https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/).
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries, 35 short queries, and 60 complex queries.
 
 ### Experimental Results
-
-In this section, we present results that offer insights into our research question.
-[](#results-queries-discover) and [](#results-queries-short)
-show the aggregated results for the different combinations of our setup
-for the discover and short queries of the benchmark, respectively.
-Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
-Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
-The number of HTTP requests is counted across all query executions that did not time out within each combination.
-The timeout column represents the number of query templates that lead to a timeout for a given combination.
-The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
 <figure id="results-queries-discover" class="table" markdown="1" class="table-smaller-font">
 
@@ -95,6 +90,16 @@ Aggregated results for the different combinations across all 8 **discover** quer
 Aggregated results for the different combinations across all 7 **short** queries.
 </figcaption>
 </figure>
+
+In this section, we present results that offer insights into our research question.
+[](#results-queries-discover) and [](#results-queries-short)
+show the aggregated results for the different combinations of our setup
+for the discover and short queries of the benchmark, respectively.
+Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
+Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
+The number of HTTP requests is counted across all query executions that did not time out within each combination.
+The timeout column represents the number of query templates that lead to a timeout for a given combination.
+The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
 These results show that there are combinations of approaches that achieve a very high level of correctness for discover queries,
 and an average level of correctness for short queries.
