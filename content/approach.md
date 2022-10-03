@@ -58,6 +58,15 @@ which is [the most popular among LTQP implementations](cite:cites squin, sihjoin
 We consider the execution plan as a [pipeline](cite:cites pipelining) of iterator-based physical operators,
 through which intermediary results flow through chained operators to produce results in a pull-based manner.
 
+<figure id="figure-link-queue">
+<img src="img/link-queue.svg" alt="Link queue">
+<figcaption markdown="block">
+Link queue, dereferencer and link extractors feeding triples into a triple source,
+producing a stream of triples to tuple-producing operators
+in a pipelined query execution.
+</figcaption>
+</figure>
+
 Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalsparql),
 we follow a [link queue-based approach](cite:cites linktraversaloptimization).
 The architecture of this approach is visualized in [](#figure-link-queue).
@@ -71,15 +80,6 @@ This link queue is initialized with a set of seed URIs,
 and the dereferencer continuously dereferences the URIs in the queue until it is empty.
 Since the link extractors are invoked after every dereference operation,
 this queue may virtually become infinitely long.
-
-<figure id="figure-link-queue">
-<img src="img/link-queue.svg" alt="Link queue">
-<figcaption markdown="block">
-Link queue, dereferencer and link extractors feeding triples into a triple source,
-producing a stream of triples to tuple-producing operators
-in a pipelined query execution.
-</figcaption>
-</figure>
 
 This link queue and link extractor approach is generic enough to implement
 [other methods](cite:cites linktraversalsparql, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)

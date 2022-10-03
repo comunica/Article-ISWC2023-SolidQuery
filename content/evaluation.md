@@ -30,6 +30,16 @@ Each query template in the benchmark was instantiated five times, which resulted
 
 ### Experimental Results
 
+In this section, we present results that offer insights into our research question.
+[](#results-queries-discover) and [](#results-queries-short)
+show the aggregated results for the different combinations of our setup
+for the discover and short queries of the benchmark, respectively.
+Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
+Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
+The number of HTTP requests is counted across all query executions that did not time out within each combination.
+The timeout column represents the number of query templates that lead to a timeout for a given combination.
+The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
+
 <figure id="results-queries-discover" class="table" markdown="1" class="table-smaller-font">
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
@@ -85,16 +95,6 @@ Aggregated results for the different combinations across all 8 **discover** quer
 Aggregated results for the different combinations across all 7 **short** queries.
 </figcaption>
 </figure>
-
-In this section, we present results that offer insights into our research question.
-[](#results-queries-discover) and [](#results-queries-short)
-show the aggregated results for the different combinations of our setup
-for the discover and short queries of the benchmark, respectively.
-Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
-Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
-The number of HTTP requests is counted across all query executions that did not time out within each combination.
-The timeout column represents the number of query templates that lead to a timeout for a given combination.
-The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
 These results show that there are combinations of approaches that achieve a very high level of correctness for discover queries,
 and an average level of correctness for short queries.
