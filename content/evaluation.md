@@ -6,9 +6,8 @@ Within this work, we apply this to the structural properties of the decentralize
 but findings may be generalizable.
 We provide an answer to this research question by simulating Solid data vaults using the benchmark introduced in [](#benchmark) using the default configuration,
 and evaluating different approaches based on the implementation discussed in [](#approach).
-
 We first introduce the design of our experiment,
-followed by the results of these experiments,
+followed by its results,
 and a discussion of our results to answer our research question.
 
 ### Experimental Design
@@ -18,28 +17,18 @@ We make use of a full factorial experiment containing the following factors and 
 - **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
 
-Within the vault discovery methods, the LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
-the Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
-and the Filtered Type Index corresponds to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$,
+The LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
+the Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
+and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$,
 
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 To foster reproducibility,
-the experimental setup, raw results, and scripts to process them are available as open-source on [https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/](https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/).
+the experimental setup, raw results, and processing scripts are open-source on [https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/](https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/).
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries, 35 short queries, and 60 complex queries.
 
 ### Experimental Results
-
-In this section, we present results that offer insights into the research question.
-[](#results-queries-discover) and [](#results-queries-short).
-show the aggregated results for the different combinations of our setup
-for the discover and short queries of the benchmark, respectively.
-Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
-Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
-The number of HTTP requests is counted across all query executions that did not time out within each combination.
-The timeout column represents the number of query templates that lead to a timeout for a given combination.
-The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
 
 <figure id="results-queries-discover" class="table" markdown="1" class="table-smaller-font">
 
@@ -97,6 +86,16 @@ Aggregated results for the different combinations across all 7 **short** queries
 </figcaption>
 </figure>
 
+In this section, we present results that offer insights into our research question.
+[](#results-queries-discover) and [](#results-queries-short)
+show the aggregated results for the different combinations of our setup
+for the discover and short queries of the benchmark, respectively.
+Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
+Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
+The number of HTTP requests is counted across all query executions that did not time out within each combination.
+The timeout column represents the number of query templates that lead to a timeout for a given combination.
+The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
+
 These results show that there are combinations of approaches that achieve a very high level of correctness for discover queries,
 and an average level of correctness for short queries.
 However, for complex queries, none of the combinations achieve an acceptable level of correctness.
@@ -122,7 +121,7 @@ leading to a lower number of HTTP requests and lower query execution times.
 
 Since cAll leads to all links being followed, including those followed by cMatch,
 it is theoretically a sufficient replacement for cMatch.
-However, our results show that the number of links that are being followed becomes too high, which leads to timeouts for nearly all queries.
+However, our results show that too many links are being followed, which leads to timeouts for nearly all queries.
 
 Our results show that solely using reachability semantics (cMatch or cAll) without a data discovery method is insufficient for discover queries,
 where a completeness of only up to 12.50% or 19.38% can be achieved.
@@ -147,23 +146,24 @@ Furthermore, [](#figure-queries_indexvsstorage_http) shows the average number of
 <figure id="figure-queries_indexvsstorage_time_relative">
 <img src="img/experiments/queries_indexvsstorage_time_relative.svg" alt="Relative execution times of discover queries for index versus storage">
 <figcaption markdown="block">
-Relative query execution times for all discover queries with different combinations of data vault discovery with cMatch.
-The bar indicates the average execution times, while the whiskers indicate the maximum and minimum execution times.
-The star marker indicates the average time until first result.
+Relative execution times for discover queries with different discovery methods under cMatch.
+Bars indicate average execution time,
+whiskers indicate the maxima and minima,
+and stars indicate average time until first result.
 </figcaption>
 </figure>
 
 <figure id="figure-queries_indexvsstorage_http">
 <img src="img/experiments/queries_indexvsstorage_http.svg" alt="HTTP requests of discover queries for index versus storage">
 <figcaption markdown="block">
-Average number of HTTP requests for all discover queries with different combinations of data vault discovery with cMatch.
+Average number of HTTP requests for discover queries with different discovery methods under cMatch.
 </figcaption>
 </figure>
 
 While [](#figure-queries_indexvsstorage_time_relative) shows that for six queries (D1, D2, D5, D6, D7, D8)
 using just the type index is slightly faster or comparable to just LDP-based discovery,
 this difference has no statistical significance (*p = 0.55*).
-However, [](#figure-queries_indexvsstorage_http) shows that the number of HTTP requests with the type index is always slightly lower than LDP-based discovery,
+However, [](#figure-queries_indexvsstorage_http) shows that the number of HTTP requests with the type index is always slightly lower than via LDP,
 but this only has a very weak statistical significance (*p = 0.12*).
 
 When the filter-enabled type index approach is used, three queries (D1, D3, D8) are made even faster compared to the non-filtered type index approach.
@@ -177,10 +177,11 @@ while the processing overhead of type index filtering becomes too high compared 
 Statistically, this difference has no significance in terms of execution time (*p = 0.81*) and number of HTTP requests (*p = 0.68*).
 
 These results show that using the type index together with LDP-based discovery is not beneficial in general,
-which is primarily caused by the statistically significantly higher number of HTTP requests (*p = 0.03*) caused by traversing both the type index and nested LDP containers.
-Query D8 that has a result limit of 10 does however show that this combination deserves further investigation,
-because this query leads to a prioritization of selective links via the type index,
-which allows the query to terminate earlier with fewer HTTP requests.
+which is primarily caused by the statistically significantly higher number of HTTP requests (*p = 0.03*)
+required for traversing both the type index and nested LDP containers.
+Query D8 does however show that this combination deserves further investigation,
+because this query has a result limit that leads to a prioritization of links via the type index,
+leading to earlier query termination with fewer requests.
 
 In general, these results hint that the filtered type index approach performs better than the other approaches.
 However, due to the minimal difference in terms of execution time,
@@ -191,9 +192,9 @@ the performance of all approaches can be considered equivalent.
 While it may seem obvious to assume that higher query execution times are caused by a higher number of links that need to be dereferenced,
 we observe no significant correlation (*p = 0.76*) of this within the cMatch-based discovery approaches discussed before.
 As such, the main bottleneck in this case appears not to be the number of links to traverse.
-Instead, our analysis suggests that the efficiency of the query plan is the primary influencer of query execution times.
+Instead, our analysis suggests that query plan efficiency is the primary influencer of execution times.
 
-To empirically prove this finding, we compare the execution times of our default integrated query execution approach
+To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMath with filtered type index discovery)
 with a two-phase query execution approach that we implemented in the same query engine.
 Instead of following links during query execution as in the integrated approach,
 the two-phase approach first follows links to index all discovered triples,
@@ -206,22 +207,19 @@ The results of this experiment are shown in [](#results-planning-effectiveness).
 
 <figure id="results-planning-effectiveness" class="table" markdown="1">
 
-| Query | Integrated | Two-phase | Dereferencing | HTTP Requests |
-| --- | --: | --: | --: | --: |
-| D1 | 5,826.83 | 451.42 | 88.73% | 222 |
-| D2 | 6,043.50 | 646.77 | 61.80% | 223 |
-| D3 | 7,490.17 | 1,118.69 | 83.53% | 428 |
-| D4 | 5,734.25 | 509.56 | 81.67% | 228 |
-| D5 | 1,499.62 | 365.76 | 79.89% | 222 |
-| D6 | 2,360.60 | 310.79 | 56.07% | 121 |
-| D7 | 3,226.30 | 316.05 | 64.52% | 121 |
-| D8 | 4,739.88 | 2,292.81 | 92.51% | 217 |
+| Query | Integrated | Two-phase | HTTP Requests |
+| --- | --: | --: | --: |
+| D1 | 5,826.83 | 451.42 | 222 |
+| D2 | 6,043.50 | 646.77 | 223 |
+| D3 | 7,490.17 | 1,118.69 | 428 |
+| D4 | 5,734.25 | 509.56 | 228 |
+| D5 | 1,499.62 | 365.76 | 222 |
+| D6 | 2,360.60 | 310.79 | 121 |
+| D7 | 3,226.30 | 316.05 | 121 |
+| D8 | 4,739.88 | 2,292.81 | 217 |
 
 <figcaption markdown="block">
-The query execution times of all 8 **discover** queries for both the standard integrated approach using cMatch and filtered type index-based discovery,
-and the two-phase approach that uses an oracle to determine query-relevant links.
-The _Dereferencing_ column indicates the percentage of time the two-phase approach spent on dereferencing all HTTP requests.
-The last column indicates the number of HTTP requests per query, which are equal for the integrated and two-phase approaches.
+Integrated and two-phase query execution times of discover queries, with number of HTTP requests per query.
 </figcaption>
 </figure>
 
@@ -246,7 +244,7 @@ For example, one of the heuristics within this planner deprioritizes triple patt
 since they are usually the least selective.
 However, when a Solid type index is present, such vocabulary terms may instead become _very selective_,
 which means that those would benefit from prioritization.
-As such, there is a need for alternative query planners that take into account the structural assumptions within specific decentralized environments.
+As such, there is a need for alternative query planners that consider the structural assumptions within specific decentralized environments.
 
 <!--
 
