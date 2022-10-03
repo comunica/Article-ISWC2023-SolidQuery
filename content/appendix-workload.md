@@ -1,4 +1,4 @@
-## Workload
+## Benchmark Query Workload
 {:#appendix-workload}
 
 ### Linking Structure Choke Points
@@ -49,3 +49,22 @@ The discover queryies we introduce are listed below:
 - D6: All fora a person messaged on
 - D7: All moderators in fora a person messaged on
 - D8: Other messages created by people that a person likes messages from
+
+### Discovery Query 8
+
+[](#template-discover-8) shows an example of the template for discover query 8.
+It is instantiated with a person's WebID URI, and finds all messages
+created by people that this person likes messages from.
+Since it starts from all liked messages of the starting person, then navigates to the creator of those messages,
+and then retrieves the contents of those messages, it covers CP L.6.
+Furthermore, since messages are fragmented in different ways across vaults, and the query spans different vaults, it covers CP L.7.
+Since messages can be captured within the user's type index, CP L.8 is also covered.
+Finally, since only message-related documents needs to be retrieved from the vaults,
+all other documents could potentially pruned out, covering CP L.9.
+
+<figure id="template-discover-8" class="listing">
+````/code/template-discover-8.txt````
+<figcaption markdown="block">
+SPARQL template for discover query 8.
+</figcaption>
+</figure>
