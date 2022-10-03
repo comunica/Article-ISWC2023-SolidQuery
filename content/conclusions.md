@@ -50,8 +50,8 @@ could introduce interesting trade-offs in terms of server and client query execu
 However, since different vaults could expose different types of interfaces,
 which are only discovered on the fly during query execution,
 novel adaptive query execution algorithms for [heterogeneous interfaces](cite:cites heterogeneous_lars, heterogeneous_fedqpl, heterogeneous_replicas) will be required.
-Finally, we just considered read-only queries in this work,
-while many similar open questions remain for write-queries for updating data within decentralized environments.
+Finally, our work only considers read queries,
+while similar open questions remain for write-queries when updating data within decentralized environments.
 
 This work provides an answer to the increasing need of querying techniques across decentralized environments,
 and uncovers the next steps that are needed for resolving current limitations.
