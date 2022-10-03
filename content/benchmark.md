@@ -17,24 +17,24 @@ Based on our analysis of the Solid ecosystem in [](#solid),
 and requirements from [similar benchmarks](cite:cites ldbc, lingbm, ldbc_snb_interactive),
 we introduce the following requirements for our benchmark:
 
-1. **WebIDs**: The dataset should consist of a collection of simulated WebIDs corresponding to people or other entities. Each WebID should refer to one LDP-based storage vault. Each WebID should be represented using a standard RDF serialization.
-2. **Data vaults**: The dataset should consist of a collection of data vaults, each owned by a WebIDs. Each vault should consist of RDF files in any standard RDF serialization, and should be exposed according to the LDP specification.
-3. **Type indexes**: Each WebID should have a link to one or more type indexes, containing type registrations for data contained in the agent's vault.
-4. **Variability of vaults**: Data should be organized in different ways in different vaults, to simulate different user preferences in how data is organized.
-5. **Scalable dataset**: The dataset should be configurable in size, which should enable an increase in the number of vaults and vault sizes.
-6. **Workload**: The benchmark should provide a workload of queries that evaluate different query operations and data linking structures.
-7. **Metrics**: The benchmark must be able to metrics such as total query execution time, separate query result arrival times, number of HTTP requests, and correctness.
-8. **Configuration**: The benchmark should be configurable in terms of queries and dataset properties, and provide default values for all of these.
+1. **WebIDs**: Dataset consists of WebIDs corresponding to simulated agents. WebIDs refer to one LDP-based storage vault, and are represented using a standard RDF serialization.
+2. **Data vaults**: Dataset consists of data vaults containing RDF files in LDP containers.
+3. **Type indexes**: WebIDs link to type indexes, containing registrations for data in the agent's vault.
+4. **Variability of vaults**: Data is organized differently in across vaults, to simulate different data organization preferences.
+5. **Scalable dataset**: Dataset is configurable in the number of vaults and vault sizes.
+6. **Workload**: Queries that evaluate different query operations and data linking structures.
+7. **Metrics**: Measuring metrics such as total query execution time, result arrival times, number of HTTP requests, and correctness.
+8. **Configuration**: Configurable in terms of queries and dataset properties, with default values.
 
 ### Social Network Scenario
 
-Since the original purpose of the Solid project was to enable social interactions in a decentralized manner,
+Since the original goal of the Solid project was to enable social interactions in a decentralized manner,
 the use case scenario our benchmark tackles is that of a social network.
 Concretely, different users each have their own data vault, and each user can provide personal details about themselves in their WebID document such as name, city of residence, and birthday.
 Next to that, users can express unidirectional knowledge relationships to other users.
 Furthermore, users can create posts, or leave comments on other posts.
 To stay in line with the ownership model of Solid, each post or comment a user creates, is stored within that user's data vault.
-This means that chains of comments can span across different data vaults.
+Hence, chains of comments can span multiple data vaults.
 
 ### SolidBench Overview
 
@@ -52,7 +52,7 @@ To simplify evaluation and testing,
 we also provide a built-in Web server that can serve the generated data vaults over HTTP using a single command,
 which is done using a slimmed-down version of the [Community Solid Server](cite:cites solidcommunityserver).
 This server disables authentication and authorization by default,
-so evaluations can focus on the performance of query execution.
+so evaluations can focus on query performance.
 
 For the query workload, we build upon the *interactive* workload of SNB,
 and extend it with additional queries to cover link-related choke points.
@@ -63,8 +63,8 @@ Since we focus on read-only queries in this work, we do not consider the write q
 
 All aspects of this benchmark are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
 ranging from fragmentation strategies to properties of query templates.
-Furthermore, we incorporate our benchmark into an existing benchmarking system (*name omitted due to double-blind review process*),
-which enables convenient creation and execution of this benchmark with query engines in reproducible manner.
+Furthermore, we incorporate our benchmark into an existing benchmark runner (*name omitted due to double-blind review process*),
+which enables convenient creation and execution of this benchmark.
 
 By default, SolidBench sets the scale factor of the SNB generator to 0.1,
 which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.
@@ -73,16 +73,15 @@ Even though this scale can be increased arbitrarily high,
 we notice that this default scale can already stress existing LTQP approaches beyond their capabilities.
 Furthermore, 27 query templates are provided which can be instantiated any number of times to simulate a query workload.
 For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
+The benchmark is open-source at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/).
 
 In summary, we introduce the following tools with SolidBench:
 
 - **Dataset generator**: consisting of SNB's existing generator, and a new dataset fragmenter.
 - **Query generator**: consisting of SNB's existing generator, and a new fragmentation-aware query template instantiator.
 - **Validation generator**: building on top of SNB's validator, produces fragmentation-aware correctness validation sets containing queries and expected results.
-- **Dataset server**: Convenient serving of fragmented datasets over HTTP.
+- **Dataset server**: serving of fragmented datasets over HTTP.
 - **Benchmark runner**: incorporation into an existing benchmarking system for execution against query engines via the [SPARQL protocol](cite:cites spec:sparqlprot).
-
-The benchmark is available under the MIT license at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/).
 
 <!--
 157210 files
@@ -103,11 +102,11 @@ Benchmark aspects:
 
 ### Fragmentation
 
-In order to convert the centralized dataset produced by SNB into a decentralized environment,
-we provide a tool that can fragment datasets using different fragmentation strategies.
+To convert the centralized dataset produced by SNB into a decentralized environment,
+we provide a tool to fragment datasets using different fragmentation strategies.
 While this tool is highly configurable in terms of its strategies using declarative JSON-LD-based configuration files,
-we only summarize its functionality in terms of two fragmentation dimensions.
-Finally, we illustrate its functionality by discussing different fragmentation strategies for handling posts and comments within the SNB dataset.
+we summarize its functionality in terms of two fragmentation dimensions for brevity.
+Finally, we illustrate its functionality by discussing fragmentation strategies of posts within the SNB dataset.
 All strategies within this tool are implemented in a streaming manner,
 which means that it can handle input datasets of any size,
 and the dataset does not have to be loaded fully in memory before it can be processed.
@@ -120,11 +119,10 @@ Inspired by [WODSim](cite:cites walkingwithoutamap), we provide subject and obje
 which respectively place each triple in the file referred to by their subject or object.
 These approaches can also be combined to place triples in both files referred to by subject and object.
 Additionally, we provide composition-based approaches, using which triples matching certain triple patterns can be assigned to a different approach.
-
 The second dimension of fragmentation is that of *URI rewriting*,
 in which URIs can be modified to eventually end up in different documents according to the first dimension.
-For example, this allows URIs matching a regex to be modified partially,
-or certain triples to be appended upon matching with a certain triple pattern.
+For example, this allows URIs matching a regex to be modified,
+or triples to be appended upon matching a triple pattern.
 
 **Strategies for fragmenting posts and comments**
 
@@ -137,7 +135,7 @@ we only explain them hereafter in terms of posts:
 1. **Separate**: Each post created by a person is placed in a separate RDF file within that person's vault.
 2. **Single**: Posts created by a person are placed in a single RDF file within that person's vault.
 3. **Location-based**: Posts created by a person are placed in files in that person's vault corresponding to the location at which the post was created.
-4. **Time-based**: Posts created by a person are placed in files in that person's vault corresponding to the day at which the post was created.
+4. **Time-based**: Posts created by a person are placed in files in that person's vault corresponding to the post creation day.
 5. **Composite**: The strategies above are assigned randomly to all persons in the dataset.
 
 By default, SolidBench makes use of the composite strategy,
@@ -167,11 +165,9 @@ Following the [choke point-based design methodology](cite:cites ldbc),
 the short and complex SNB interactive workloads already cover the majority of the 33 choke points introduced by SNB.
 We refer to the [SNB specification](cite:cites ldbc_snb_details) for more details
 on the correlation of short and complex query templates to these choke points.
-
-For this work, we introduce an additional category of choke points that are related to the *linking structures* within data vaults.
-Since the short and complex query classes only cover these linking-related choke points partially,
+Since the short and complex query classes only partially cover choke points related *linking structures* within data vaults,
 we introduce *discover* queries dedicated for covering these choke points on linking structures.
-The full list of choke points and discover queries are available in the [appendix](#appendix-workload).
+The full list of linking-related choke points and discover queries are available in the [appendix](#appendix-workload).
 More details on all query templates can be found at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/templates/queries/README.md](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/templates/queries/README.md).
 
 **Query template instantiation**
@@ -179,21 +175,20 @@ More details on all query templates can be found at [https://anonymous.4open.sci
 Our benchmark contains 27 query templates, from which 19 are derived from queries within SNB.
 These query templates can be instantiated multiple times for different resources, based on the dataset scale.
 By default, each template is instantiated five times, so that metrics can be averaged to reduce the effect of outliers.
-
 Due to the fragmentation and URI rewriting we apply on top of the SNB dataset,
 we were unable to make use of the standard SNB query templates and its method of query instantiation.
 Therefore, we have implemented a custom query template instantiation tool that takes into account these fragmentations.
 
 [](#template-discover-8) shows an example of the template for discover query 8,
 which covers the majority of choke points related to linking structures.
-It is instantiated with a person's WebID URI, and attempts to find all messages
+It is instantiated with a person's WebID URI, and finds all messages
 created by people that this person likes messages from.
-Since it starts from all liked messages of the starting person, then navigates to the creator of those messages,
+<!--Since it starts from all liked messages of the starting person, then navigates to the creator of those messages,
 and then retrieves the contents of those messages, it covers CP L.6.
 Furthermore, since messages are fragmented in different ways across vaults, and the query spans different vaults, it covers CP L.7.
 Since messages can be captured within the user's type index, CP L.8 is also covered.
 Finally, since only message-related documents needs to be retrieved from the vaults,
-all other documents could potentially pruned out, covering CP L.9.
+all other documents could potentially pruned out, covering CP L.9.-->
 
 <figure id="template-discover-8" class="listing">
 ````/code/template-discover-8.txt````
@@ -204,15 +199,15 @@ SPARQL template for discover query 8.
 
 **Metrics**
 
-The most relevant performance metrics within SolidBench are the following:
+We consider the following performance metrics in SolidBench:
 
-- **Query execution time**: The amount of time (milliseconds) it takes between sending the query to the query engine, and obtaining the final query result.
-- **Query result arrival times**: For each separate query result, the amount of time (milliseconds) between sending the query to the query engine, and obtaining that specific result.
-- **HTTP requests**: For a given query execution, the number of HTTP requests the engine issued during the execution of that query.
+- **Query execution time**: Time (milliseconds) between sending the query to the engine, and obtaining the final result.
+- **Query result arrival times**: For each result, time (milliseconds) between sending the query, and obtaining that result.
+- **HTTP requests**: For a query, the number of HTTP requests the engine issued during its execution.
 - **Correctness**: The percentage of query results conforming to the expected query results.
 
 For measuring query execution and result arrival times,
 a warmup round with all instantiated query templates must take place first.
 To ensure that we take into account the volatile nature of the Web and the live traversal property of LTQP,
-the HTTP cache of the query engine must be flushed before every query execution,
+the HTTP cache of the query engine is flushed before every query execution,
 while this cache can still be used within the span of a single query execution.
