@@ -3,7 +3,7 @@
 
 In this section, we introduce *SolidBench*, a benchmark that enables reproducible performance measurements
 of different query execution approaches within a decentralized environment.
-For this, SolidBench simulates a decentralized Solid environment with corresponding workload representative of a social networking application.
+SolidBench simulates a decentralized Solid environment with corresponding workload representative of a social networking application.
 Hereafter, we start by explaining the design considerations of the benchmark and our use case scenario, after which we introduce an overview of SolidBench.
 Next, we zoom in on important details of the benchmark, such as fragmentation of the data and the query workload.
 
@@ -38,50 +38,49 @@ Hence, chains of comments can span multiple data vaults.
 
 ### SolidBench Overview
 
-To avoid reinventing the wheel, we build upon the well-established [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive, ldbc_snb_details),
+We build upon the well-established [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive, ldbc_snb_details),
 which models a social network akin to Facebook, and meets most of the requirements of our desired use case scenario.
-
-However, since SNB was designed to evaluate the performance of centralized query engine,
-its dataset generator outputs a dataset in a single large file, e.g. serialized as RDF Turtle.
-Since our aim is to simulate a decentralized social network,
-we introduce a fragmentation layer on top of this generator.
+Since SNB was designed to evaluate the performance of centralized query engine,
+its dataset generator outputs a dataset in a single large RDF document.
+Given that we aim to simulate a decentralized social network,
+we introduce a _fragmentation layer_ on top of this generator.
 This fragmenter is able to take in any dataset as input,
 and provide a fragmented version of this dataset that simulates an interlinked set of Linked Data documents,
 inspired by [WODSim](cite:cites walkingwithoutamap).
-To simplify evaluation and testing,
-we also provide a built-in Web server that can serve the generated data vaults over HTTP using a single command,
-which is done using a slimmed-down version of the [Community Solid Server](cite:cites solidcommunityserver).
-This server disables authentication and authorization by default,
-so experiments can focus on query performance.
 
-For the query workload, we build upon the *interactive* workload of SNB,
-and extend it with additional queries to cover link-related choke points.
-Since the query templates that are produced by the generator of SNB assume a centralized dataset,
-we also add a layer on top of these query templates that can transform the queries to correspond to the decentralized dataset.
-Related to this, we also provide a tool that can produce validation queries and results to measure the correctness of a system.
-Since we focus on read-only queries in this work, we do not consider the write queries of SNB.
-
-All aspects of this benchmark are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
-ranging from fragmentation strategies to properties of query templates.
-Furthermore, our benchmark is included in an existing benchmark runner (*name omitted due to double-blind review process*),
-which simplifies its execution.
-
-By default, SolidBench sets the scale factor of the SNB generator to 0.1,
-which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.
-In total, there are 3.556.159 triples across all files, with an average of 22,62 triples per file.
-Even though this scale can be increased arbitrarily high,
-we notice that this default scale can already stress existing LTQP approaches beyond their capabilities.
-Furthermore, 27 query templates are provided which can be instantiated any number of times to simulate a query workload.
-For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
-The benchmark is open-source at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/).
-
-In summary, we introduce the following tools with SolidBench:
+We introduce the following tools with SolidBench:
 
 - **Dataset generator**: consisting of SNB's existing generator, and a new dataset fragmenter.
 - **Query generator**: consisting of SNB's existing generator, and a new fragmentation-aware query template instantiator.
 - **Validation generator**: building on top of SNB's validator, produces fragmentation-aware correctness validation sets containing queries and expected results.
 - **Dataset server**: serving of fragmented datasets over HTTP.
 - **Benchmark runner**: incorporation into an existing benchmarking system for execution against query engines via the [SPARQL protocol](cite:cites spec:sparqlprot).
+
+For the query workload, we build upon the *interactive* workload of SNB,
+and extend it with additional queries to cover link-related choke points.
+Since the query templates that are produced by the generator of SNB assume a centralized dataset,
+we also add a layer on top of these query templates that can transform the queries to correspond to the decentralized dataset.
+We provide 27 query templates that can be instantiated any number of times to simulate a query workload.
+We also provide a tool that can produce validation queries and results to measure the correctness of a system.
+Since we focus on read-only queries in this work, we do not consider the write queries of SNB.
+
+By default, SolidBench sets the scale factor of the SNB generator to 0.1,
+which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.
+In total, there are 3.556.159 triples across all files, with an average of 22,62 triples per file.
+Even though this scale can be increased arbitrarily,
+we notice that this default scale can already stress existing LTQP approaches beyond their current capabilities.
+For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
+
+All aspects of SolidBench are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
+ranging from fragmentation strategies to properties of query templates.
+Furthermore, our benchmark is included in an existing benchmark runner (*name omitted due to double-blind review process*),
+which simplifies its execution.
+To simplify evaluation and testing,
+we also provide a built-in Web server that can serve the generated data vaults over HTTP using a single command,
+which is done using a slimmed-down version of the [Community Solid Server](cite:cites solidcommunityserver).
+This server disables authentication and authorization by default,
+so experiments can focus on query performance.
+The benchmark is open-source at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/).
 
 <!--
 157210 files
@@ -185,10 +184,11 @@ which covers the majority of choke points related to linking structures.
 
 We consider the following performance metrics in SolidBench:
 
-- **Query execution time**: Time (milliseconds) between sending the query to the engine, and obtaining the final result.
-- **Query result arrival times**: For each result, time (milliseconds) between sending the query, and obtaining that result.
+- **Query execution time**: Time between sending the query to the engine, and obtaining the final result.
+- **Query result arrival times**: For each result, time between sending the query, and obtaining that result.
 - **HTTP requests**: For a query, the number of HTTP requests the engine issued during its execution.
 - **Correctness**: The percentage of query results conforming to the expected query results.
+<span class="comment" data-author="RV">Completeness and recall? F1 measure? Just to counter easy criticisms.</span>
 
 For measuring query execution and result arrival times,
 a warmup round with all instantiated query templates must take place first.
