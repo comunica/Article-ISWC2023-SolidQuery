@@ -2,39 +2,38 @@
 {:#solid}
 
 In this section, we provide an analysis of the structural properties within the Solid ecosystem
-that are relevant for query execution.
-We first start by explaining the concept of data vaults and its implications on applications.
+that are relevant for query processing.
+We start by explaining the concept of data vaults and its implications on applications.
 Next, we explain the WebID, which is used for identifying users.
 Then, we discuss the Solid type index that improves data discovery.
-Finally, we list requirements for enabling query execution within the Solid ecosystem.
+Finally, we list requirements for query processing within the Solid ecosystem.
 
 ### Data Vault
 
-A primary element within the [Solid protocol](cite:cites spec:solidprotocol) is
-the data vault (also known as *data pod*), which is a user-owned space in which any kind of data can be stored.
+A primary element within the [Solid Protocol](cite:cites spec:solidprotocol) is
+the data vault (also known as *data pod*), which is a user-controlled space in which any kind of data can be stored.
 Users can choose where and how their vault is stored on the Web,
-by either [hosting it themselves](cite:cites solidcommunityserver),
-or by obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
-Data vaults are loosely coupled to applications,
-where applications must request explicit access to the user for interacting with specific data.
+by [hosting it themselves](cite:cites solidcommunityserver),
+obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
+Data vaults are supposed to be loosely coupled to applications,
+and applications must request explicit access to the user for interacting with specific data.
 This loose coupling enables different applications to use the same data interoperably.
 
-Currently, data vaults are primarily file-based, and are exposed on the Web as a REST API
+Current data vaults are primarily document-oriented, and are exposed on the Web as a REST API
 using elements of the [Linked Data Platform (LDP) specification](cite:cites spec:ldp).
 Directories are represented using *LDP Basic Containers*,
 which can contain any number of resources that correspond to RDF or non-RDF documents (via `ldp:contains` links),
 or other nested basic containers.
 For the remainder of this article, we will only consider the processing of RDF documents within vaults.
-Resources within vaults can be read by sending HTTP GET requests to their URLs,
+Resources within vaults can be read by sending HTTP `GET` requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
-If the vault supports this, resources can be modified or created using HTTP PATCH and POST requests.
+If the vault supports this, resources can be modified or created using HTTP `PATCH` and `POST` requests.
 An example of such a basic container can be found in the [appendix](#appendix-listings).
 
-Data vaults can contain not only public data, but also private data.
-Therefore, users can configure who can access or modify files within their vault
-using techniques such as [ACL](cite:cites spec:wac) and [ACP](cite:cites spec:acp).
-This configuration is usually done by referring to the *WebID* of users,
-which will be elaborated upon in the next section.
+Data vaults can contain public as well as private data.
+Users can configure who can access or modify files within their vault
+using mechanisms such as [ACL](cite:cites spec:wac) and [ACP](cite:cites spec:acp).
+This configuration is usually done by referring to the *WebID* of users.
 
 ### WebID Profile
 
@@ -60,15 +59,15 @@ An example of such a type index can be found in the [appendix](#appendix-listing
 
 ### Requirements for query engines
 
-Instead of requiring all application developers to reinvent the wheel by manually discovering application-relevant elements within data vaults,
-this can be abstracted away behind declarative queries.
-This also makes applications robust against changes or additions within the Solid protocol,
-where this only requires changes within the underlying query engine,
-as the application's declarative query can remain unchanged.
-As such, we consider query engines for finding data within and across data vaults.
+Instead of requiring application developers to reinvent the wheel by manually discovering application-relevant elements within data vaults,
+discovery can be abstracted away behind declarative queries.
+This makes applications robust against changes or additions within the Solid Protocol.
+The application's declarative query can remain unchanged,
+whereas the underlying query engine can be updated to improve the result set.
 
 The [Solid protocol](cite:cites spec:solidprotocol) only establishes a minimal set of ground-rules to make data vaults and applications interoperable.
-Below, we list the requirements that query agents need to have for enabling query execution over data vaults.
+Below, we list additional requirements that query agents need <span class="rephrase" data-author="RV">for enabling query execution over data vaults</span>.
+<span class="comment" data-author="RV">Well, query processing is always <em>possible</em>. Maybe just not with great results. What do you mean exactly></span>
 
 1. **Mapping query to a sequence of HTTP requests**:
 Convert a query into a sequence of HTTP requests across data vaults.
