@@ -10,11 +10,6 @@ We first introduce the design of our experiment,
 followed by presenting our experimental results,
 and a discussion of our results to answer our research question.
 
-<span class="placeholder printonly">
-<span style="display: block; height: 3em;"></span>
-<!-- This is a dummy placeholder -->
-</span>
-
 ### Experimental Design
 
 We make use of a full factorial experiment containing the following factors and values:

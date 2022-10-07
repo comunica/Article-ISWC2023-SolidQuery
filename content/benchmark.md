@@ -99,6 +99,11 @@ Benchmark aspects:
 - Tools to execute experiment and measurement of metrics
 -->
 
+<span class="placeholder printonly">
+<span style="display: block; height: 3em;"></span>
+<!-- This is a dummy placeholder -->
+</span>
+
 ### Fragmentation
 
 To convert the centralized dataset produced by SNB into a decentralized environment,

@@ -51,7 +51,7 @@ Next to filtering links via different semantics,
 a second methodology for improving query result arrival times is through [*link prioritization*](cite:cites linktraversaloptimization).
 However, existing techniques only sometimes result in faster query results compared to no prioritization.
 
-Even though [multiple query languages](cite:cites ldql, ldpath, nautilod) have been introduced specifically for LTQP,
+Even though [multiple query languages](cite:cites ldpath, ldql, nautilod) have been introduced specifically for LTQP,
 its [SPARQL-based execution model](cite:cites linktraversalsparql) is still the most widely used.
 Since SPARQL is the only language among these that is a standard, and the fact that it is more widely known and supported by different tools,
 we make use of it within this work.
