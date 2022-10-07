@@ -7,7 +7,7 @@
 
 <figure id="results-queries-complex" markdown="1" class="table table-smaller-font">
 
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | cnone-base | 13,128 | 2 | N/A | N/A | 11 | 0.00 | 0.00% | 1 |
 | **cmatch-base** | **16,574** | **2** | **3** | **2** | **1,619** | **0.50** | **2.50%** | **4** |
@@ -45,8 +45,8 @@ Aggregated results for the different combinations across all 12 **complex** quer
 
 <figcaption markdown="block">
 The number of queries each approach achieves the lowest query execution time for across all **cMatch-based** approaches over all 8 **discover** queries with 5 instantiations.
-A win for a certain approach is only considered if the results are correct for this query.
-Five queries are missing due to no approaches achieving correct results.
+A win for a certain approach is only considered if the results are accurate for this query.
+Five queries are missing due to no approaches achieving accurate results.
 </figcaption>
 </figure>
 

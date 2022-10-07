@@ -37,7 +37,7 @@ Each query template in the benchmark was instantiated five times, which resulted
 
 <figure id="results-queries-discover" markdown="1" class="table table-smaller-font">
 
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | cnone-base | 43 | 0 | N/A | N/A | 8 | 0.00 | 0.00% | 0 |
 | cmatch-base | 4,658 | 0 | 32,846 | 31,615 | 437 | 1.25 | 12.50% | 0 |
@@ -65,7 +65,7 @@ Aggregated results for the different combinations across all 8 **discover** quer
 
 <figure id="results-queries-short" markdown="1" class="table table-smaller-font">
 
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{cor}$$ | $$\sum to$$ |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
 | cnone-base | 80 | 5 | 0 | 0 | 15 | 0.14 | 14.29% | 0 |
 | **cmatch-base** | **27,429** | **197** | **190** | **64** | **596** | **0.43** | **42.86%** | **2** |
@@ -96,21 +96,21 @@ In this section, we present results that offer insights into our research questi
 show the aggregated results for the different combinations of our setup
 for the discover and short queries of the benchmark, respectively.
 Since the results for the complex queries don't add any value to this article, they have been moved into the [appendix](#appendix-evaluation).
-Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average correctness ($$\overline{cor}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest correctness value are marked in bold.
+Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
-The correctness of each query execution is calculated as the percentage of expected results that were actually produced.
+The accuracy of each query execution is calculated as a percentage indicating the precision and recall of query results with respect to the expected query results.
 
-These results show that there are combinations of approaches that achieve a very high level of correctness for discover queries,
-and an average level of correctness for short queries.
-However, for complex queries, none of the combinations achieve an acceptable level of correctness.
+These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
+and an average level of accuracy for short queries.
+However, for complex queries, none of the combinations achieve an acceptable level of accuracy.
 Hence, we consider this last query category too complex for current link traversal approaches, and we do not consider them further in this article.
 
 ### Discussion
 
 #### Intra-vault and inter-vault data discovery
 
-The results above show that if we desire correct results,
+The results above show that if we desire accurate results,
 that the combination of cMatch semantics together with at least one of the data vault discovery methods is required.
 This combination is needed because our workload contains queries that either target data within a single vault (e.g. D1),
 or data spanning multiple data vaults (e.g. D8).
@@ -119,9 +119,9 @@ the reachability of cMatch is required to discover data *across* multiple vaults
 
 Due to this, cNone (follow no links) is an ineffective replacement for cMatch (follow links matching query) even when combined with discovery methods,
 because link traversal across multiple vaults will not take place, which will lead to too few query results.
-Concretely, for discover queries cNone can only achieve a completeness of 74.14% for discover queries and 28.57% for short queries,
+Concretely, for discover queries cNone can only achieve a accuracy of 74.14% for discover queries and 28.57% for short queries,
 compared to respectively 99.14% and 42.86% for cMatch.
-However, for those queries that target a single vault, cNone can be used instead of cMatch without a loss of correctness,
+However, for those queries that target a single vault, cNone can be used instead of cMatch without a loss of accuracy,
 leading to a lower number of HTTP requests and lower query execution times.
 
 Since cAll leads to all links being followed, including those followed by cMatch,
@@ -129,13 +129,13 @@ it is theoretically a sufficient replacement for cMatch.
 However, our results show that too many links are being followed with cAll, which leads to timeouts for nearly all queries.
 
 Our results show that solely using reachability semantics (cMatch or cAll) without a data discovery method is insufficient for discover queries,
-where a completeness of only up to 12.50% or 19.38% can be achieved for discover queries.
+where a accuracy of only up to 12.50% or 19.38% can be achieved for discover queries.
 However, when looking at the short queries category, solely using reachability semantics appears to be sufficient,
 with the number of HTTP requests and query execution time even being lower.
 This difference exists because the discover workload contains queries that discover data related to a certain person or resource,
 while the short queries target only details of specific resources. 
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
-The remainder of this discussion only focuses on discover queries, since these achieve the highest level of correctness.
+The remainder of this discussion only focuses on discover queries, since these achieve the highest level of accuracy.
 As such, the short and complex queries highlight opportunities for improvement in future work.
 
 #### Type index and LDP discovery perform similarly

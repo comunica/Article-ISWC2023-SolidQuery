@@ -23,7 +23,7 @@ we introduce the following requirements for our benchmark:
 4. **Variability of vaults**: Data is organized differently in across vaults, to simulate different data organization preferences.
 5. **Scalable dataset**: Dataset is configurable in the number of vaults and vault sizes.
 6. **Workload**: Queries that evaluate different query operations and data linking structures.
-7. **Metrics**: Measuring metrics such as total query execution time, result arrival times, number of HTTP requests, and correctness.
+7. **Metrics**: Measuring metrics such as total query execution time, result arrival times, number of HTTP requests, correctness, and completeness.
 8. **Configuration**: Configurable in terms of queries and dataset properties, with default values.
 
 ### Social Network Scenario
@@ -52,7 +52,7 @@ We introduce the following tools with SolidBench:
 
 - **Dataset generator**: consisting of SNB's existing generator, and a new dataset fragmenter.
 - **Query generator**: consisting of SNB's existing generator, and a new fragmentation-aware query template instantiator.
-- **Validation generator**: building on top of SNB's validator, produces fragmentation-aware correctness validation sets containing queries and expected results.
+- **Validation generator**: building on top of SNB's validator, produces fragmentation-aware validation sets containing queries and expected results.
 - **Dataset server**: serving of fragmented datasets over HTTP.
 - **Benchmark runner**: incorporation into an existing benchmarking system for execution against query engines via the [SPARQL protocol](cite:cites spec:sparqlprot).
 
@@ -61,7 +61,7 @@ and extend it with additional queries to cover link-related choke points.
 Since the query templates that are produced by the generator of SNB assume a centralized dataset,
 we also add a layer on top of these query templates that can transform the queries to correspond to the decentralized dataset.
 We provide 27 query templates that can be instantiated any number of times to simulate a query workload.
-We also provide a tool that can produce validation queries and results to measure the correctness of a system.
+We also provide a tool that can produce validation queries and results to measure the correctness and completeness of a system.
 Since we focus on read-only queries in this work, we do not consider the write queries of SNB.
 
 By default, SolidBench sets the scale factor of the SNB generator to 0.1,
@@ -187,8 +187,7 @@ We consider the following performance metrics in SolidBench:
 - **Query execution time**: Time between sending the query to the engine, and obtaining the final result.
 - **Query result arrival times**: For each result, time between sending the query, and obtaining that result.
 - **HTTP requests**: For a query, the number of HTTP requests the engine issued during its execution.
-- **Correctness**: The percentage of query results conforming to the expected query results.
-<span class="comment" data-author="RV">Completeness and recall? F1 measure? Just to counter easy criticisms.</span>
+- **Accuracy**: The F1-measure as a percentage indicating the correctness (precision) and completeness (recall) of query results with respect to the expected query results.
 
 For measuring query execution and result arrival times,
 a warmup round with all instantiated query templates must take place first.
