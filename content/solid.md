@@ -66,8 +66,8 @@ The application's declarative query can remain unchanged,
 whereas the underlying query engine can be updated to improve the result set.
 
 The [Solid protocol](cite:cites spec:solidprotocol) only establishes a minimal set of ground-rules to make data vaults and applications interoperable.
-Below, we list additional requirements that query agents need <span class="rephrase" data-author="RV">for enabling query execution over data vaults</span>.
-<span class="comment" data-author="RV">Well, query processing is always <em>possible</em>. Maybe just not with great results. What do you mean exactly></span>
+Below, we list additional query agent requirements for enabling query-driven Solid applications over data vaults
+with a sufficient level of [user-perceived performance](cite:cites uiresponsetime).
 
 1. **Mapping query to a sequence of HTTP requests**:
 Convert a query into a sequence of HTTP requests across data vaults.
