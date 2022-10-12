@@ -194,7 +194,7 @@ we observe no significant correlation (*p = 0.76*) of this within the cMatch-bas
 As such, the main bottleneck in this case appears not to be the number of links to traverse.
 Instead, our analysis suggests that query plan efficiency is the primary influencer of execution times.
 
-To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMath with filtered type index discovery)
+To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMatch with filtered type index discovery)
 with a two-phase query execution approach that we implemented in the same query engine.
 Instead of following links during query execution as in the integrated approach,
 the two-phase approach first follows links to index all discovered triples,
