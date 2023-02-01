@@ -3,6 +3,10 @@
 
 In this section, we introduce *SolidBench*, a benchmark that enables reproducible performance measurements
 of different query execution approaches within a decentralized environment.
+As discussed in [](#related-work), there is a need for this as existing benchmarks
+1) do not provide a closed and reliable Web environment,
+2) do not ship with standard datasets, and
+3) are not expressive enough to capture the structural properties in the Solid ecosystem.
 SolidBench simulates a decentralized Solid environment with corresponding workload representative of a social networking application.
 Hereafter, we start by explaining the design considerations of the benchmark and our use case scenario, after which we introduce an overview of SolidBench.
 Next, we zoom in on important details of the benchmark, such as fragmentation of the data and the query workload.
