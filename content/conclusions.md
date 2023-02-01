@@ -18,6 +18,9 @@ and the data discovery techniques that Solid vaults provide,
 create opportunities for query execution that allow us to guarantee complete results.
 While we have investigated the specific case of querying Solid vaults,
 these concepts may be generalizable to other decentralization efforts, such as [Mastodon](cite:cites mastodon).
+This is possible, because our approach solely relies on the structural properties
+provided by standards such as [Linked Data Platform](cite:cites spec:ldp) and the [Type Index](cite:cites spec:typeindex),
+which can be used outside of the Solid ecosystem.
 
 Due to the expectation of incomplete results,
 LTQP research over Linked Open Data is moving into the direction of
