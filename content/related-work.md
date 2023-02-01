@@ -77,7 +77,7 @@ Unfortunately, these also lead to inconsistent results,
 which makes them unsuitable for reliable benchmarking.
 In contrast, our benchmark provides a closed environment in full control of the experimenter.
 
-[WODSim](cite:cites walkingwithoutamap) is a tool that accepts an RDF dataset as input,
+[WODSim](cite:cites linktraversaloptimization) is a tool that accepts an RDF dataset as input,
 and is able to simulate a Web of Linked Data documents.
 For each triple in the dataset, it can either place the triple inside the Linked Data document(s)
 identified by the triple's subject, object, or both.

@@ -46,7 +46,7 @@ Given that we aim to simulate a decentralized social network,
 we introduce a _fragmentation layer_ on top of this generator.
 This fragmenter is able to take in any dataset as input,
 and provide a fragmented version of this dataset that simulates an interlinked set of Linked Data documents,
-inspired by [WODSim](cite:cites walkingwithoutamap).
+inspired by [WODSim](cite:cites linktraversaloptimization).
 
 We introduce the following tools with SolidBench:
 
@@ -119,7 +119,7 @@ and the dataset does not have to be loaded fully in memory before it can be proc
 
 *Triple document assignment* is the first dimension of fragmentation,
 which concerns the task of deciding which triples are placed in what files.
-Inspired by [WODSim](cite:cites walkingwithoutamap), we provide subject and object-based approaches,
+Inspired by [WODSim](cite:cites linktraversaloptimization), we provide subject and object-based approaches,
 which respectively place each triple in the file referred to by their subject or object.
 These approaches can also be combined to place triples in both files referred to by subject and object.
 Additionally, we provide composition-based approaches, using which triples matching certain triple patterns can be assigned to a different approach.
