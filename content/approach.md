@@ -220,8 +220,8 @@ This pipelined implementation is important for iterative tuple processing in a n
 because the link queue and the resulting stream of triples may become infinitely long.
 
 Our implementation focuses on the SPARQL query language,
-and does not make use of alternative LTQP-specific query languages
-such as [LDQL](cite:cites ldql) that incorporate link navigation paths into the query.
+and does not make use of alternative LTQP-specific query languages or non-standard SPARQL language extensions
+such as [LDQL](cite:cites ldql) and [SPARQL-LD](cite:cites sparqlld) that incorporate link navigation paths into the query.
 As discussed in [](#solid), different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
 Hence, it is important that link navigation is *decoupled* from the query to keep queries reusable for different Solid users,
 as link paths to data may differ across different data vaults.

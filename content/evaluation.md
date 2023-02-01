@@ -28,6 +28,14 @@ the experimental setup, raw results, and processing scripts are available as ope
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries, 35 short queries, and 60 complex queries.
 
+We were unable to compare our implementation to existing LTQP engines,
+because those systems (e.g. [Lidaq](cite:cites comparingsummaries)) would either require significant changes to work over Solid vaults,
+they depend on a non-standard usage of the SPARQL syntax (e.g. [SPARQL-LD](cite:cites sparqlld)),
+or insufficient documentation was present to make them work (e.g. [SQUIN](cite:cites squin)), even after contacting the authors.
+Nevertheless, in order to ensure a fair and complete comparison,
+we have re-implemented the foundational LTQP algorithms (cNone, cMatch, cAll),
+and compare them against, and in combination with, our algorithms.
+
 ### Experimental Results
 
 <figure id="results-queries-discover" markdown="1" class="table table-smaller-font">
