@@ -14,6 +14,9 @@ LTQP does this by employing the [*follow-your-nose* principle of Linked Data](ci
 where new RDF triples are continuously added to a local dataset while discovering new sources by following links between documents.
 An [iterator-based pipeline](cite:cites linktraversalsparql)
 allows query execution to take place without having to wait until all links have been followed.
+As LTQP engines may traverse over documents from untrusted publishers,
+specific [security vulnerabilities](cite:cites ldtraversalsecurity) arise
+that do not apply when querying in a controlled environment.
 
 LTQP is thus an [*integrated* approach](cite:cites linkeddatamanagement)
 with parallel source discovery and query execution,
@@ -57,6 +60,11 @@ Since SPARQL is the only language among these that is a standard, and the fact t
 we make use of it within this work.
 Nevertheless, the concepts within this work can be applied to other languages as well.
 
+In general, LTQP has mostly been applied to querying Linked Open Data on the Web.
+This is in contrast to our work, where we apply LTQP to specific decentralized environments,
+where specific structural properties apply, and not all data is open and accessible to everyone.
+[Privacy issues](cite:cites towards_privacy_aggregation) that arise because of the private data in decentralized environments
+are considered out of scope for this work.
 
 ### Link Traversal Benchmarks
 
