@@ -85,6 +85,13 @@ Unfortunately, these also lead to inconsistent results,
 which makes them unsuitable for reliable benchmarking.
 In contrast, our benchmark provides a closed environment in full control of the experimenter.
 
+[SPLODGE](cite:cites splodge) is similar to QWalk, and makes use of crawled Linked Open Data.
+It therefore also suffers from the issues arising from uncontrolled execution environments like QWalk.
+Additionally, since it relies on crawled public data,
+it is not able to capture the structural properties specific to decentralized environments such as Solid,
+as these may be hidden behind an authentication layer.
+Our benchmark does not rely on crawled data, and instead simulates these structural properties.
+
 [WODSim](cite:cites linktraversaloptimization) is a tool that accepts an RDF dataset as input,
 and is able to simulate a Web of Linked Data documents.
 For each triple in the dataset, it can either place the triple inside the Linked Data document(s)
