@@ -45,6 +45,13 @@ by _following hyperlinks_ between Linked Data documents using the [*follow-your-
 While LTQP has mainly been a theoretically interesting technique, it has not seen any practical use so far,
 in particular because of performance concerns.
 
+While the [Linked Data principles](cite:cites linkeddata) provide us with the ability to apply the follow-your-nose principle,
+decentralized environments such as Solid provide additional structural properties on top of these principles that allow us to make
+additional assumptions about data, documents, and their organization during query execution.
+For example, Solid makes use of the [Linked Data Platform specification](cite:cites spec:ldp)
+to provide completeness guarantees when finding data within vaults,
+and it provides the [Type Index](cite:cites spec:typeindex) to enable type-based document discovery.
+
 In this work, we prove that LTQP
 can be an effective paradigm,
 if we exploit specific structural properties within decentralized environments
