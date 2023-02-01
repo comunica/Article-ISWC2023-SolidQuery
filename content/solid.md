@@ -28,7 +28,14 @@ For the remainder of this article, we will only consider the processing of RDF d
 Resources within vaults can be read by sending HTTP `GET` requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
 If the vault supports this, resources can be modified or created using HTTP `PATCH` and `POST` requests.
-An example of such a basic container can be found in the [appendix](#appendix-listings).
+An example of such a basic container can be found in the [](#example-ldpcontainer).
+
+<figure id="example-ldpcontainer" class="listing">
+````/code/ldpcontainer.ttl````
+<figcaption markdown="block">
+An LDP container in a Solid data vault containing one file and two directories in the Turtle serialization.
+</figcaption>
+</figure>
 
 Data vaults can contain public as well as private data.
 Users can configure who can access or modify files within their vault
@@ -46,8 +53,15 @@ each WebID URI should be dereferenceable, and return a WebID profile document.
 Next to basic information of the agent such as its name and contact details,
 this document should contain links to 1) the root LDP container of its data vault (via `pim:storage`), and
 2) public and private type indexes.
-An example is shown in [appendix](#appendix-listings).
+An example is shown in [](#example-webidprofile).
 We omit further WebID details due to their irrelevance within this work.
+
+<figure id="example-webidprofile" class="listing">
+````/code/webidprofile.ttl````
+<figcaption markdown="block">
+A simplified WebID profile in Turtle.
+</figcaption>
+</figure>
 
 ### Type Index
 
@@ -55,7 +69,18 @@ The [Type Index](cite:cites spec:typeindex) is a document that enables type-base
 Users may have public or private type indexes, which respectively refer to data that are and are not publicly discoverable.
 A type index can contain type registration entries for different classes,
 where each registration has a link to resources containing instances of the corresponding class.
-An example of such a type index can be found in the [appendix](#appendix-listings).
+[](#example-typeindex) shows a type index example with type registrations for posts and comments,
+where the posts entry refers to a single posts file,
+and the comments entry refers to a container with multiple comments files.
+If an application wants to obtain all posts of a user,
+it can do so by finding this type index and following the link within the type index entry that corresponds to the post class.
+
+<figure id="example-typeindex" class="listing">
+````/code/typeindex.ttl````
+<figcaption markdown="block">
+Example of a type index with entries for posts and comments in the Turtle serialization.
+</figcaption>
+</figure>
 
 ### Requirements for query engines
 
