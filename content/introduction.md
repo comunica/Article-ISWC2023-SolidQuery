@@ -50,7 +50,7 @@ can be an effective paradigm,
 if we exploit specific structural properties within decentralized environments
 for more effective source discovery and query optimization.
 We apply our research to the Solid ecosystem,
-but these concepts are generalizable to [other decentralization initiatives](cite:cites mastodon, decentralizednanopubs).
+but these concepts may be generalizable to [other decentralization initiatives](cite:cites mastodon, decentralizednanopubs).
 To the best of our knowledge, this is the first in-depth analysis of query execution within the Solid ecosystem.
 
 This article is structured as follows.
@@ -61,7 +61,13 @@ In [](#approach), we introduce LTQP algorithms that make use of these structural
 which are evaluated in [](#evaluation).
 Finally, we conclude in [](#conclusions).
 
+Specifically, we provide the contributions in this work:
 
+- An analysis of the Solid ecosystem from a query execution perspective.
+- SolidBench: A benchmark that simulates a decentralized Solid environment, with dedicated fragmentation techniques, choke-point-based query templates, and LTQP-specific metrics.
+- Two novel formally-defined LTQP discovery algorithms over the structural properties in the Solid ecosystem.
+- Implementation of these novel algorithms and the existing foundational LTQP algorithms.
+- Evaluation of the implemented algorithms using SolidBench.
 
 <!--
 Contributions:

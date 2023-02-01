@@ -99,7 +99,7 @@ that is executed later in the execution process does not miss any triples.
 
 ### Discovery of data vault
 
-In this section, we introduce a discovery approach for traversing over Solid data vaults as discussed in [](#solid).
+In this section, we introduce a novel discovery approach for traversing over Solid data vaults as discussed in [](#solid).
 
 #### Intuitive description
 
@@ -142,7 +142,7 @@ $$
 ### Discovery of type index
 
 As discussed in [](#solid), the type index enables resource discovery in a vault via RDF classes.
-In this section, we introduce a method that follows links in the type index,
+In this section, we introduce a novel method that follows links in the type index,
 with an optional filter that only follows those links matching with a class in the query.
 
 #### Intuitive description

@@ -16,7 +16,7 @@ to tackle their unprecedented scale.
 In this article,
 we analyze the structural properties of the Solid decentralization ecosystem that are relevant for query execution,
 and provide the _SolidBench_ benchmark to simulate Solid environments representatively.
-We introduce LTQP algorithms leveraging these structural properties,
+We introduce novel LTQP algorithms leveraging these structural properties,
 and evaluate their effectiveness.
 <!-- Findings     -->
 Our experiments indicate that these new algorithms obtain accurate results in the order of seconds for non-complex queries,
