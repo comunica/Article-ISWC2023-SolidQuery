@@ -24,7 +24,7 @@ and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\t
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 To foster reproducibility,
-the experimental setup, raw results, and processing scripts are available as open-source on [https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/](https://anonymous.4open.science/r/webconf-2023-querysolid-experiments/).
+the experimental setup, raw results, and processing scripts are available as open-source on [https://github.com/comunica/Experiments-Solid-Link-Traversal](https://github.com/comunica/Experiments-Solid-Link-Traversal).
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries, 35 short queries, and 60 complex queries.
 

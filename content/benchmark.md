@@ -73,14 +73,14 @@ For more details on properties of this dataset and its schema, we refer to the [
 
 All aspects of SolidBench are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
 ranging from fragmentation strategies to properties of query templates.
-Furthermore, our benchmark is included in an existing benchmark runner (*name omitted due to double-blind review process*),
+Furthermore, our benchmark is included in the benchmark runner *jbr* ([https://github.com/rubensworks/jbr.js](https://github.com/rubensworks/jbr.js)),
 which simplifies its execution.
 To simplify evaluation and testing,
 we also provide a built-in Web server that can serve the generated data vaults over HTTP using a single command,
 which is done using a slimmed-down version of the [Community Solid Server](cite:cites solidcommunityserver).
 This server disables authentication and authorization by default,
 so experiments can focus on query performance.
-The benchmark is open-source at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/).
+The benchmark is open-source at [https://github.com/SolidBench/SolidBench.js](https://github.com/SolidBench/SolidBench.js).
 
 <!--
 157210 files
@@ -172,7 +172,7 @@ on the correlation of short and complex query templates to these choke points.
 Since the short and complex query classes only partially cover choke points related *linking structures* within data vaults,
 we introduce *discover* queries dedicated for covering these choke points on linking structures.
 The full list of linking-related choke points and discover queries are available in the [appendix](#appendix-workload).
-More details on all query templates can be found at [https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/templates/queries/README.md](https://anonymous.4open.science/r/webconf-2023-querysolid-benchmark/templates/queries/README.md).
+More details on all query templates can be found at [https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
 
 **Query template instantiation**
 
