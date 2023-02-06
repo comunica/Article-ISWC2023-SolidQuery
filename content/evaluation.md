@@ -290,21 +290,21 @@ The results of this experiment are shown in [](#results-planning-effectiveness).
 
 | Query | Integrated | Two-phase | HTTP Requests |
 | --- | --: | --: | --: |
-| D1 | 5,826.83 | 451.42 | 222 |
-| D2 | 6,043.50 | 646.77 | 223 |
-| D3 | 7,490.17 | 1,118.69 | 428 |
-| D4 | 5,734.25 | 509.56 | 228 |
-| D5 | 1,499.62 | 365.76 | 222 |
-| D6 | 2,360.60 | 310.79 | 121 |
-| D7 | 3,226.30 | 316.05 | 121 |
-| D8 | 4,739.88 | 2,292.81 | 217 |
+| D1 | 1,077.58 | 403.54 | 222 |
+| D2 | 1,020.67 | 567.57 | 223 |
+| D3 | 1,193.01 | 821.23 | 429 |
+| D4 | 3,266.62 | 505.00 | 228 |
+| D5 | 522.23 | 387.24 | 223 |
+| D6 | 710.16 | 289.72 | 122 |
+| D7 | 626.96 | 340.54 | 122 |
+| D8 | 2,037.85 | 1,654.02 | 420 |
 
 <figcaption markdown="block">
 Integrated and two-phase execution times (ms) of discover queries, with number of HTTP requests per query.
 </figcaption>
 </figure>
 
-These results show that the two-phase approach is an order of magnitude faster for all queries compared to the integrated approach,
+These results show that the two-phase approach is on average two times faster for all queries compared to the integrated approach,
 even when taking into account time for dereferencing.
 The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization, sparqlbgpoptimization),
 since it has access to an indexed triple store with planning-relevant information such as cardinality estimates.
