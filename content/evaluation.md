@@ -12,14 +12,22 @@ and a discussion of our results to answer our research question.
 
 ### Experimental Design
 
-We make use of a full factorial experiment containing the following factors and values:
+We make use of a factorial experiment containing the following factors and values:
 
 - **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
+- **Fragmentation strategy**: Composite
 
 The LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
 the Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
-and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$,
+and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$.
+
+Furthermore, to measure the impact of the different fragmentation strategies that were discussed in [](#benchmark),
+we compare them using the optimal method of vault discovery and reachability semantics (as determined later in the experiments):
+
+- **Vault discovery**: LDP and Filtered Type Index
+- **Reachability semantics**: cMatch
+- **Fragmentation strategy**: Separate, Single, Location, Time, Composite
 
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
@@ -122,10 +130,29 @@ Aggregated results for the different combinations across all 12 **complex** quer
 </figcaption>
 </figure>
 
+<figure id="results-queries-fragmentation" markdown="1" class="table table-smaller-font">
+
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
+| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
+| Separate | 2,662 | 1,244 | 1,139 | 379 | 2,149 | 20.50 | 74.14% | 2 |
+| Single | 14,997 | 1,300 | 2,610 | 728 | 487 | 38.25 | 86.64% | 1 |
+| Location | 15,051 | 1,645 | 2,737 | 796 | 553 | 38.25 | 86.64% | 1 |
+| Time | 4,758 | 1,163 | 897 | 149 | 4,425 | 38.25 | 86.64% | 1 |
+| Composite | 11,453 | 910 | 1,430 | 745 | 2,655 | 37.00 | 74.14% | 2 |
+
+<figcaption markdown="block">
+Aggregated results for the different **fragmentation strategies** over different **post multiplication factors** across all 8 **discover** queries.
+</figcaption>
+</figure>
+
+{:.todo}
+Update with increasing scales
+
 In this section, we present results that offer insights into our research question.
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
 show the aggregated results for the different combinations of our setup
 for the discover, short, and complex queries of the benchmark, respectively.
+Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with increasing post multiplication factors.
 Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
@@ -175,7 +202,8 @@ we can observe that using the type index leads to fewer HTTP requests and faster
 To explain this behaviour in more detail, [](#figure-queries_indexvsstorage_time_relative) shows the average query execution times of each discover query separately,
 for the different combinations of data vault discovery approaches.
 To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
-Furthermore, [](#figure-queries_indexvsstorage_http) shows the average number of HTTP requests for each of those discover queries.
+Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
+which are also made relative to the maximum number of requests per query for better comparability.
 [](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4) contain more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
 Finally, [](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
 
@@ -189,10 +217,12 @@ and stars indicate average time until first result.
 </figcaption>
 </figure>
 
-<figure id="figure-queries_indexvsstorage_http">
-<img src="img/experiments/queries_indexvsstorage_http.svg" alt="HTTP requests of discover queries for index versus storage">
+<figure id="figure-queries_indexvsstorage_http_relative">
+<img src="img/experiments/queries_indexvsstorage_http_relative.svg" alt="Relative HTTP requests of discover queries for index versus storage">
 <figcaption markdown="block">
-Average number of HTTP requests for discover queries with different discovery methods under cMatch.
+Relative number of HTTP requests for discover queries with different discovery methods under cMatch.
+Bars indicate average execution time,
+whiskers indicate the maxima and minima.
 </figcaption>
 </figure>
 
@@ -230,10 +260,10 @@ Five queries are missing due to no approaches achieving accurate results.
 </figcaption>
 </figure>
 
-While [](#figure-queries_indexvsstorage_time_relative) shows that for six queries (D1, D2, D5, D6, D7, D8)
+While [](#figure-queries_indexvsstorage_time_relative) shows that for six queries (D1, D2, D3, D5, D6, D8)
 using just the type index is slightly faster or comparable to just LDP-based discovery,
 this difference has no statistical significance (*p = 0.55*).
-However, [](#figure-queries_indexvsstorage_http) shows that the number of HTTP requests with the type index is always slightly lower than via LDP,
+However, [](#figure-queries_indexvsstorage_http_relative) shows that the number of HTTP requests with the type index is always slightly lower than via LDP,
 but this only has a very weak statistical significance (*p = 0.12*).
 
 When the filter-enabled type index approach is used, three queries (D1, D3, D8) are made even faster compared to the non-filtered type index approach.
@@ -253,15 +283,14 @@ Query D8 does however show that this combination deserves further investigation,
 because this query has a result limit that leads to a prioritization of links via the type index,
 leading to earlier query termination with fewer requests.
 
-[](#figure-querytimes_d1-3) and [](#figure-querytimes_d2-3) show the query result arrival times for D1 and D2 respectively
+[](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4)
+show the query result arrival times for D1, D2, and D5 respectively
 with different combinations of data vault discovery with cMatch.
 Since D1 specifically queries for resources of the type Post, it can very selectively make use of the Post entry within the type index,
 which makes the filtered type index approach faster than the non-filtered approach.
 D2 targets both resources of type Comment and Post, which means that it has to make use of both entries within the type index,
 which causes the performance difference between the filtered and non-filtered type index approach to be negligeable.
-
-[](#figure-querytimes_d5-4) shows the query result arrival times for D5,
-which is a query that does not specifically target resources of certain types.
+D5 is a query that does not specifically target resources of certain types.
 This means that the type index leads to no significant performance benefit if no specific types are targeted in the query.
 
 In general, these results hint that the filtered type index approach performs better than the other approaches.
@@ -326,6 +355,15 @@ since they are usually the least selective.
 However, when a Solid type index is present, such vocabulary terms may instead become _very selective_,
 which means that those would benefit from prioritization.
 As such, there is a need for alternative query planners that consider the structural assumptions within specific decentralized environments.
+
+#### Different fragmentation strategies have a small impact on execution time
+
+Our results in [](#results-queries-fragmentation) on comparing the impact of different fragmentation strategies
+show that while the number of HTTP requests required to answer a query can vary significantly (p: TODO),
+this does not translate into a significant difference in query execution times (p: TODO).
+
+{:.todo}
+TODO: increasing size impact...
 
 <!--
 

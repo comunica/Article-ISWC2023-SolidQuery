@@ -68,12 +68,22 @@ We provide 27 query templates that can be instantiated any number of times to si
 We also provide a tool that can produce validation queries and results to measure the correctness and completeness of a system.
 Since we focus on read-only queries in this work, we do not consider the write queries of SNB.
 
-By default, SolidBench sets the scale factor of the SNB generator to 0.1,
+By default, SolidBench sets the *scale factor* of the SNB generator to 0.1,
 which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.
 In total, there are 3.556.159 triples across all files, with an average of 22,62 triples per file.
+This scale primarily determines the number of persons in the dataset,
+which directly corresponds to the number of data vaults that will be simulated.
 Even though this scale can be increased arbitrarily,
 we notice that this default scale can already stress existing LTQP approaches beyond their current capabilities.
+Next to this vault scale factor, we also provide a *multiplication factor* for the amount of posts inside a vault,
+which allows increasing vault sizes to arbitrary amounts.
+By default this post multiplication factor is set at 1.
+When setting this to 10, the total number of triples is TODO (average of TODO triples per file, over TODO files).
+When setting this to 100, the total number of triples is TODO (average of TODO triples per file, over TODO files).
 For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
+
+{:.todo}
+Update numbers above
 
 All aspects of SolidBench are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
 ranging from fragmentation strategies to properties of query templates.
