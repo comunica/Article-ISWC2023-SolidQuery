@@ -231,8 +231,8 @@ Coverage of choke points on linking structures for discover queries.
 </figcaption>
 </figure>
 
-More details on all query templates can be found at<br \>
-[https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
+More details on all query templates can be found at
+[https://github.com/SolidBench/SolidBench.js/blob/master/templates/](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md)<br />[queries/README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
 
 **Query template instantiation**
 
