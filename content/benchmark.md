@@ -69,8 +69,8 @@ We also provide a tool that can produce validation queries and results to measur
 Since we focus on read-only queries in this work, we do not consider the write queries of SNB.
 
 By default, SolidBench sets the *scale factor* of the SNB generator to 0.1,
-which results in 157.210 RDF files over 1.529 data vaults using the default fragmentation strategy.
-In total, there are 3.556.159 triples across all files, with an average of 22,62 triples per file.
+which results in 158.233 RDF files over 1.531 data vaults using the default fragmentation strategy.
+In total, there are 3.556.159 triples across all files, with an average of 22,47 triples per file.
 This scale primarily determines the number of persons in the dataset,
 which directly corresponds to the number of data vaults that will be simulated.
 Even though this scale can be increased arbitrarily,
@@ -78,12 +78,8 @@ we notice that this default scale can already stress existing LTQP approaches be
 Next to this vault scale factor, we also provide a *multiplication factor* for the amount of posts inside a vault,
 which allows increasing vault sizes to arbitrary amounts.
 By default this post multiplication factor is set at 1.
-When setting this to 10, the total number of triples is TODO (average of TODO triples per file, over TODO files).
-When setting this to 100, the total number of triples is TODO (average of TODO triples per file, over TODO files).
+When setting this to 5, the total number of triples is 9.404.520 (average of 29.75 triples per file, across 316.053 files).
 For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
-
-{:.todo}
-Update numbers above
 
 All aspects of SolidBench are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
 ranging from fragmentation strategies to properties of query templates.
@@ -97,13 +93,20 @@ so experiments can focus on query performance.
 The benchmark is open-source at [https://github.com/SolidBench/SolidBench.js](https://github.com/SolidBench/SolidBench.js).
 
 <!--
-157210 files
-1529 pods
+x1
+158233 files
+1531 pods
 3556159 triples
-3556159/157210=22,62
+3556159/158233=22,47
+
+x5
+316053 files
+1531 pods
+9404520 triples
+9404520/316053=29,75
 
 Counted using:
-- find . type -f | wc -l
+- find . -type f | wc -l
 - ll | wc -l
 - find . -type f -exec wc -l {} \; | awk '{total += $1} END{print total}'
 

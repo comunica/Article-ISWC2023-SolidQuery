@@ -132,21 +132,23 @@ Aggregated results for the different combinations across all 12 **complex** quer
 
 <figure id="results-queries-fragmentation" markdown="1" class="table table-smaller-font">
 
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
+|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| Separate | 2,662 | 1,244 | 1,139 | 379 | 2,149 | 20.50 | 74.14% | 2 |
-| Single | 14,997 | 1,300 | 2,610 | 728 | 487 | 38.25 | 86.64% | 1 |
-| Location | 15,051 | 1,645 | 2,737 | 796 | 553 | 38.25 | 86.64% | 1 |
-| Time | 4,758 | 1,163 | 897 | 149 | 4,425 | 38.25 | 86.64% | 1 |
-| Composite | 11,453 | 910 | 1,430 | 745 | 2,655 | 37.00 | 74.14% | 2 |
+| Composite-1 | 15,207 | 2,804 | 5,154 | 921 | 2,653 | 39.13 | 0 |
+| Composite-5 | 29,139 | 3,698 | 3,660 | 1,745 | 556 | 48.25 | 1 |
+| Separate-1 | 3,310 | 2,297 | 2,092 | 594 | 2,681 | 39.13 | 0 |
+| Separate-5 | 18,440 | 3,491 | 4,535 | 905 | 6,597 | 48.25 | 1 |
+| Single-1 | 15,503 | 3,212 | 3,135 | 1,111 | 1,995 | 39.13 | 0 |
+| Single-5 | 30,462 | 6,397 | 4,967 | 1,660 | 479 | 48.25 | 1 |
+| Location-1 | 15,428 | 3,148 | 2,987 | 1,218 | 575 | 39.13 | 0 |
+| Location-5 | 30,788 | 6,292 | 5,125 | 1,520 | 542 | 48.25 | 1 |
+| Time-1 | 5,157 | 1,862 | 1,769 | 1,050 | 4,412 | 39.13 | 0 |
+| Time-5 | 21,645 | 3,072 | 2,866 | 1,307 | 4,339 | 48.25 | 1 |
 
 <figcaption markdown="block">
 Aggregated results for the different **fragmentation strategies** over different **post multiplication factors** across all 8 **discover** queries.
 </figcaption>
 </figure>
-
-{:.todo}
-Update with increasing scales
 
 In this section, we present results that offer insights into our research question.
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
@@ -162,6 +164,9 @@ These results show that there are combinations of approaches that achieve a very
 and an average level of accuracy for short queries.
 However, for complex queries, none of the combinations achieve an acceptable level of accuracy.
 Hence, we consider this last query category too complex for current link traversal approaches, and we do not consider them further in this article.
+Furthermore, increasing the number of posts within a vault has an increasing factor on the query execution times,
+but this factor varies with different fragmentation strategies.
+We will elaborate on these results in more detail hereafter.
 
 ### Discussion
 
@@ -356,22 +361,72 @@ However, when a Solid type index is present, such vocabulary terms may instead b
 which means that those would benefit from prioritization.
 As such, there is a need for alternative query planners that consider the structural assumptions within specific decentralized environments.
 
-#### Different fragmentation strategies have a small impact on execution time
+#### Vault fragmentation primarily impacts execution time
 
-Our results in [](#results-queries-fragmentation) on comparing the impact of different fragmentation strategies
-show that while the number of HTTP requests required to answer a query can vary significantly (p: TODO),
-this does not translate into a significant difference in query execution times (p: TODO).
+The results in [](#results-queries-fragmentation) show that
+different fragmentation strategies with different multiplication factors for vault sizes
+can impact both execution times and the number of HTTP requests.
+To enable better comparisons, [](#figure-queries_frag_time_relative) and [](#figure-queries_indexvsstorage_http_relative)
+respectively show the average query execution times and number of HTTP requests of each discover query separately.
+Furthermore, [](#figure-querytimes_frag_d1-3) and [](#figure-querytimes_frag_d2-3) contain diefficiency plots for several of these queries.
 
-{:.todo}
-TODO: increasing size impact...
+<figure id="figure-queries_frag_time_relative">
+<img src="img/experiments/queries_frag_time_relative.svg" alt="Relative execution times of discover queries for fragmentation strategies">
+<figcaption markdown="block">
+Relative execution times for discover queries with different fragmentation strategies under cMatch.
+Bars indicate average execution time,
+whiskers indicate the maxima and minima,
+and stars indicate average time until first result.
+</figcaption>
+</figure>
 
-<!--
+<figure id="figure-queries_frag_http_relative">
+<img src="img/experiments/queries_frag_http_relative.svg" alt="Relative HTTP requests of discover queries for fragmentation strategies">
+<figcaption markdown="block">
+Relative number of HTTP requests for discover queries with different fragmentation strategies under cMatch.
+Bars indicate average execution time,
+whiskers indicate the maxima and minima.
+</figcaption>
+</figure>
 
-#### Live exploration is required for heterogeneous fragmentations
+<figure id="figure-querytimes_frag_d1-3">
+<img src="img/experiments/querytimes_frag_d1-3.svg" alt="Query result arrival times for D1">
+<figcaption markdown="block">
+Query result arrival times for D1 with different fragmentation strategies.
+</figcaption>
+</figure>
 
-Optional: if time left. (we could also just discuss this in conclusions if not time left)
-Show that hardcoded data access to specific files is not good, because different vaults have different frag strategies.
-Any findings by comparing different frag strategies?
-{:.todo}
+<figure id="figure-querytimes_frag_d2-3">
+<img src="img/experiments/querytimes_frag_d2-3.svg" alt="Query result arrival times for D2">
+<figcaption markdown="block">
+Query result arrival times for D2 with different fragmentation strategies.
+</figcaption>
+</figure>
 
--->
+These findings show that fragmenting data in different ways has a significant impact on the number of HTTP requests (*p < 0.01*).
+However, this does not translate into a significant difference in query execution times (*p = 0.72*).
+When we increase the number of data within each pod,
+we _do_ see a a significant difference in both execution times (*p = 0.014*) *and* number of HTTP requests (*p < 0.01*).
+In general, there is no significant correlation between the number of HTTP requests and the execution times (*p = 0.18*).
+
+Since the *separate* fragmentation strategy produces separate files per post,
+it to be expected that this strategy results in the highest number of HTTP requests most queries,
+and is aggrevated when the vault size increases.
+This does not however translate into it leading to the highest execution times.
+However, as can be seen in [](#results-queries-fragmentation), this strategy leads to the lowest times until first result.
+This behaviour can be confirmed when inspecting
+the diefficiency plots in [](#figure-querytimes_frag_d1-3), [](#figure-querytimes_frag_d2-3).
+These show that the *separate* strategy usually leads to very early results,
+but later results come in relatively slowly, which causes other strategies that emit their first result later,
+to still achieve a lower total execution time.
+This is because this strategy leads to many very small files, each of which can be fetched and processed very efficiently.
+But due to their high number, fetching many of them incurs an overhead in terms of HTTP requests.
+
+While these results may indicate that some fragmentation strategies are more favorable than others,
+the strategy used within a user's vault is usually not something the query engine can influence.
+In decentralized environments such as Solid, users are in full control over their data,
+which means that query engines should not enforce their needs for efficient execution onto the user.
+The engine may however handle certain strategies more efficient than others,
+and could inform the user if non-optimal fragmentation strategies are encountered in vaults.
+In general, query engines should not make assumptions about the fragmentation strategy in vaults.
+Instead, engines must apply live exploration of vaults to handle heterogeneous fragmentations.
