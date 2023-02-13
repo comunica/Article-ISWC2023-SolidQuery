@@ -52,24 +52,24 @@ and compare them against, and in combination with, our algorithms.
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 43 | 0 | N/A | N/A | 8 | 0.00 | 0.00% | 0 |
-| cmatch-base | 4,658 | 0 | 32,846 | 31,615 | 437 | 1.25 | 12.50% | 0 |
-| call-base | 83,734 | 118,813 | 34,808 | 34,360 | 446 | 2.88 | 20.63% | 7 |
-| cnone-idx | 2,040 | 674 | 762 | 634 | 291 | 20.50 | 74.14% | 0 |
-| **cmatch-idx** | **16,529** | **1,867** | **3,483** | **973** | **664** | **39.13** | **99.14%** | **0** |
-| call-idx | 80,597 | 118,512 | 28,240 | 26,950 | 478 | 3.63 | 24.38% | 7 |
-| cnone-idx-filt | 1,926 | 644 | 696 | 703 | 278 | 20.50 | 74.14% | 0 |
-| **cmatch-idx-filt** | **16,253** | **1,504** | **3,287** | **933** | **631** | **39.13** | **99.14%** | **0** |
-| call-idx-filt | 80,439 | 118,433 | 29,193 | 31,133 | 482 | 3.50 | 23.75% | 7 |
-| cnone-ldp | 2,431 | 794 | 916 | 895 | 342 | 20.50 | 74.14% | 0 |
-| **cmatch-ldp** | **19,113** | **2,452** | **5,356** | **1,496** | **831** | **39.13** | **99.14%** | **0** |
-| call-ldp | 83,691 | 118,740 | 35,220 | 35,439 | 442 | 2.88 | 20.63% | 7 |
-| cnone-ldp-idx | 2,844 | 1,072 | 971 | 1,005 | 406 | 20.50 | 74.14% | 0 |
-| **cmatch-ldp-idx** | **17,026** | **3,108** | **3,476** | **1,575** | **733** | **39.13** | **99.14%** | **0** |
-| call-ldp-idx | 80,234 | 118,352 | 27,841 | 29,887 | 476 | 3.63 | 24.38% | 7 |
-| cnone-ldp-idx-filt | 2,879 | 1,017 | 1,073 | 976 | 405 | 20.50 | 74.14% | 0 |
-| **cmatch-ldp-idx-filt** | **16,903** | **2,241** | **3,493** | **1,429** | **750** | **39.13** | **99.14%** | **0** |
-| call-ldp-idx-filt | 80,228 | 118,218 | 27,069 | 29,430 | 467 | 3.63 | 24.38% | 7 |
+| cnone-base | 40 | 0 | N/A | N/A | 8 | 0.00 | 0.00% | 0 |
+| cmatch-base | 1,791 | 0 | 22,946 | 24,439 | 1,275 | 0.00 | 0.00% | 1 |
+| call-base | 128,320 | 127,021 | 28,448 | 10,554 | 0 | 0.63 | 3.13% | 8 |
+| cnone-idx | 1,448 | 842 | 447 | 351 | 243 | 20.50 | 74.14% | 0 |
+| **cmatch-idx** | **12,284** | **2,210** | **2,304** | **1,217** | **2,567** | **39.13** | **99.14%** | **0** |
+| call-idx | 124,197 | 124,811 | 48,223 | 9,778 | 18,022 | 3.13 | 17.40% | 7 |
+| cnone-idx-filt | 1,429 | 755 | 435 | 311 | 230 | 20.50 | 74.14% | 0 |
+| **cmatch-idx-filt** | **12,114** | **2,312** | **2,397** | **1,075** | **2,554** | **39.13** | **99.14%** | **0** |
+| call-idx-filt | 124,003 | 126,093 | 43,147 | 29,937 | 11,023 | 4.50 | 29.78% | 8 |
+| cnone-ldp | 1,606 | 994 | 563 | 386 | 342 | 20.50 | 74.14% | 0 |
+| cmatch-ldp | 13,463 | 2,288 | 3,660 | 1,057 | 3,625 | 37.88 | 86.64% | 1 |
+| call-ldp | 123,712 | 123,479 | 37,083 | 13,733 | 0 | 2.00 | 16.25% | 8 |
+| cnone-ldp-idx | 1,560 | 1,001 | 482 | 349 | 358 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp-idx** | **12,417** | **2,529** | **2,333** | **1,189** | **2,709** | **39.13** | **99.14%** | **0** |
+| call-ldp-idx | 127,768 | 125,103 | 67,577 | 13,472 | 12,466 | 2.38 | 16.63% | 7 |
+| cnone-ldp-idx-filt | 1,552 | 1,006 | 425 | 331 | 357 | 20.50 | 74.14% | 0 |
+| **cmatch-ldp-idx-filt** | **12,483** | **2,372** | **2,309** | **925** | **2,708** | **39.13** | **99.14%** | **0** |
+| call-ldp-idx-filt | 123,979 | 125,235 | 48,382 | 10,368 | 16,623 | 3.13 | 17.40% | 7 |
 
 <figcaption markdown="block">
 Aggregated results for the different combinations across all 8 **discover** queries.
@@ -152,6 +152,9 @@ Aggregated results for the different **fragmentation strategies** over different
 </figcaption>
 </figure>
 
+{:.todo}
+Update short and complex table.
+
 In this section, we present results that offer insights into our research question.
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
 show the aggregated results for the different combinations of our setup
@@ -174,6 +177,9 @@ We will elaborate on these results in more detail hereafter.
 
 #### Intra-vault and inter-vault data discovery
 
+{:.todo}
+Update with short query results.
+
 The results above show that if we desire accurate results,
 that the combination of cMatch semantics together with at least one of the data vault discovery methods is required.
 This combination is needed because our workload contains queries that either target data within a single vault (e.g. D1),
@@ -193,7 +199,7 @@ it is theoretically a sufficient replacement for cMatch.
 However, our results show that too many links are being followed with cAll, which leads to timeouts for nearly all queries.
 
 Our results show that solely using reachability semantics (cMatch or cAll) without a data discovery method is insufficient for discover queries,
-where a accuracy of only up to 12.50% or 19.38% can be achieved for discover queries.
+where a accuracy of only up to 3.13% can be achieved for discover queries.
 However, when looking at the short queries category, solely using reachability semantics appears to be sufficient,
 with the number of HTTP requests and query execution time even being lower.
 This difference exists because the discover workload contains queries that discover data related to a certain person or resource,
@@ -258,7 +264,7 @@ Query result arrival times for D5 with different combinations of data vault disc
 
 |  | TypeIndex | TypeIndex-f | LDP | LDP + TypeIndex | LDP + TypeIndex-f |
 | --- | ---: | ---: | ---: | ---: | ---: |
-| Wins | 10 | 15 | 5 | 5 | 0 |
+| Wins | 5 | 5 | 5 | 5 | 15 |
 
 <figcaption markdown="block">
 The number of queries each approach achieves the lowest query execution time for across all **cMatch-based** approaches over all 8 **discover** queries with 5 instantiations.
@@ -267,24 +273,25 @@ Five queries are missing due to no approaches achieving accurate results.
 </figcaption>
 </figure>
 
+{:.todo}
+Update figures and text with indexvsstorage results.
+
 While [](#figure-queries_indexvsstorage_time_relative) shows that for six queries (D1, D2, D3, D5, D6, D8)
 using just the type index is slightly faster or comparable to just LDP-based discovery,
-this difference has no statistical significance (*p = 0.55*).
-However, [](#figure-queries_indexvsstorage_http_relative) shows that the number of HTTP requests with the type index is always slightly lower than via LDP,
-but this only has a very weak statistical significance (*p = 0.12*).
+this difference has no statistical significance (*p = 0.40*).
+However, [](#figure-queries_indexvsstorage_http_relative) shows that the number of HTTP requests with the type index is always significantly lower than via LDP (*p = 0.01*).
 
-When the filter-enabled type index approach is used, three queries (D1, D3, D8) are made even faster compared to the non-filtered type index approach.
+When the filter-enabled type index approach is used, four queries (D1, D5, D6, D7) are made even faster compared to the non-filtered type index approach.
 This is because those queries target a possibly empty subset of the type index entries,
 which means that a significant range of links can be pruned out,
 which leads to a major reduction in the number of HTTP requests,
 which is a main bottleneck in link traversal.
-However, for two queries (D4, D5), the filter-enabled approach becomes slower than the non-filtered type index approach.
-This is because those queries perform relatively fast across all approaches,
-while the processing overhead of type index filtering becomes too high compared to its potential benefit.
-Statistically, this difference has no significance in terms of execution time (*p = 0.81*) and number of HTTP requests (*p = 0.68*).
+For the other queries, the filter-enabled approach becomes slightly slower than the non-filtered type index approach.
+For those queries, the processing overhead of type index filtering becomes too high compared to its potential benefit.
+Statistically, this difference has no significance in terms of execution time (*p = 0.69*) and number of HTTP requests (*p = 0.68*).
 
 These results show that using the type index together with LDP-based discovery is not beneficial in general,
-which is primarily caused by the statistically significantly higher number of HTTP requests (*p = 0.03*)
+which is primarily caused by the statistically significantly higher number of HTTP requests (*p = 0.02*)
 required for traversing both the type index and nested LDP containers.
 Query D8 does however show that this combination deserves further investigation,
 because this query has a result limit that leads to a prioritization of links via the type index,
@@ -300,15 +307,15 @@ which causes the performance difference between the filtered and non-filtered ty
 D5 is a query that does not specifically target resources of certain types.
 This means that the type index leads to no significant performance benefit if no specific types are targeted in the query.
 
-In general, these results hint that the filtered type index approach performs better than the other approaches.
+In general, these results hint that the LDP-based approach combined with filtered type index approach performs better than the other approaches.
 However, due to the minimal difference in terms of execution time,
 the performance of all approaches can be considered equivalent.
 
 #### Zero-knowledge query planning is ineffective
 
 While it may seem obvious to assume that higher query execution times are caused by a higher number of links that need to be dereferenced,
-we observe no significant correlation (*p = 0.76*) of this within the cMatch-based discovery approaches discussed before.
-As such, the main bottleneck in this case appears not to be the number of links to traverse.
+we observe only a weak correlation (*$$\rho$$ = 0.32*) of this within the cMatch-based discovery approaches discussed before.
+As such, the main bottleneck in this case appears not primarily to be the number of links to traverse.
 Instead, our analysis suggests that query plan efficiency is the primary influencer of execution times.
 
 To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMatch with filtered type index discovery)
