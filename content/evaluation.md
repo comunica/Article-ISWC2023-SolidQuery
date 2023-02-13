@@ -365,9 +365,6 @@ As such, there is a need for alternative query planners that consider the struct
 
 #### Vault size and fragmentation impact performance
 
-{:.todo}
-find better title for this section
-
 The results in [](#results-queries-fragmentation) show that
 different fragmentation strategies with different multiplication factors for vault sizes
 can impact both execution times and the number of HTTP requests.
