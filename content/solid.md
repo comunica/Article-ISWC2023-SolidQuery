@@ -5,7 +5,7 @@ In this section, we provide an analysis of the structural properties within the 
 that are relevant for query processing.
 We start by explaining the concept of data vaults and its implications on applications.
 Next, we explain the WebID, which is used for identifying users.
-Then, we discuss the Solid type index that improves data discovery.
+Then, we discuss the Solid type index; a structural property that improves data discovery.
 Finally, we list requirements for query processing within the Solid ecosystem.
 
 ### Data Vault
@@ -15,7 +15,7 @@ the data vault (also known as *data pod*), which is a user-controlled space in w
 Users can choose where and how their vault is stored on the Web,
 by [hosting it themselves](cite:cites solidcommunityserver),
 obtaining service-provided space by [a company](cite:cites inruptpodspaces) or [government](cite:cites flandersdatautility).
-Data vaults are supposed to be loosely coupled to applications,
+Data vaults are intended to be loosely coupled to applications,
 and applications must request explicit access to the user for interacting with specific data.
 This loose coupling enables different applications to use the same data interoperably.
 

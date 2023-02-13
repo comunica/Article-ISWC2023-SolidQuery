@@ -2,7 +2,7 @@
 {:#evaluation}
 
 In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties"_.
-Within this work, we apply this to the structural properties of the decentralized environment provided by Solid,
+Within this work, we apply our experiments to the structural properties of the decentralized environment provided by Solid,
 but findings may be generalizable to other decentralized environments.
 We provide an answer to this research question by simulating Solid data vaults using the benchmark introduced in [](#benchmark) using the default configuration,
 and evaluating different approaches based on the implementation discussed in [](#approach).
@@ -17,6 +17,7 @@ We make use of a factorial experiment containing the following factors and value
 - **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
 - **Fragmentation strategy**: Composite
+- **Multiplication factor**: 1
 
 The LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
 the Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
@@ -28,6 +29,7 @@ we compare them using the optimal method of vault discovery and reachability sem
 - **Vault discovery**: LDP and Filtered Type Index
 - **Reachability semantics**: cMatch
 - **Fragmentation strategy**: Separate, Single, Location, Time, Composite
+- **Multiplication factor**: 1, 5
 
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
@@ -154,7 +156,7 @@ In this section, we present results that offer insights into our research questi
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
 show the aggregated results for the different combinations of our setup
 for the discover, short, and complex queries of the benchmark, respectively.
-Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with increasing post multiplication factors.
+Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with different post multiplication factors.
 Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
@@ -350,7 +352,7 @@ that makes use of heuristics to plan the query before execution.
 Since the only difference between the implementations of the integrated and two-phase approach is in how they plan the query,
 we can derive the query plan of the integrated approach is very ineffective.
 As such, there is clear need for better query planning during integrated execution,
-and the two-phase approach shows that performance could become up to an order of magnitude better.
+and the two-phase approach shows that performance could become more than two times better.
 
 [Zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) is ineffective in our experiments
 because it has been designed under the assumptions of Linked Open Data,
@@ -361,19 +363,22 @@ However, when a Solid type index is present, such vocabulary terms may instead b
 which means that those would benefit from prioritization.
 As such, there is a need for alternative query planners that consider the structural assumptions within specific decentralized environments.
 
-#### Vault fragmentation primarily impacts execution time
+#### Vault size and fragmentation impact performance
+
+{:.todo}
+find better title for this section
 
 The results in [](#results-queries-fragmentation) show that
 different fragmentation strategies with different multiplication factors for vault sizes
 can impact both execution times and the number of HTTP requests.
-To enable better comparisons, [](#figure-queries_frag_time_relative) and [](#figure-queries_indexvsstorage_http_relative)
+To enable better comparisons, [](#figure-queries_frag_time_relative) and [](#figure-queries_frag_http_relative)
 respectively show the average query execution times and number of HTTP requests of each discover query separately.
-Furthermore, [](#figure-querytimes_frag_d1-3) and [](#figure-querytimes_frag_d2-3) contain diefficiency plots for several of these queries.
+Furthermore, [](#figure-querytimes_frag_d1-3) and [](#figure-querytimes_frag_d2-3) contain diefficiency plots for some of these queries.
 
 <figure id="figure-queries_frag_time_relative">
 <img src="img/experiments/queries_frag_time_relative.svg" alt="Relative execution times of discover queries for fragmentation strategies">
 <figcaption markdown="block">
-Relative execution times for discover queries with different fragmentation strategies under cMatch.
+Relative execution times for discover queries with different fragmentation strategies and multiplication factors under cMatch.
 Bars indicate average execution time,
 whiskers indicate the maxima and minima,
 and stars indicate average time until first result.
@@ -383,7 +388,7 @@ and stars indicate average time until first result.
 <figure id="figure-queries_frag_http_relative">
 <img src="img/experiments/queries_frag_http_relative.svg" alt="Relative HTTP requests of discover queries for fragmentation strategies">
 <figcaption markdown="block">
-Relative number of HTTP requests for discover queries with different fragmentation strategies under cMatch.
+Relative number of HTTP requests for discover queries with different fragmentation and multiplication factors strategies under cMatch.
 Bars indicate average execution time,
 whiskers indicate the maxima and minima.
 </figcaption>
@@ -392,27 +397,27 @@ whiskers indicate the maxima and minima.
 <figure id="figure-querytimes_frag_d1-3">
 <img src="img/experiments/querytimes_frag_d1-3.svg" alt="Query result arrival times for D1">
 <figcaption markdown="block">
-Query result arrival times for D1 with different fragmentation strategies.
+Query result arrival times for D1 with different fragmentation strategies and multiplication factors.
 </figcaption>
 </figure>
 
 <figure id="figure-querytimes_frag_d2-3">
 <img src="img/experiments/querytimes_frag_d2-3.svg" alt="Query result arrival times for D2">
 <figcaption markdown="block">
-Query result arrival times for D2 with different fragmentation strategies.
+Query result arrival times for D2 with different fragmentation strategies and multiplication factors.
 </figcaption>
 </figure>
 
 These findings show that fragmenting data in different ways has a significant impact on the number of HTTP requests (*p < 0.01*).
 However, this does not translate into a significant difference in query execution times (*p = 0.72*).
-When we increase the number of data within each pod,
+When we increase the amount of data within each pod,
 we _do_ see a a significant difference in both execution times (*p = 0.014*) *and* number of HTTP requests (*p < 0.01*).
 In general, there is no significant correlation between the number of HTTP requests and the execution times (*p = 0.18*).
 
 Since the *separate* fragmentation strategy produces separate files per post,
 it to be expected that this strategy results in the highest number of HTTP requests most queries,
 and is aggrevated when the vault size increases.
-This does not however translate into it leading to the highest execution times.
+This does not translate into it always leading to the highest execution times.
 However, as can be seen in [](#results-queries-fragmentation), this strategy leads to the lowest times until first result.
 This behaviour can be confirmed when inspecting
 the diefficiency plots in [](#figure-querytimes_frag_d1-3), [](#figure-querytimes_frag_d2-3).

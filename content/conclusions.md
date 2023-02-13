@@ -19,10 +19,10 @@ create opportunities for query execution that allow us to guarantee complete res
 While we have investigated the specific case of querying Solid vaults,
 these concepts may be generalizable to other decentralization efforts, such as [Mastodon](cite:cites mastodon).
 This is possible, because our approach solely relies on the structural properties
-provided by standards such as [Linked Data Platform](cite:cites spec:ldp) and the [Type Index](cite:cites spec:typeindex),
+provided by standards such as the [Linked Data Platform](cite:cites spec:ldp) and the [Type Index](cite:cites spec:typeindex),
 which can be used outside of the Solid ecosystem.
 
-Due to the expectation of incomplete results,
+Due to the possibility of incomplete results,
 LTQP research over Linked Open Data is moving into the direction of
 [finding query-relevant documents as early as possible](cite:cites linktraversaloptimization).
 In the context of Solid, we have shown that finding all query-relevant documents is not the main bottleneck during query execution anymore.
@@ -43,7 +43,7 @@ While we only made us of this index for explicit `rdf:type` occurrences in the q
 this could be extended to also consider implicit type knowledge via [inferencing](cite:cites rif).
 Furthermore, [query containment techniques](cite:cites sparqlquerycontainment) could be investigated for determining which parts of the query match with index entries,
 which could also lead to better a combination of type index and LDP-based discovery.
-On the other hand, alternatives to the type index could offer more expressivity,
+On the other hand, alternative structural properties could offer more expressivity,
 such as [characteristics sets](cite:cites characteristicssets) and [other summarization techniques](cite:cites comparingsummaries).
 For example, the [Shape Trees](cite:cites spec:shapetrees) specification offers a similar index for Solid vaults,
 but instead makes use of nested [ShEx](cite:cites spec:shex) shape definitions for expressing data locations,

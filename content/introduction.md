@@ -16,7 +16,7 @@ to give people back control over their own data
 by guarding it in chosen locations on the Web instead of aggregated in silos.
 Initiatives such as [Solid](cite:cites solid) do this by allowing users to store any kind of data in their own personal data vault,
 which they fully control.
-These data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are often represented as collections of [Linked Data documents](cite:cites linkeddata).
+These data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are often represented as collections of [Linked Data documents](cite:cites linkeddata) containing [RDF triples](cite:cites spec:rdf).
 The presence of such data vaults results in a large-scale distribution of data,
 where applications involving multiple individuals' data require accessing
 thousands or even millions of documents
@@ -69,13 +69,13 @@ In [](#approach), we introduce LTQP algorithms that make use of these structural
 which are evaluated in [](#evaluation).
 Finally, we conclude in [](#conclusions).
 
-Specifically, we provide the contributions in this work:
+Specifically, we provide the following contributions in this work:
 
 - An analysis of the Solid ecosystem from a query execution perspective.
 - SolidBench: A benchmark that simulates a decentralized Solid environment, with dedicated fragmentation techniques, choke-point-based query templates, and LTQP-specific metrics.
-- Two novel formally-defined LTQP discovery algorithms over the structural properties in the Solid ecosystem.
+- Two novel and formally-defined LTQP discovery algorithms over the structural properties in the Solid ecosystem.
 - Implementation of these novel algorithms and the existing foundational LTQP algorithms.
-- Evaluation of the implemented algorithms using SolidBench.
+- Extensive evaluation of the implemented algorithms using SolidBench.
 
 <!--
 Contributions:

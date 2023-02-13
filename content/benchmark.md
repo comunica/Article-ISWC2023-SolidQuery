@@ -21,7 +21,7 @@ Based on our analysis of the Solid ecosystem in [](#solid),
 and requirements from [similar benchmarks](cite:cites ldbc, lingbm, ldbc_snb_interactive),
 we introduce the following requirements for our benchmark:
 
-1. **WebIDs**: Dataset consists of WebIDs corresponding to simulated agents. WebIDs refer to one LDP-based storage vault, and are represented using a standard RDF serialization.
+1. **WebIDs**: Dataset consists of WebIDs corresponding to simulated agents. Each WebID refers to one LDP-based storage vault, and is represented using a standard RDF serialization.
 2. **Data vaults**: Dataset consists of data vaults containing RDF files in LDP containers.
 3. **Type indexes**: WebIDs link to type indexes, containing registrations for data in the agent's vault.
 4. **Variability of vaults**: Data is organized differently in across vaults, to simulate different data organization preferences.
@@ -57,7 +57,7 @@ We introduce the following tools with SolidBench:
 - **Dataset generator**: consisting of SNB's existing generator, and a new dataset fragmenter.
 - **Query generator**: consisting of SNB's existing generator, and a new fragmentation-aware query template instantiator.
 - **Validation generator**: building on top of SNB's validator, produces fragmentation-aware validation sets containing queries and expected results.
-- **Dataset server**: serving of fragmented datasets over HTTP.
+- **Dataset server**: serving of fragmented datasets over HTTP with content negotiation for all RDF serializations.
 - **Benchmark runner**: incorporation into an existing benchmarking system for execution against query engines via the [SPARQL protocol](cite:cites spec:sparqlprot).
 
 For the query workload, we build upon the *interactive* workload of SNB,
@@ -75,9 +75,9 @@ This scale primarily determines the number of persons in the dataset,
 which directly corresponds to the number of data vaults that will be simulated.
 Even though this scale can be increased arbitrarily,
 we notice that this default scale can already stress existing LTQP approaches beyond their current capabilities.
-Next to this vault scale factor, we also provide a *multiplication factor* for the amount of posts inside a vault,
+Next to this vault scale factor, we also provide a new *multiplication factor* for the amount of posts inside a vault,
 which allows increasing vault sizes to arbitrary amounts.
-By default this post multiplication factor is set at 1.
+By default, this post multiplication factor is set at 1.
 When setting this to 5, the total number of triples is 9.404.520 (average of 29.75 triples per file, across 316.053 files).
 For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
 

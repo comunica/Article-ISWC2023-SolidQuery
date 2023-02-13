@@ -82,7 +82,7 @@ Since the link extractors are invoked after every dereference operation,
 this queue may virtually become infinitely long.
 
 This link queue and link extractor approach is generic enough to implement
-[other methods](cite:cites linktraversalsparql, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
+[other LTQP methods](cite:cites linktraversalsparql, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
 for determining and prioritizing links that need to be followed.
 For example, one extractor may consider `rdfs:seeAlso` links,
 while another extractor may consider URIs of a triple that matches with a triple pattern from the query.
@@ -212,7 +212,7 @@ $$
 
 ### Implementation
 
-We have implemented our system using [Comunica](cite:cites comunica), which is an open-source SPARQL query engine framework.
+We have implemented our system using [Comunica](cite:cites comunica), which is a modular open-source SPARQL query engine framework.
 Concretely, we have implemented the pipeline-based link queue as a separate module,
 and we provide link extractors corresponding to the source selectors introduced in previous sections.
 Our implementation has full SPARQL 1.1 support, and consists of pipelined implementations of all monotonic SPARQL operators.
@@ -237,7 +237,7 @@ the use of [client-side caching](cite:cites linktraversalcaching),
 the different [reachability semantics](cite:cites linktraversalfoundations),
 [zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) applied to arbitrary join operations instead of only triple patterns in BGPs,
 and [more](cite:cites linktraversalsparql).
-Furthermore, our implementation supports users to explicitly pass seed URIs,
+Furthermore, our implementation allows users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
 This fallback finds all URIs within the query, and adds them as seed URIs to the link queue.
 
