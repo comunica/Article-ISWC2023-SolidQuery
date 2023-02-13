@@ -273,27 +273,24 @@ Five queries are missing due to no approaches achieving accurate results.
 </figcaption>
 </figure>
 
-{:.todo}
-Update figures and text with indexvsstorage results.
-
-While [](#figure-queries_indexvsstorage_time_relative) shows that for six queries (D1, D2, D3, D5, D6, D8)
+While [](#figure-queries_indexvsstorage_time_relative) shows that for all queries
 using just the type index is slightly faster or comparable to just LDP-based discovery,
 this difference has no statistical significance (*p = 0.40*).
 However, [](#figure-queries_indexvsstorage_http_relative) shows that the number of HTTP requests with the type index is always significantly lower than via LDP (*p = 0.01*).
 
-When the filter-enabled type index approach is used, four queries (D1, D5, D6, D7) are made even faster compared to the non-filtered type index approach.
+When the filter-enabled type index approach is used, five queries (D1, D3, D5, D6, D7) are made even faster compared to the non-filtered type index approach.
 This is because those queries target a possibly empty subset of the type index entries,
 which means that a significant range of links can be pruned out,
 which leads to a major reduction in the number of HTTP requests,
 which is a main bottleneck in link traversal.
-For the other queries, the filter-enabled approach becomes slightly slower than the non-filtered type index approach.
+For the other queries, the filter-enabled approach becomes slightly slower than (D2, D4) or is comparable to (D8) the non-filtered type index approach.
 For those queries, the processing overhead of type index filtering becomes too high compared to its potential benefit.
 Statistically, this difference has no significance in terms of execution time (*p = 0.69*) and number of HTTP requests (*p = 0.68*).
 
-These results show that using the type index together with LDP-based discovery is not beneficial in general,
+These results show that using the type index together with LDP-based discovery is not *significantly* better than the other approaches (*p = 0.71*),
 which is primarily caused by the statistically significantly higher number of HTTP requests (*p = 0.02*)
 required for traversing both the type index and nested LDP containers.
-Query D8 does however show that this combination deserves further investigation,
+Query D8 and [](#results-queries-cmatch-wins) does however show that this combination deserves further investigation,
 because this query has a result limit that leads to a prioritization of links via the type index,
 leading to earlier query termination with fewer requests.
 
