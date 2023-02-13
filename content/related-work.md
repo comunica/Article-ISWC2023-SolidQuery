@@ -1,9 +1,24 @@
 ## Related Work
 {:#related-work}
 
-Below, we discuss related work on Link Traversal Query Processing
-for Linked Data in the RDF model,
+Below, we discuss related work on Knowledge Graphs,
+Link Traversal Query Processing,
 and related benchmarks.
+
+### Knowledge Graphs on the Web
+
+The standard for modeling knowledge graphs is the [Resource Description Framework (RDF)](cite:cites spec:rdf).
+Fundamentally, it is based around the concept of *triples* that are used to make statements about *things*.
+A triple is made up of a *subject*, *predicate* and *object*,
+where the *subject* and *object* are resources (or *things*), and the *predicate* denotes their relationship.
+Resources can either be identified by *Uniform Resource Identifiers (URIs)*, or by blank nodes.
+Multiple resources can be combined with each other through multiple triples, which forms a *Knowledge Graph*.
+The [Linked Data principles](cite:cites linkeddata) is a set of best-practises for publishing RDF on the Web,
+such as using URIs to identify resources, and returning RDF when looking up those URIs.
+In order to look up information within Knowledge Graphs, the [SPARQL query language](cite:cites spec:sparqllang)
+was introduced as a standard.
+Essentially, SPARQL allows RDF data to be looked up through combinations of *triple patterns*,
+which can make up arbitrarily complex queries.
 
 ### Link Traversal Query Processing
 
@@ -11,7 +26,7 @@ The Link Traversal Query Processing (LTQP) paradigm was introduced [more than a 
 as a way to query over the Web of Linked Data as if it was a globally distributed dataspace,
 without having to first index it in a single location.
 LTQP does this by employing the [*follow-your-nose* principle of Linked Data](cite:cites linkeddata) during query execution,
-where new [RDF triples](cite:cites spec:rdf) are continuously added to a local dataset while discovering new sources by following links between documents.
+where new RDF are continuously added to a local dataset while discovering new sources by following links between documents.
 An [iterator-based pipeline](cite:cites linktraversalsparql)
 allows query execution to take place without having to wait until all links have been followed.
 As LTQP engines may traverse over documents from untrusted publishers,
