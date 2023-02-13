@@ -14,7 +14,8 @@ where the *subject* and *object* are resources (or *things*), and the *predicate
 Resources can either be identified by *Uniform Resource Identifiers (URIs)*, or by blank nodes.
 Multiple resources can be combined with each other through multiple triples, which forms a *Knowledge Graph*.
 The [Linked Data principles](cite:cites linkeddata) is a set of best-practises for publishing RDF on the Web,
-such as using URIs to identify resources, and returning RDF when looking up those URIs.
+such as using URIs to identify resources, and returning RDF using a standard serialization
+like [Turtle](cite:cites spec:turtle) and [JSON-LD](cite:cites spec:jsonld) when looking up those URIs.
 In order to look up information within Knowledge Graphs, the [SPARQL query language](cite:cites spec:sparqllang)
 was introduced as a standard.
 Essentially, SPARQL allows RDF data to be looked up through combinations of *triple patterns*,
