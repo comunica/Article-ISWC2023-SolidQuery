@@ -80,24 +80,24 @@ Aggregated results for the different combinations across all 8 **discover** quer
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
 | --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 80 | 5 | 0 | 0 | 15 | 0.14 | 14.29% | 0 |
-| **cmatch-base** | **27,429** | **197** | **190** | **64** | **596** | **0.43** | **42.86%** | **2** |
-| call-base | 119,280 | 118,717 | 6,008 | 1,305 | 0 | 0.29 | 28.57% | 7 |
-| cnone-idx | 2,023 | 75 | 855 | 861 | 121 | 1.57 | 28.57% | 0 |
-| **cmatch-idx** | **69,039** | **118,412** | **1,095** | **202** | **275** | **0.43** | **42.86%** | **4** |
-| call-idx | 119,521 | 118,937 | 2,586 | 828 | 0 | 0.29 | 28.57% | 7 |
-| cnone-idx-filt | 1,995 | 64 | 827 | 866 | 121 | 1.57 | 28.57% | 0 |
-| **cmatch-idx-filt** | **68,785** | **117,814** | **1,128** | **362** | **275** | **0.43** | **42.86%** | **4** |
-| call-idx-filt | 119,699 | 118,765 | 2,007 | 1,099 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp | 2,372 | 79 | 1,274 | 1,194 | 140 | 1.57 | 28.57% | 0 |
-| **cmatch-ldp** | **69,403** | **118,999** | **1,012** | **92** | **291** | **0.43** | **42.86%** | **4** |
-| call-ldp | 119,237 | 118,749 | 6,400 | 6,798 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx | 2,784 | 71 | 1,247 | 1,224 | 164 | 1.57 | 28.57% | 0 |
-| **cmatch-ldp-idx** | **68,973** | **117,888** | **1,219** | **617** | **307** | **0.43** | **42.86%** | **4** |
-| call-ldp-idx | 119,196 | 118,906 | 3,823 | 914 | 0 | 0.29 | 28.57% | 7 |
-| cnone-ldp-idx-filt | 2,833 | 109 | 1,247 | 1,167 | 164 | 1.57 | 28.57% | 0 |
-| **cmatch-ldp-idx-filt** | **69,138** | **118,235** | **1,228** | **388** | **307** | **0.43** | **42.86%** | **4** |
-| call-ldp-idx-filt | 119,599 | 118,820 | 3,580 | 396 | 0 | 0.29 | 28.57% | 7 |
+| cnone-base | 34,364 | 70 | 18 | 2 | 12 | 0.14 | 14.29% | 2 |
+| cmatch-base | 47,700 | 987 | 121 | 92 | 592 | 0.43 | 42.86% | 3 |
+| call-base | 126,794 | 125,609 | 1,547 | 787 | 0 | 0.00 | 0.00% | 7 |
+| cnone-idx | 34,775 | 540 | 676 | 151 | 71 | 0.14 | 14.29% | 2 |
+| cmatch-idx | 70,142 | 119,114 | 6,837 | 530 | 263 | 0.43 | 42.86% | 4 |
+| call-idx | 109,943 | 123,227 | 14,290 | 19,345 | 0 | 0.00 | 0.00% | 7 |
+| cnone-idx-filt | 34,804 | 534 | 527 | 110 | 71 | 0.14 | 14.29% | 2 |
+| cmatch-idx-filt | 69,808 | 119,032 | 7,190 | 434 | 263 | 0.43 | 42.86% | 4 |
+| call-idx-filt | 116,618 | 123,312 | 9,764 | 6,207 | 0 | 0.00 | 0.00% | 7 |
+| cnone-ldp | 34,975 | 621 | 816 | 46 | 96 | 0.29 | 15.71% | 2 |
+| **cmatch-ldp** | **70,026** | **119,586** | **6,524** | **636** | **291** | **0.57** | **44.29%** | **4** |
+| call-ldp | 127,550 | 126,587 | 717 | 483 | 0 | 0.00 | 0.00% | 7 |
+| cnone-ldp-idx | 34,852 | 811 | 521 | 43 | 100 | 0.14 | 14.29% | 2 |
+| cmatch-ldp-idx | 69,534 | 119,215 | 2,936 | 437 | 295 | 0.43 | 42.86% | 4 |
+| call-ldp-idx | 110,217 | 122,525 | 8,841 | 6,114 | 0 | 0.00 | 0.00% | 7 |
+| cnone-ldp-idx-filt | 34,830 | 742 | 402 | 83 | 100 | 0.14 | 14.29% | 2 |
+| **cmatch-ldp-idx-filt** | **70,042** | **119,126** | **6,246** | **663** | **295** | **0.57** | **44.29%** | **4** |
+| call-ldp-idx-filt | 114,800 | 123,058 | 15,075 | 17,192 | 0 | 0.00 | 0.00% | 7 |
 
 <figcaption markdown="block">
 Aggregated results for the different combinations across all 7 **short** queries.
@@ -153,7 +153,7 @@ Aggregated results for the different **fragmentation strategies** over different
 </figure>
 
 {:.todo}
-Update short and complex table.
+Update complex table.
 
 In this section, we present results that offer insights into our research question.
 [](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
@@ -177,9 +177,6 @@ We will elaborate on these results in more detail hereafter.
 
 #### Intra-vault and inter-vault data discovery
 
-{:.todo}
-Update with short query results.
-
 The results above show that if we desire accurate results,
 that the combination of cMatch semantics together with at least one of the data vault discovery methods is required.
 This combination is needed because our workload contains queries that either target data within a single vault (e.g. D1),
@@ -201,7 +198,7 @@ However, our results show that too many links are being followed with cAll, whic
 Our results show that solely using reachability semantics (cMatch or cAll) without a data discovery method is insufficient for discover queries,
 where a accuracy of only up to 3.13% can be achieved for discover queries.
 However, when looking at the short queries category, solely using reachability semantics appears to be sufficient,
-with the number of HTTP requests and query execution time even being lower.
+with the query execution time even being lower.
 This difference exists because the discover workload contains queries that discover data related to a certain person or resource,
 while the short queries target only details of specific resources. 
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
