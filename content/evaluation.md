@@ -48,6 +48,16 @@ and compare them against, and in combination with, our algorithms.
 
 ### Experimental Results
 
+In this section, we present results that offer insights into our research question.
+[](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
+show the aggregated results for the different combinations of our setup
+for the discover, short, and complex queries of the benchmark, respectively.
+Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with different post multiplication factors.
+Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
+The number of HTTP requests is counted across all query executions that did not time out within each combination.
+The timeout column represents the number of query templates that lead to a timeout for a given combination.
+The accuracy of each query execution is calculated as a percentage indicating the precision and recall of query results with respect to the expected query results.
+
 <figure id="results-queries-discover" markdown="1" class="table table-smaller-font">
 
 |  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
@@ -75,6 +85,14 @@ and compare them against, and in combination with, our algorithms.
 Aggregated results for the different combinations across all 8 **discover** queries.
 </figcaption>
 </figure>
+
+These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
+and an average level of accuracy for short queries.
+However, for complex queries, none of the combinations achieve an acceptable level of accuracy.
+Hence, we consider this last query category too complex for current link traversal approaches, and we do not consider them further in this article.
+Furthermore, increasing the number of posts within a vault has an increasing factor on the query execution times,
+but this factor varies with different fragmentation strategies.
+We will elaborate on these results in more detail hereafter.
 
 <figure id="results-queries-short" markdown="1" class="table table-smaller-font">
 
@@ -153,24 +171,6 @@ Aggregated results for the different **fragmentation strategies** over different
 </figcaption>
 </figure>
 
-In this section, we present results that offer insights into our research question.
-[](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
-show the aggregated results for the different combinations of our setup
-for the discover, short, and complex queries of the benchmark, respectively.
-Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with different post multiplication factors.
-Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
-The number of HTTP requests is counted across all query executions that did not time out within each combination.
-The timeout column represents the number of query templates that lead to a timeout for a given combination.
-The accuracy of each query execution is calculated as a percentage indicating the precision and recall of query results with respect to the expected query results.
-
-These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
-and an average level of accuracy for short queries.
-However, for complex queries, none of the combinations achieve an acceptable level of accuracy.
-Hence, we consider this last query category too complex for current link traversal approaches, and we do not consider them further in this article.
-Furthermore, increasing the number of posts within a vault has an increasing factor on the query execution times,
-but this factor varies with different fragmentation strategies.
-We will elaborate on these results in more detail hereafter.
-
 ### Discussion
 
 #### Intra-vault and inter-vault data discovery
@@ -205,16 +205,6 @@ As such, the short and complex queries highlight opportunities for improvement i
 
 #### Type index and LDP discovery perform similarly
 
-When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in [](#results-queries-discover),
-we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery on average.
-To explain this behaviour in more detail, [](#figure-queries_indexvsstorage_time_relative) shows the average query execution times of each discover query separately,
-for the different combinations of data vault discovery approaches.
-To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
-Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
-which are also made relative to the maximum number of requests per query for better comparability.
-[](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4) contain more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
-Finally, [](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
-
 <figure id="figure-queries_indexvsstorage_time_relative">
 <img src="img/experiments/queries_indexvsstorage_time_relative.svg" alt="Relative execution times of discover queries for index versus storage">
 <figcaption markdown="block">
@@ -233,6 +223,16 @@ Bars indicate average execution time,
 whiskers indicate the maxima and minima.
 </figcaption>
 </figure>
+
+When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in [](#results-queries-discover),
+we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery on average.
+To explain this behaviour in more detail, [](#figure-queries_indexvsstorage_time_relative) shows the average query execution times of each discover query separately,
+for the different combinations of data vault discovery approaches.
+To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
+Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
+which are also made relative to the maximum number of requests per query for better comparability.
+[](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4) contain more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
+Finally, [](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
 
 <figure id="figure-querytimes_d1-3">
 <img src="img/experiments/querytimes_d1-3.svg" alt="Query result arrival times for D1">
@@ -390,20 +390,6 @@ whiskers indicate the maxima and minima.
 </figcaption>
 </figure>
 
-<figure id="figure-querytimes_frag_d1-3">
-<img src="img/experiments/querytimes_frag_d1-3.svg" alt="Query result arrival times for D1">
-<figcaption markdown="block">
-Query result arrival times for D1 with different fragmentation strategies and multiplication factors.
-</figcaption>
-</figure>
-
-<figure id="figure-querytimes_frag_d2-3">
-<img src="img/experiments/querytimes_frag_d2-3.svg" alt="Query result arrival times for D2">
-<figcaption markdown="block">
-Query result arrival times for D2 with different fragmentation strategies and multiplication factors.
-</figcaption>
-</figure>
-
 These findings show that fragmenting data in different ways has a significant impact on the number of HTTP requests (*p < 0.01*).
 However, this does not translate into a significant difference in query execution times (*p = 0.72*).
 When we increase the amount of data within each pod,
@@ -422,6 +408,20 @@ but later results come in relatively slowly, which causes other strategies that 
 to still achieve a lower total execution time.
 This is because this strategy leads to many very small files, each of which can be fetched and processed very efficiently.
 But due to their high number, fetching many of them incurs an overhead in terms of HTTP requests.
+
+<figure id="figure-querytimes_frag_d1-3">
+<img src="img/experiments/querytimes_frag_d1-3.svg" alt="Query result arrival times for D1">
+<figcaption markdown="block">
+Query result arrival times for D1 with different fragmentation strategies and multiplication factors.
+</figcaption>
+</figure>
+
+<figure id="figure-querytimes_frag_d2-3">
+<img src="img/experiments/querytimes_frag_d2-3.svg" alt="Query result arrival times for D2">
+<figcaption markdown="block">
+Query result arrival times for D2 with different fragmentation strategies and multiplication factors.
+</figcaption>
+</figure>
 
 While these results may indicate that some fragmentation strategies are more favorable than others,
 the strategy used within a user's vault is usually not something the query engine can influence.
