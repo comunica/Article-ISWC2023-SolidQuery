@@ -4,30 +4,29 @@
 In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties"_.
 Within this work, we apply our experiments to the structural properties of the decentralized environment provided by Solid,
 but findings may be generalizable to other decentralized environments.
-We provide an answer to this research question by simulating Solid data vaults using the benchmark introduced in [](#benchmark) using the default configuration,
-and evaluating different approaches based on the implementation discussed in [](#approach).
+We provide an answer to this research question by evaluating different approaches based on the implementation discussed in [](#approach),
+using a benchmark that simulates Solid data vaults.
 We first introduce the design of our experiment,
 followed by presenting our experimental results,
 and a discussion of our results to answer our research question.
 
 ### Experimental Design
 
-We make use of a factorial experiment containing the following factors and values:
+Our experimental design is based on a benchmark (*name and reference omitted for double-blindness*)
+that simulates a realistic decentralized environment based on the Solid ecosystem.
+Concretely, the benchmark generates a configurable number of data vaults with configurable sizes containing social networking data,
+where a variety of fragmentation strategies are used to organize files in vaults.
+Furthermore, it provides SPARQL query templates that simulate a realistic workload for a social networking application.
+The underlying dataset and query templates are derived from the [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive).
+
+For our experiments, we make use of a factorial experiment containing the following factors and values:
 
 - **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
-- **Fragmentation strategy**: Composite
 
 The LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
 the Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi(B, c)$$ always returning `true`,
 and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$.
-
-Furthermore, to measure the impact of the different fragmentation strategies that were discussed in [](#benchmark),
-we compare them using the optimal method of vault discovery and reachability semantics (as determined later in the experiments):
-
-- **Vault discovery**: LDP and Filtered Type Index
-- **Reachability semantics**: cMatch
-- **Fragmentation strategy**: Separate, Single, Location, Time, Composite
 
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
