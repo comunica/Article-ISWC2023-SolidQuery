@@ -77,8 +77,6 @@ Even though this scale can be increased arbitrarily,
 we notice that this default scale can already stress existing LTQP approaches beyond their current capabilities.
 Next to this vault scale factor, we also provide a new *multiplication factor* for the amount of posts inside a vault,
 which allows increasing vault sizes to arbitrary amounts.
-By default, this post multiplication factor is set at 1.
-When setting this to 5, the total number of triples is 9.404.520 (average of 29.75 triples per file, across 316.053 files).
 For more details on properties of this dataset and its schema, we refer to the [SNB papers](cite:cites ldbc_snb_interactive, ldbc_snb_details).
 
 All aspects of SolidBench are [fully configurable using JSON-LD configuration files](cite:cites componentsjs),
