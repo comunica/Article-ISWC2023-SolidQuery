@@ -18,9 +18,8 @@ we analyze the structural properties of the Solid decentralization ecosystem tha
 and we introduce novel LTQP algorithms leveraging these structural properties,
 and evaluate their effectiveness.
 <!-- Findings     -->
-Our experiments indicate that these new algorithms obtain accurate results in the order of seconds for non-complex queries,
+Our experiments indicate that these new algorithms obtain accurate results in the order of seconds,
 which existing algorithms cannot achieve.
-Furthermore, we discuss limitations with respect to more complex queries.
 <!-- Conclusion   -->
 This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization,
 but that advances are needed in the area of query planning for LTQP to handle more complex queries.
