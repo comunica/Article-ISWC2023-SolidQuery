@@ -182,52 +182,7 @@ on the correlation of short and complex query templates to these choke points.
 Since the short and complex query classes only partially cover choke points related *linking structures* within data vaults,
 we introduce *discover* queries dedicated for covering these choke points on linking structures.
 
-The additional choke points related to *linking structures* within data vaults we introduce are the following:
-
-- **CP L.1: Traversal of 1 hop (1)**: Following one link to one other document.
-- **CP L.2: Traversal of 1 hop (n)**: Following one link to multiple other document.
-- **CP L.3: Traversal of 2 hops (1:1)**: Following one link to another document, and one link to another documents.
-- **CP L.4: Traversal of 2 hops (1:n)**: Following one link to another document, and multiple links to other documents.
-- **CP L.5: Traversal of 3 hops (n:1:1)**: Following multiple links to other documents, one link from the next document, and one other link.
-- **CP L.6: Traversal of 3 hops (n:1:n)**: Following multiple links to other documents, one link from the next document, and multiple other link.
-- **CP L.7: Fragmentation variability in vaults**: Handling the variability of data fragmentation across different data vaults.
-- **CP L.8: Index delegation**: The potential of deferring subqueries to an index (such as the type index).
-- **CP L.9: Noise**: The ability to filter out HTTP requests that are irrelevant to the query.
-
-The discover queries we introduce are listed below:
-
-- D1: All posts of a person
-- D2: All messages of a person
-- D3: Top tags in messages from a person
-- D4: Top locations in comments from a person
-- D5: All IPs a person has messaged from
-- D6: All fora a person messaged on
-- D7: All moderators in fora a person messaged on
-- D8: Other messages created by people that a person likes messages from
-
-The correlation of these choke points to the discover queries is summarized in [](#chokepoints-discover).
-
-<figure id="chokepoints-discover" class="table" markdown="1">
-
-| Choke Point | D1 | D2 | D3 | D4 | D5 | D6 | D7 | D8 |
-| ----------- | -- | -- | -- | -- | -- | -- | -- | -- |
-| L.1         | ✓  | ✓  |    |    |    |    |    |    |
-| L.2         |    |    |    |    | ✓  |    |    |    |
-| L.3         |    |    |    |    |    | ✓  |    |    |
-| L.4         |    |    | ✓  | ✓  |    |    |    |    |
-| L.5         |    |    |    |    |    |    | ✓  |    |
-| L.6         |    |    |    |    |    |    |    | ✓  |
-| L.7         | ✓  | ✓  | ✓  | ✓  | ✓  | ✓  | ✓  | ✓  |
-| L.8         | ✓  | ✓  |    | ✓  |    |    |    | ✓  |
-| L.9         | ✓  | ✓  | ✓  | ✓  | ✓  | ✓  | ✓  | ✓  |
-
-
-<figcaption markdown="block">
-Coverage of choke points on linking structures for discover queries.
-</figcaption>
-</figure>
-
-More details on all query templates can be found at
+More details on all query templates and choke points can be found at
 [https://github.com/SolidBench/SolidBench.js/blob/master/templates/](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md)<br />[queries/README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
 
 **Query template instantiation**
@@ -238,24 +193,6 @@ By default, each template is instantiated five times, so that metrics can be ave
 Due to the fragmentation and URI rewriting we apply on top of the SNB dataset,
 we were unable to make use of the standard SNB query templates and its method of query instantiation.
 Therefore, we have implemented a custom query template instantiation tool that takes into account these fragmentations.
-
-An example of discover query 8 can be found in [](#template-discover-8),
-which covers the majority of choke points related to linking structures.
-It is instantiated with a person's WebID URI, and finds all messages
-created by people that this person likes messages from.
-Since it starts from all liked messages of the starting person, then navigates to the creator of those messages,
-and then retrieves the contents of those messages, it covers CP L.6.
-Furthermore, since messages are fragmented in different ways across vaults, and the query spans different vaults, it covers CP L.7.
-Since messages can be captured within the user's type index, CP L.8 is also covered.
-Finally, since only message-related documents needs to be retrieved from the vaults,
-all other documents could potentially pruned out, covering CP L.9.
-
-<figure id="template-discover-8" class="listing">
-````/code/template-discover-8.txt````
-<figcaption markdown="block">
-SPARQL template for discover query 8.
-</figcaption>
-</figure>
 
 **Metrics**
 
