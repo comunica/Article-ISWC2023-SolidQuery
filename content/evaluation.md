@@ -36,7 +36,7 @@ The Solid vaults and query client were executed in isolated Docker containers on
 To foster reproducibility,
 the experimental setup, raw results, and processing scripts are available as open-source on [https://github.com/comunica/Experiments-Solid-Link-Traversal](https://github.com/comunica/Experiments-Solid-Link-Traversal).
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
-Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries, 35 short queries, and 60 complex queries.
+Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries and 35 short queries.
 
 We were unable to compare our implementation to existing LTQP engines,
 because those systems (e.g. [Lidaq](cite:cites comparingsummaries)) would either require significant changes to work over Solid vaults,
@@ -49,9 +49,10 @@ and compare them against, and in combination with, our algorithms.
 ### Experimental Results
 
 In this section, we present results that offer insights into our research question.
-[](#results-queries-discover), [](#results-queries-short), and [](#results-queries-complex)
+[](#results-queries-discover) and [](#results-queries-short)
 show the aggregated results for the different combinations of our setup
-for the discover, short, and complex queries of the benchmark, respectively.
+for the discover and short queries of the benchmark, respectively.
+We omit results from complex queries, as none of the approaches achieve a level of accuracy significantly higher than 0%.
 Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with different post multiplication factors.
 Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
@@ -88,8 +89,6 @@ Aggregated results for the different combinations across all 8 **discover** quer
 
 These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
 and an average level of accuracy for short queries.
-However, for complex queries, none of the combinations achieve an acceptable level of accuracy.
-Hence, we consider this last query category too complex for current link traversal approaches, and we do not consider them further in this article.
 Furthermore, increasing the number of posts within a vault has an increasing factor on the query execution times,
 but this factor varies with different fragmentation strategies.
 We will elaborate on these results in more detail hereafter.
@@ -119,35 +118,6 @@ We will elaborate on these results in more detail hereafter.
 
 <figcaption markdown="block">
 Aggregated results for the different combinations across all 7 **short** queries.
-</figcaption>
-</figure>
-
-<figure id="results-queries-complex" markdown="1" class="table table-smaller-font">
-
-|  | $$\overline{t}$$ | $$\tilde{t}$$ | $$\overline{t}_1$$ | $$\tilde{t}_1$$ | $$\overline{req}$$ | $$\sum ans$$ | $$\overline{acc}$$ | $$\sum to$$ |
-| --- | ---: | ---: | ---: | ---: | ---: | ---: | ---: | ---: |
-| cnone-base | 22,093 | 73 | N/A | N/A | 11 | 0.00 | 0.00% | 2 |
-| cmatch-base | 81,008 | 119,633 | N/A | N/A | 999 | 0.00 | 0.00% | 9 |
-| call-base | 125,270 | 124,949 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
-| cnone-idx | 61,315 | 76,006 | N/A | N/A | 155 | 0.00 | 0.00% | 6 |
-| cmatch-idx | 109,483 | 119,465 | N/A | N/A | 58 | 0.00 | 0.00% | 11 |
-| call-idx | 124,760 | 123,723 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
-| cnone-idx-filt | 61,370 | 74,490 | N/A | N/A | 155 | 0.00 | 0.00% | 6 |
-| cmatch-idx-filt | 109,539 | 119,600 | N/A | N/A | 58 | 0.00 | 0.00% | 11 |
-| call-idx-filt | 126,756 | 125,316 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
-| cnone-ldp | 60,002 | 45,081 | N/A | N/A | 241 | 0.00 | 0.00% | 6 |
-| cmatch-ldp | 117,589 | 123,023 | N/A | N/A | 55 | 0.00 | 0.00% | 11 |
-| call-ldp | 127,184 | 126,186 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
-| cnone-ldp-idx | 62,029 | 76,171 | N/A | N/A | 246 | 0.00 | 0.00% | 6 |
-| cmatch-ldp-idx | 112,234 | 120,586 | N/A | N/A | 56 | 0.00 | 0.00% | 11 |
-| call-ldp-idx | 125,116 | 124,494 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
-| cnone-ldp-idx-filt | 59,081 | 43,802 | N/A | N/A | 246 | 0.00 | 0.00% | 6 |
-| cmatch-ldp-idx-filt | 112,336 | 120,723 | N/A | N/A | 56 | 0.00 | 0.00% | 11 |
-| call-ldp-idx-filt | 126,848 | 126,620 | N/A | N/A | 0 | 0.00 | 0.00% | 12 |
-
-
-<figcaption markdown="block">
-Aggregated results for the different combinations across all 12 **complex** queries.
 </figcaption>
 </figure>
 
@@ -201,7 +171,7 @@ This difference exists because the discover workload contains queries that disco
 while the short queries target only details of specific resources. 
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
 The remainder of this discussion only focuses on discover queries, since these achieve the highest level of accuracy.
-As such, the short and complex queries highlight opportunities for improvement in future work.
+As such, the short queries highlight opportunities for improvement in future work.
 
 #### Type index and LDP discovery perform similarly
 
