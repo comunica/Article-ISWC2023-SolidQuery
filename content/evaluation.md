@@ -180,7 +180,6 @@ To simplify comparability, the execution times within this figure are [relative 
 Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
 which are also made relative to the maximum number of requests per query for better comparability.
 [](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4) contain more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
-Finally, [](#results-queries-cmatch-wins) shows an overview of the number of queries where each approach achieves the lowest execution time per query.
 
 <figure id="figure-querytimes_d1-3">
 <img src="img/experiments/querytimes_d1-3.svg" alt="Query result arrival times for D1">
@@ -203,19 +202,6 @@ Query result arrival times for D5 with different combinations of data vault disc
 </figcaption>
 </figure>
 
-<figure id="results-queries-cmatch-wins" markdown="1" class="table table-smaller-font">
-
-|  | TypeIndex | TypeIndex-f | LDP | LDP + TypeIndex | LDP + TypeIndex-f |
-| --- | ---: | ---: | ---: | ---: | ---: |
-| Wins | 5 | 5 | 5 | 5 | 15 |
-
-<figcaption markdown="block">
-The number of queries each approach achieves the lowest query execution time for across all **cMatch-based** approaches over all 8 **discover** queries with 5 instantiations.
-A win for a certain approach is only considered if the results are accurate for this query.
-Five queries are missing due to no approaches achieving accurate results.
-</figcaption>
-</figure>
-
 While [](#figure-queries_indexvsstorage_time_relative) shows that for all queries
 using just the type index is slightly faster or comparable to just LDP-based discovery,
 this difference has no statistical significance (*p = 0.40*).
@@ -233,7 +219,7 @@ Statistically, this difference has no significance in terms of execution time (*
 These results show that using the type index together with LDP-based discovery is not *significantly* better than the other approaches (*p = 0.71*),
 which is primarily caused by the statistically significantly higher number of HTTP requests (*p = 0.02*)
 required for traversing both the type index and nested LDP containers.
-Query D8 and [](#results-queries-cmatch-wins) does however show that this combination deserves further investigation,
+Query D8 does however show that this combination deserves further investigation,
 because this query has a result limit that leads to a prioritization of links via the type index,
 leading to earlier query termination with fewer requests.
 
