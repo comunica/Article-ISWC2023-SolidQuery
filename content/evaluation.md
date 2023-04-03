@@ -153,22 +153,26 @@ As such, the short queries highlight opportunities for improvement in future wor
 
 #### Type index and LDP discovery perform similarly
 
-<figure id="figure-queries_indexvsstorage_time_relative">
+<figure id="figure-queries_indexvsstorage">
+
+<figure id="figure-queries_indexvsstorage_time_relative" class="subfigure">
 <img src="img/experiments/queries_indexvsstorage_time_relative.svg" alt="Relative execution times of discover queries for index versus storage">
 <figcaption markdown="block">
-Relative execution times for discover queries with different discovery methods under cMatch.
-Bars indicate average execution time,
-whiskers indicate the maxima and minima,
-and stars indicate average time until first result.
+Execution times.
 </figcaption>
 </figure>
 
-<figure id="figure-queries_indexvsstorage_http_relative">
+<figure id="figure-queries_indexvsstorage_http_relative" class="subfigure">
 <img src="img/experiments/queries_indexvsstorage_http_relative.svg" alt="Relative HTTP requests of discover queries for index versus storage">
 <figcaption markdown="block">
-Relative number of HTTP requests for discover queries with different discovery methods under cMatch.
-Bars indicate average execution time,
-whiskers indicate the maxima and minima.
+Number of HTTP requests.
+</figcaption>
+</figure>
+
+<figcaption markdown="block">
+Relative measurements for discover queries with different discovery methods under cMatch.
+Bars indicate average values, whiskers indicate the maxima and minima,
+and stars indicate average time until first result.
 </figcaption>
 </figure>
 
