@@ -241,7 +241,7 @@ Furthermore, our implementation allows users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
 This fallback finds all URIs within the query, and adds them as seed URIs to the link queue.
 
-Hence, this implementation meets the requirements of a query engine that can query over one or more Solid data vaults, as discussed in [](#solid).
+Hence, this implementation can query over one or more Solid data vaults, as discussed in [](#solid).
 This also includes the ability to perform authenticated to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.
