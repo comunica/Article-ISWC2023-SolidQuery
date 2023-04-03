@@ -26,7 +26,7 @@ or other nested basic containers.
 For the remainder of this article, we will only consider the processing of RDF documents within vaults.
 Resources within vaults can be read by sending HTTP `GET` requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
-If the vault supports this, resources can be modified or created using HTTP `PATCH` and `POST` requests.
+Vaults may also support creation and modification using HTTP `PATCH` and `POST` requests.
 An example of such a basic container can be found in the [](#example-ldpcontainer).
 
 <figure id="example-ldpcontainer" class="listing">
@@ -43,24 +43,23 @@ This configuration is usually done by referring to the *WebID* of users.
 
 ### WebID Profile
 
-Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a *WebID*.
-These agents can authenticate themselves using the decentralized [Solid OIDC protocol](cite:cites spec:solidoidc),
-which is required for authorizing access during the reading and writing of resources.
-
-According to the [WebID profile specification](cite:cites spec:webidprofile),
-each WebID URI should be dereferenceable, and return a WebID profile document.
-Next to basic information of the agent such as its name and contact details,
-this document should contain links to 1) the root LDP container of its data vault (via `pim:storage`), and
-2) public and private type indexes.
-An example is shown in [](#example-webidprofile).
-We omit further WebID details due to their irrelevance within this work.
-
 <figure id="example-webidprofile" class="listing">
 ````/code/webidprofile.ttl````
 <figcaption markdown="block">
 A simplified WebID profile in Turtle.
 </figcaption>
 </figure>
+
+Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a *WebID*.
+These agents can authenticate themselves using the decentralized [Solid OIDC protocol](cite:cites spec:solidoidc),
+which is required for authorizing access during the reading and writing of resources.
+According to the [WebID profile specification](cite:cites spec:webidprofile),
+each WebID URI should be dereferenceable, and return a WebID profile document.
+Next to basic information of the agent such as its name,
+this document contains links to
+1) the vault's LDP container (via `pim:storage`), and
+2) public and private type indexes.
+An example is shown in [](#example-webidprofile).
 
 ### Type Index
 
@@ -72,11 +71,11 @@ where each registration has a link to resources containing instances of the corr
 where the posts entry refers to a single posts file,
 and the comments entry refers to a container with multiple comments files.
 If an application wants to obtain all posts of a user,
-it can do so by finding this type index and following the link within the type index entry that corresponds to the post class.
+it can follow the link within the type index entry corresponding to the post class.
 
 <figure id="example-typeindex" class="listing">
 ````/code/typeindex.ttl````
 <figcaption markdown="block">
-Example of a type index with entries for posts and comments in the Turtle serialization.
+Example of a type index with entries for posts and comments in Turtle.
 </figcaption>
 </figure>
