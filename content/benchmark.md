@@ -11,11 +11,6 @@ SolidBench simulates a decentralized Solid environment with corresponding worklo
 Hereafter, we start by explaining the design considerations of the benchmark and our use case scenario, after which we introduce an overview of SolidBench.
 Next, we zoom in on important details of the benchmark, such as fragmentation of the data and the query workload.
 
-<span class="placeholder printonly">
-<span style="display: block; height: 3em;"></span>
-<!-- This is a dummy placeholder -->
-</span>
-
 ### Design considerations
 
 The goal of our benchmark is to simulate a realistic decentralized environment based on the Solid ecosystem,
