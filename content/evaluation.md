@@ -179,28 +179,6 @@ for the different combinations of data vault discovery approaches.
 To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
 Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
 which are also made relative to the maximum number of requests per query for better comparability.
-[](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4) contain more detailed query result arrival times for several of these queries using [diefficiency plots](cite:cites diefficiency).
-
-<figure id="figure-querytimes_d1-3">
-<img src="img/experiments/querytimes_d1-3.svg" alt="Query result arrival times for D1">
-<figcaption markdown="block">
-Query result arrival times for D1 with different combinations of data vault discovery with cMatch.
-</figcaption>
-</figure>
-
-<figure id="figure-querytimes_d2-3">
-<img src="img/experiments/querytimes_d2-3.svg" alt="Query result arrival times for D2">
-<figcaption markdown="block">
-Query result arrival times for D2 with different combinations of data vault discovery with cMatch.
-</figcaption>
-</figure>
-
-<figure id="figure-querytimes_d5-4">
-<img src="img/experiments/querytimes_d5-4.svg" alt="Query result arrival times for D5">
-<figcaption markdown="block">
-Query result arrival times for D5 with different combinations of data vault discovery with cMatch.
-</figcaption>
-</figure>
 
 While [](#figure-queries_indexvsstorage_time_relative) shows that for all queries
 using just the type index is slightly faster or comparable to just LDP-based discovery,
@@ -222,16 +200,6 @@ required for traversing both the type index and nested LDP containers.
 Query D8 does however show that this combination deserves further investigation,
 because this query has a result limit that leads to a prioritization of links via the type index,
 leading to earlier query termination with fewer requests.
-
-[](#figure-querytimes_d1-3), [](#figure-querytimes_d2-3), and [](#figure-querytimes_d5-4)
-show the query result arrival times for D1, D2, and D5 respectively
-with different combinations of data vault discovery with cMatch.
-Since D1 specifically queries for resources of the type Post, it can very selectively make use of the Post entry within the type index,
-which makes the filtered type index approach faster than the non-filtered approach.
-D2 targets both resources of type Comment and Post, which means that it has to make use of both entries within the type index,
-which causes the performance difference between the filtered and non-filtered type index approach to be negligeable.
-D5 is a query that does not specifically target resources of certain types.
-This means that the type index leads to no significant performance benefit if no specific types are targeted in the query.
 
 In general, these results hint that the LDP-based approach combined with filtered type index approach performs better than the other approaches.
 However, due to the minimal difference in terms of execution time,
