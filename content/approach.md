@@ -59,7 +59,7 @@ We consider the execution plan as a [pipeline](cite:cites pipelining) of iterato
 through which intermediary results flow through chained operators to produce results in a pull-based manner.
 
 <figure id="figure-link-queue">
-<img src="img/link-queue.svg" alt="Link queue">
+<img src="img/link-queue.svg" alt="Link queue" class="img-narrow">
 <figcaption markdown="block">
 Link queue, dereferencer and link extractors feeding triples into a triple source,
 producing a stream of triples to tuple-producing operators
