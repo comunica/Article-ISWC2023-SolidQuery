@@ -223,7 +223,7 @@ which delays time until first results due to prior indexing,
 and which may not always be achievable in practise due to infinitely growing link queues for some queries.
 The results of this experiment are shown in [](#results-planning-effectiveness).
 
-<figure id="results-planning-effectiveness" class="table" markdown="1">
+<figure id="results-planning-effectiveness" class="table" class="table-smaller-font" markdown="1">
 
 | Query | Integrated | Two-phase | HTTP Requests |
 | --- | --: | --: | --: |
