@@ -212,7 +212,7 @@ $$
 
 ### Implementation
 
-We have implemented our system using [Comunica](cite:cites comunica), which is a modular open-source SPARQL query engine framework.
+We have implemented our system using an existing SPARQL query engine framework (*name and reference omitted for double-blindness*).
 Concretely, we have implemented the pipeline-based link queue as a separate module,
 and we provide link extractors corresponding to the source selectors introduced in previous sections.
 Our implementation has full SPARQL 1.1 support, and consists of pipelined implementations of all monotonic SPARQL operators.
@@ -229,7 +229,6 @@ Instead, our implementation uses LDP container traversal and the type index to r
 
 To provide a stable reference implementation that can be used for the experiments in this work and future research,
 our implementation focuses on extensibility and reusability.
-Our implementation is available as open-source at [https://github.com/comunica/comunica-feature-link-traversal](https://github.com/comunica/comunica-feature-link-traversal).
 Our implementation builds upon best practises in LTQP and lessons learned from [other implementations](cite:cites squin) including,
 the use of [client-side caching](cite:cites linktraversalcaching),
 the different [reachability semantics](cite:cites linktraversalfoundations),
