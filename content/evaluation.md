@@ -12,14 +12,14 @@ and a discussion of our results to answer our research question.
 
 ### Experimental Design
 
-Our experimental design is based on a benchmark (*name and reference omitted for double-blindness*)
+Our experimental design is based on an existing benchmark (*name and reference omitted for double-blindness*)
 that simulates a realistic decentralized environment based on the Solid ecosystem.
 Concretely, the benchmark generates a configurable number of data vaults with configurable sizes containing social networking data,
 where a variety of fragmentation strategies are used to organize files in vaults.
 Furthermore, it provides SPARQL query templates that simulate a realistic workload for a social networking application.
 The underlying dataset and query templates are derived from the [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive).
 
-For our experiments, we make use of a factorial experiment containing the following factors and values:
+We make use of a factorial experiment containing the following factors and values:
 
 - **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
@@ -38,7 +38,7 @@ Each query template in the benchmark was instantiated five times, which resulted
 We were unable to compare our implementation to existing LTQP engines,
 because those systems (e.g. [Lidaq](cite:cites comparingsummaries)) would either require significant changes to work over Solid vaults,
 they depend on a non-standard usage of the SPARQL syntax (e.g. [SPARQL-LD](cite:cites sparqlld)),
-or insufficient documentation was present to make them work (e.g. [SQUIN](cite:cites squin)), even after contacting the authors.
+or insufficient documentation was present to make them work (e.g. [SQUIN](cite:cites squin)).
 Nevertheless, in order to ensure a fair and complete comparison,
 we have re-implemented the foundational LTQP algorithms (cNone, cMatch, cAll),
 and compare them against, and in combination with, our algorithms.
@@ -54,7 +54,7 @@ Furthermore, [](#results-queries-fragmentation) shows the aggregated results of 
 Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
-The accuracy of each query execution is calculated as a percentage indicating the precision and recall of query results with respect to the expected query results.
+The accuracy of each query execution is a percentage indicating the precision and recall of query results to the expected results.
 
 <figure id="results-queries-discover" markdown="1" class="table table-smaller-font">
 
@@ -80,15 +80,9 @@ The accuracy of each query execution is calculated as a percentage indicating th
 | call-ldp-idx-filt | 123,979 | 125,235 | 48,382 | 10,368 | 16,623 | 3.13 | 17.40% | 7 |
 
 <figcaption markdown="block">
-Aggregated results for the different combinations across all 8 **discover** queries.
+Aggregated results for the different combinations across 8 **discover** queries.
 </figcaption>
 </figure>
-
-These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
-and an average level of accuracy for short queries.
-Furthermore, increasing the number of posts within a vault has an increasing factor on the query execution times,
-but this factor varies with different fragmentation strategies.
-We will elaborate on these results in more detail hereafter.
 
 <figure id="results-queries-short" markdown="1" class="table table-smaller-font">
 
@@ -114,9 +108,13 @@ We will elaborate on these results in more detail hereafter.
 | call-ldp-idx-filt | 114,800 | 123,058 | 15,075 | 17,192 | 0 | 0.00 | 0.00% | 7 |
 
 <figcaption markdown="block">
-Aggregated results for the different combinations across all 7 **short** queries.
+Aggregated results for the different combinations across 7 **short** queries.
 </figcaption>
 </figure>
+
+These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
+and an average level of accuracy for short queries.
+We will elaborate on these results in more detail hereafter.
 
 ### Discussion
 
@@ -138,7 +136,7 @@ leading to a lower number of HTTP requests and lower query execution times.
 
 Since cAll leads to all links being followed, including those followed by cMatch,
 it is theoretically a sufficient replacement for cMatch.
-However, our results show that too many links are being followed with cAll, which leads to timeouts for nearly all queries.
+However, our results show that cAll follows too many links, which leads to timeouts for nearly all queries.
 
 Our results show that solely using reachability semantics (cMatch or cAll) without a data discovery method is insufficient for discover queries,
 where a accuracy of only up to 3.13% can be achieved for discover queries.
@@ -204,27 +202,16 @@ Query D8 does however show that this combination deserves further investigation,
 because this query has a result limit that leads to a prioritization of links via the type index,
 leading to earlier query termination with fewer requests.
 
-In general, these results hint that the LDP-based approach combined with filtered type index approach performs better than the other approaches.
-However, due to the minimal difference in terms of execution time,
-the performance of all approaches can be considered equivalent.
+In general, results hint that the LDP-based approach combined with filtered type index approach performs better than the other approaches,
+but this difference is too minor to be significant,
+hence all approaches can be considered equivalent.
 
 #### Zero-knowledge query planning is ineffective
 
 While it may seem obvious to assume that higher query execution times are caused by a higher number of links that need to be dereferenced,
 we observe only a weak correlation (*$$\rho$$ = 0.32*) of this within the cMatch-based discovery approaches discussed before.
-As such, the main bottleneck in this case appears not primarily to be the number of links to traverse.
+The main bottleneck in this case appears not primarily to be the number of links to traverse.
 Instead, our analysis suggests that query plan efficiency is the primary influencer of execution times.
-
-To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMatch with filtered type index discovery)
-with a two-phase query execution approach that we implemented in the same query engine.
-Instead of following links during query execution as in the integrated approach,
-the two-phase approach first follows links to index all discovered triples,
-and processes the query in the traditional *optimize-then-execute* manner.
-This two-phase approach is based on an oracle that provides all query-relevant links, which we determined by analyzing the request logs during the execution of the integrated approach.
-Therefore, this two-phase approach is merely a theoretical case,
-which delays time until first results due to prior indexing,
-and which may not always be achievable in practise due to infinitely growing link queues for some queries.
-The results of this experiment are shown in [](#results-planning-effectiveness).
 
 <figure id="results-planning-effectiveness" class="table" class="table-smaller-font" markdown="1">
 
@@ -244,14 +231,25 @@ Integrated and two-phase execution times (ms) of discover queries, with number o
 </figcaption>
 </figure>
 
+To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMatch with filtered type index discovery)
+with a two-phase query execution approach that we implemented in the same query engine.
+Instead of following links during query execution as in the integrated approach,
+the two-phase approach first follows links to index all discovered triples,
+and processes the query in the traditional *optimize-then-execute* manner.
+This two-phase approach is based on an oracle that provides all query-relevant links, which we determined by analyzing the request logs during the execution of the integrated approach.
+Therefore, this two-phase approach is merely a theoretical case,
+which delays time until first results due to prior indexing,
+and which may not always be achievable due to infinitely growing link queues for some queries.
+The results of this are shown in [](#results-planning-effectiveness).
+
 These results show that the two-phase approach is on average two times faster for all queries compared to the integrated approach,
 even when taking into account time for dereferencing.
 The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization, sparqlbgpoptimization),
 since it has access to an indexed triple store with planning-relevant information such as cardinality estimates.
 Since the integrated approach finds new triples _during_ query execution,
-it is unable to use this information for traditional query planning.
+it is unable to use them for traditional planning.
 Instead, our integrated approach makes use of the [zero-knowledge query planning technique](cite:cites zeroknowldgequeryplanning)
-that makes use of heuristics to plan the query before execution.
+that uses heuristics to plan the query before execution.
 
 Since the only difference between the implementations of the integrated and two-phase approach is in how they plan the query,
 we can derive the query plan of the integrated approach is very ineffective.

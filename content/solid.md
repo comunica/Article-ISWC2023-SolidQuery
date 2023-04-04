@@ -43,13 +43,6 @@ This configuration is usually done by referring to the *WebID* of users.
 
 ### WebID Profile
 
-<figure id="example-webidprofile" class="listing">
-````/code/webidprofile.ttl````
-<figcaption markdown="block">
-A simplified WebID profile in Turtle.
-</figcaption>
-</figure>
-
 Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a *WebID*.
 These agents can authenticate themselves using the decentralized [Solid OIDC protocol](cite:cites spec:solidoidc),
 which is required for authorizing access during the reading and writing of resources.
@@ -60,6 +53,13 @@ this document contains links to
 1) the vault's LDP container (via `pim:storage`), and
 2) public and private type indexes.
 An example is shown in [](#example-webidprofile).
+
+<figure id="example-webidprofile" class="listing">
+````/code/webidprofile.ttl````
+<figcaption markdown="block">
+A simplified WebID profile in Turtle.
+</figcaption>
+</figure>
 
 ### Type Index
 

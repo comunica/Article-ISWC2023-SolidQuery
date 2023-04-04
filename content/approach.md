@@ -12,8 +12,8 @@ Finally, we discuss their implementations.
 
 ### Formal preliminaries
 
-This section summarizes the semantics of [SPARQL query execution](cite:cites sparqlsemantics)
-and [LTQP](cite:cites linktraversalfoundations, guidedlinktraversal) that we build upon.
+Hereafter, we summarize the semantics of [SPARQL querying](cite:cites sparqlsemantics)
+and [LTQP](cite:cites linktraversalfoundations, guidedlinktraversal).
 
 The infinite set of *RDF triples* is formalized as $$ \mathcal{T} = (\mathcal{I} \cup \mathcal{B}) \times \mathcal{I} \times (\mathcal{I} \cup \mathcal{B} \cup \mathcal{L}) $$,
 where $$\mathcal{I}$$, $$\mathcal{B}$$, and $$\mathcal{L}$$ respectively denote the disjoint, infinite sets of IRIs, blank nodes, and literals.
@@ -30,9 +30,9 @@ An RDF triple $$t$$ *matches* a triple pattern $$tp$$ if $$\exists \mu : t = \mu
 Formally, the reachability approaches that were discussed in [](#related-work)
 define which links should be followed during link traversal,
 and are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
-However, this formalization is not expressive enough for only following specific URIs within only subject, predicate, or object in data triples.
-Therefore, we formalize new reachability criteria in this work as *source selectors*
-within the [subweb specification formalization](cite:cites guidedlinktraversal) that _is_ expressive enough to capture this.
+However, since this formalization lacks expressive power to capture the structural properties we require,
+we formalize new reachability criteria in this work as *source selectors*
+within the [subweb specification formalization](cite:cites guidedlinktraversal).
 Within this formalization, a source selector $$\sigma$$ is defined as $$\sigma : \mathcal{W} \rightarrow 2^{\mathcal{I}}$$,
 where $$\mathcal{W}$$ is a Web of Linked Data.
 The Web of Linked Data $$\mathcal{W}$$ is a tuple $$\langle D, data, adoc \rangle$$,
@@ -41,9 +41,9 @@ such that $$data(d)$$ is finite for each $$d \in D$$,
 and $$adoc$$ a partial dereferencing function from $$\mathcal{U}$$ to $$D$$.
 
 Based on these definitions, we define the set of all Solid data vaults as $$\Upsilon$$,
-where each Solid data vault $$\upsilon \in \Upsilon$$ is defined as a set of triples, where $$triples(\upsilon) \subseteq \mathcal{T}$$.
-For a Solid data vault $$\upsilon_{LDP}$$ exposed through the LDP interface,
-the triples contained in such a Solid vault are captured in different documents $$D_{\upsilon} \subseteq D$$.
+where each vault $$\upsilon \in \Upsilon$$ is defined as a set of triples, where $$triples(\upsilon) \subseteq \mathcal{T}$$.
+For a vault $$\upsilon_{LDP}$$ exposed through the LDP interface,
+the triples contained in such a vault are captured in different documents $$D_{\upsilon} \subseteq D$$.
 Hereby, $$triples(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}$$.
 
 ### Pipeline-based link queue
@@ -56,16 +56,7 @@ To execute this plan, the logical operators are executed by specific physical op
 Our physical query execution builds upon the [iterator-based pipeline approach](cite:cites linktraversalsparql),
 which is [the most popular among LTQP implementations](cite:cites squin, sihjoin, diamondrete).
 We consider the execution plan as a [pipeline](cite:cites pipelining) of iterator-based physical operators,
-through which intermediary results flow through chained operators to produce results in a pull-based manner.
-
-<figure id="figure-link-queue">
-<img src="img/link-queue.svg" alt="Link queue" class="img-narrow">
-<figcaption markdown="block">
-Link queue, dereferencer and link extractors feeding triples into a triple source,
-producing a stream of triples to tuple-producing operators
-in a pipelined query execution.
-</figcaption>
-</figure>
+where intermediary results flow through chained operators with pull-based results.
 
 Instead of [letting operators trigger the dereferencing of URIs](cite:cites linktraversalsparql),
 we follow a [link queue-based approach](cite:cites linktraversaloptimization).
@@ -80,6 +71,15 @@ This link queue is initialized with a set of seed URIs,
 and the dereferencer continuously dereferences the URIs in the queue until it is empty.
 Since the link extractors are invoked after every dereference operation,
 this queue may virtually become infinitely long.
+
+<figure id="figure-link-queue">
+<img src="img/link-queue.svg" alt="Link queue" class="img-narrow">
+<figcaption markdown="block">
+Link queue, dereferencer and link extractors feeding triples into a triple source,
+producing a stream of triples to tuple-producing operators
+in a pipelined query execution.
+</figcaption>
+</figure>
 
 This link queue and link extractor approach is generic enough to implement
 [other LTQP methods](cite:cites linktraversalsparql, linktraversalfoundations, linktraversalpropertypaths, guidedlinktraversal, linktraversaloptimization)
@@ -141,9 +141,9 @@ $$
 
 ### Discovery of type index
 
-As discussed in [](#solid), the type index enables resource discovery in a vault via RDF classes.
+As discussed in [](#solid), the type index enables class-based resource discovery in a vault.
 In this section, we introduce a novel method that follows links in the type index,
-with an optional filter that only follows those links matching with a class in the query.
+with an optional filter that only follows links matching with a class in the query.
 
 #### Intuitive description
 
@@ -161,7 +161,7 @@ For subjects in the query without `rdf:type` predicate, the matching class is un
 
 #### Formal description
 
-To discover type indexes and follow links within them,
+To discover and traverse type indexes,
 we formalize the following source selector from a given WebID with URI $$s$$ when querying a BGP $$B$$:
 
 $$
@@ -220,18 +220,16 @@ This pipelined implementation is important for iterative tuple processing in a n
 because the link queue and the resulting stream of triples may become infinitely long.
 
 Our implementation focuses on the SPARQL query language,
-and does not make use of alternative LTQP-specific query languages or non-standard SPARQL language extensions
-such as [LDQL](cite:cites ldql) and [SPARQL-LD](cite:cites sparqlld) that incorporate link navigation paths into the query.
+instead of alternatives such as [LDQL](cite:cites ldql) and [SPARQL-LD](cite:cites sparqlld)
+that incorporate link navigation paths into the query.
 As discussed in [](#solid), different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
-Hence, it is important that link navigation is *decoupled* from the query to keep queries reusable for different Solid users,
-as link paths to data may differ across different data vaults.
-Instead, our implementation uses LDP container traversal and the Solid type index to replace explicit navigation links.
+Hence, link navigation must *decoupled* from the query to keep queries reusable for different Solid users,
+as link paths to data may differ across different vaults.
+Instead, our implementation uses LDP container traversal and the type index to replace explicit navigation links.
 
 To provide a stable reference implementation that can be used for the experiments in this work and future research,
 our implementation focuses on extensibility and reusability.
-We do this by implementing all logic in configurable modules that are extensively tested through integration and unit tests with 100% code coverage.
 Our implementation is available as open-source at [https://github.com/comunica/comunica-feature-link-traversal](https://github.com/comunica/comunica-feature-link-traversal).
-
 Our implementation builds upon best practises in LTQP and lessons learned from [other implementations](cite:cites squin) including,
 the use of [client-side caching](cite:cites linktraversalcaching),
 the different [reachability semantics](cite:cites linktraversalfoundations),
@@ -239,9 +237,9 @@ the different [reachability semantics](cite:cites linktraversalfoundations),
 and [more](cite:cites linktraversalsparql).
 Furthermore, our implementation allows users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
-This fallback finds all URIs within the query, and adds them as seed URIs to the link queue.
+This fallback considers all URIs within the query as seed URIs.
 
-Hence, this implementation can query over one or more Solid data vaults, as discussed in [](#solid).
+Hence, this implementation can query over one or more Solid data vaults.
 This also includes the ability to perform authenticated to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.
