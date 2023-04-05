@@ -14,7 +14,7 @@ Because of these reasons, and the introduction of user-empowering legislature su
 Their common goal is
 to give people back control over their own data
 by guarding it in chosen locations on the Web instead of aggregated in silos.
-Initiatives such as [Solid](cite:cites solid) and [Bluesky](bluesky) do this by allowing users to store any kind of data in their own personal data vault,
+Initiatives such as [Solid](cite:cites solid) and [Bluesky](cite:cites bluesky) do this by allowing users to store any kind of data in their own personal data vault,
 which they fully control.
 In Solid, these data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are often represented as collections of [Linked Data documents](cite:cites linkeddata) containing [RDF triples](cite:cites spec:rdf).
 The presence of such data vaults results in a large-scale distribution of data,
@@ -22,7 +22,7 @@ where applications involving multiple individuals' data require accessing
 thousands or even millions of documents
 across different data vaults across the Web.
 These applications cannot effectively be built today
-due to the lack of querying techniques that can handle such decentralized environments.
+due to the lack of query processing techniques that can handle such decentralized environments.
 
 The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on centralized use cases,
 where all data is captured in a single or a small number
@@ -42,7 +42,7 @@ While LTQP has been theoretically interesting, it has not seen any practical use
 in particular because of performance concerns.
 
 Besides the [Linked Data principles](cite:cites linkeddata),
-decentralized environments such as Solid provide additional structural properties on top of these principles that allow us to make
+decentralization efforts such as Solid provide additional structural properties on top of these principles that allow us to make
 additional assumptions about data, documents, and their organization during query execution.
 For example, Solid makes use of the [Linked Data Platform specification](cite:cites spec:ldp)
 to provide completeness guarantees when finding data within vaults,

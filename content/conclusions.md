@@ -5,7 +5,7 @@ User-oriented decentralized applications require results in the order of seconds
 Our work has shown that Link Traversal Query Processing is able to achieve such timings,
 especially as it is able to produce results in an iterative manner, with first results mostly being produced in less than a second.
 As such, LTQP with the algorithms introduced in this work are effective for querying over decentralized environments with specific structural properties,
-but there are open research opportunities for optimizing more complex queries as provided by our benchmark.
+but there are open research opportunities for optimizing more complex queries as provided by the benchmark.
 We have shown this by applying LTQP to simulated Solid environments, for which we have introduced algorithms to capture these structural properties.
 
 Up until now, LTQP has always been applied to querying Linked Open Data on the Web.
@@ -19,14 +19,14 @@ create opportunities for query execution that allow us to guarantee complete res
 While we have investigated the specific case of querying Solid vaults,
 these concepts may be generalizable to other [decentralization efforts](cite:cites bluesky, mastodon).
 This is possible, because our approach solely relies on the structural properties
-provided by standards such as the [LDP](cite:cites spec:ldp) and the [Type Index](cite:cites spec:typeindex),
+provided by standards such as [LDP](cite:cites spec:ldp) and the [Type Index](cite:cites spec:typeindex),
 which can be used outside of the Solid ecosystem.
 
 Due to the possibility of incomplete results,
 LTQP research over Linked Open Data is moving into the direction of
 [finding query-relevant documents as early as possible](cite:cites linktraversaloptimization).
 In the context of Solid, we have shown that finding all query-relevant documents is not the main bottleneck during query execution anymore.
-Instead, the *effectiveness of the query plan* is has become the new bottleneck.
+Instead, the *effectiveness of the query plan* has become the new bottleneck.
 While finding query-relevant documents is still relevant for specific decentralized environments,
 we show the need for more research towards better query planning techniques.
 Since LTQP leads to data being discovered during query execution,
@@ -44,4 +44,4 @@ especially if they can be combined in a [heterogeneous manner](cite:cites hetero
 
 This work provides an answer to the increasing need of querying over decentralized environments,
 and uncovers next steps for resolving current limitations.
-As such, we are a step closer to a decentralized Web where users are in full control over their data.
+Hence, bringing us closer towards querying a decentralized Web where users are in full control.

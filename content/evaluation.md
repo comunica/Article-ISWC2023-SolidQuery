@@ -21,7 +21,7 @@ The underlying dataset and query templates are derived from the [Social Network 
 
 We make use of a factorial experiment containing the following factors and values:
 
-- **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP and Type Index, LDP and Filtered Type Index
+- **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP + Type Index, LDP + Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
 
 The LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
@@ -31,7 +31,7 @@ and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\t
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
-Each query template in the benchmark was instantiated five times, which resulted in 40 discover queries and 35 short queries.
+Each query template in the benchmark was instantiated five times, resulting in 40 discover queries, 35 short queries, and 60 complex queries.
 
 We were unable to compare our implementation to existing LTQP engines,
 because those systems (e.g. [Lidaq](cite:cites comparingsummaries)) would either require significant changes to work over Solid vaults,
@@ -144,7 +144,7 @@ This difference exists because the discover workload contains queries that disco
 while the short queries target only details of specific resources. 
 Discover queries therefore depend on an overview of the vault, while short queries only depend on specific links between resources within a vault.
 The remainder of this discussion only focuses on discover queries, since these achieve the highest level of accuracy.
-As such, the short queries highlight opportunities for improvement in future work.
+As such, the short and complex queries highlight opportunities for future improvement.
 
 #### Type index and LDP discovery perform similarly
 

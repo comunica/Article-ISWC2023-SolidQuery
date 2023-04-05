@@ -41,7 +41,7 @@ Next to query-driven reachability, [another extension](cite:cites guidedlinktrav
 the ability for data publishers to express which links should be followed using *subweb specifications*.
 
 Next to filtering links via different semantics,
-a second methodology for improving query result arrival times is through [*link prioritization*](cite:cites linktraversaloptimization).
+a second methodology for lowering query result arrival times is through [*link prioritization*](cite:cites linktraversaloptimization).
 However, existing techniques only sometimes result in faster query results compared to no prioritization.
 
 Even though [multiple query languages](cite:cites ldpath, ldql, nautilod) have been introduced specifically for LTQP,

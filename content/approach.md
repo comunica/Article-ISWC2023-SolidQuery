@@ -223,7 +223,7 @@ Our implementation focuses on the SPARQL query language,
 instead of alternatives such as [LDQL](cite:cites ldql) and [SPARQL-LD](cite:cites sparqlld)
 that incorporate link navigation paths into the query.
 As discussed in [](#solid), different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
-Hence, link navigation must *decoupled* from the query to keep queries reusable for different Solid users,
+Hence, link navigation must *decoupled* from the query to make queries reusable for different Solid users,
 as link paths to data may differ across different vaults.
 Instead, our implementation uses LDP container traversal and the type index to replace explicit navigation links.
 
@@ -238,7 +238,7 @@ Furthermore, our implementation allows users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
 This fallback considers all URIs within the query as seed URIs.
 
-Hence, this implementation can query over one or more Solid data vaults.
+Hence, our implementation can query over one or more Solid data vaults.
 This also includes the ability to perform authenticated to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.
