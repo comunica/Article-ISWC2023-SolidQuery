@@ -29,7 +29,11 @@ pre {
   width: 50%;
 }
 
-#figure-queries_indexvsstorage .subfigure {
-  width: 50%;
-  float: left;
+#figure-queries_indexvsstorage {
+  .subfigure {
+    float: left;
+    img {
+      height: 100px;
+    }
+  }
 }

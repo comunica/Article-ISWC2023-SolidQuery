@@ -403,5 +403,14 @@ ol.index-entries {
   display: none;
 }
 
+#figure-queries_indexvsstorage {
+  .subfigure {
+    float: left;
+    img {
+      height: 125px;
+    }
+  }
+}
+
 @import "shared.scss";
 @import "shared_override.scss";

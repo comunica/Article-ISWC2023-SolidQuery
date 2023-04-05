@@ -151,7 +151,7 @@ As such, the short queries highlight opportunities for improvement in future wor
 <figure id="figure-queries_indexvsstorage">
 
 <figure id="figure-queries_indexvsstorage_time_relative" class="subfigure">
-<img src="img/experiments/queries_indexvsstorage_time_relative.svg" alt="Relative execution times of discover queries for index versus storage">
+<img src="img/experiments/queries_indexvsstorage_time_relative_nolegend.svg" alt="Relative execution times of discover queries for index versus storage">
 <figcaption markdown="block">
 Execution times.
 </figcaption>
