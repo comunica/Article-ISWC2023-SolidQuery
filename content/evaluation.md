@@ -32,6 +32,7 @@ Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2
 The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, resulting in 40 discover queries, 35 short queries, and 60 complex queries.
+These query templates are available in the supplementary material.
 
 We were unable to compare our implementation to existing LTQP engines,
 because those systems (e.g. [Lidaq](cite:cites comparingsummaries)) would either require significant changes to work over Solid vaults,
@@ -111,7 +112,7 @@ Aggregated results for the different combinations across 7 **short** queries.
 </figure>
 
 These results show that there are combinations of approaches that achieve a very high level of accuracy for discover queries,
-and an average level of accuracy for short queries.
+and a medium level of accuracy for short queries.
 We will elaborate on these results in more detail hereafter.
 
 ### Discussion
