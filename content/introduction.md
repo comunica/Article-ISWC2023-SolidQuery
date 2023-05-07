@@ -1,8 +1,10 @@
 ## Introduction
 {:#introduction}
 
+<span class="comment" data-author="RV">Note: I think it's good here to start from Solid as we do (even if the abstract starts from LTQP)</span>
+
 Despite transforming our world to be more interconnected than ever before,
-the Web has become increasingly *centralized* in recent years, contrary to [its original vision](cite:cites webproposal).
+the Web has become increasingly centralized in recent years, contrary to [its original vision](cite:cites webproposal).
 Today, the majority of data on the Web is flowing towards isolated *data silos*,
 which are in the hands of large companies.
 This siloization of data leads to various problems,
@@ -14,47 +16,49 @@ Because of these reasons, and the introduction of user-empowering legislature su
 Their common goal is
 to give people back control over their own data
 by guarding it in chosen locations on the Web instead of aggregated in silos.
-Initiatives such as [Solid](cite:cites solid) and [Bluesky](cite:cites bluesky) do this by allowing users to store any kind of data in their own personal data vault,
+Initiatives such as [Solid](cite:cites solid) and [Bluesky](cite:cites bluesky) achieve this by allowing users to store any kind of data in their own _personal data vault_,
 which they fully control.
-In Solid, these data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), which are often represented as collections of [Linked Data documents](cite:cites linkeddata) containing [RDF triples](cite:cites spec:rdf).
-The presence of such data vaults results in a large-scale distribution of data,
+In Solid, these data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), represented as collections of [Linked Data documents](cite:cites linkeddata) containing [RDF triples](cite:cites spec:rdf).
+<span class="comment" data-author="RV">Do we need to capitalize Knowledge Graphs? Fine either way, just seems unnecessary.</span>
+The presence of such data vaults results in a large-scale distribution of private data,
 where applications involving multiple individuals' data require accessing
 thousands or even millions of documents
 across different data vaults across the Web.
 These applications cannot effectively be built today
 due to the lack of query processing techniques that can handle such decentralized environments.
 
-The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on centralized use cases,
+The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on _centralized_ use cases,
 where all data is captured in a single or a small number
 of sources, usually exposed as [SPARQL endpoints](cite:cites spec:sparqlprot).
 Even though [several federated query execution approaches exist](cite:cites fedx, tpf, hibiscus, splendid),
 they have been designed for federating over *a few (~10) large sources*,
 while decentralized environments such as Solid are identified by *a large number (~millions) of small sources*.
+<span class="comment" data-author="RV">Should perhaps be careful not to shoot ourself in the foot, if our evaluation does not reach millions (so it can remain here, but possibly mitigate in conclusion)</span>
 Furthermore, federated query execution techniques assume sources to be known prior to query execution,
 which is not feasible in decentralized environments due to the lack of a central index.
 Hence, they are unsuitable for decentralized environments.
 
 [*Link Traversal Query Processing (LTQP)*](cite:cites linktraversal, linktraversalfoundations)
-is an alternative query execution paradigm that is more promising for uncharted decentralized environments.
-It can query over a continuously growing range of documents that are discovered during query execution,
+is an alternative query execution paradigm that is more promising for uncharted decentralized environments,
+with private data that cannot be centralized.
+LTQP can query over a continuously growing range of documents that are discovered during query execution,
 by _following hyperlinks_ between Linked Data documents using the [*follow-your-nose* principle](cite:cites linkeddata).
 While LTQP has been theoretically interesting, it has not seen any practical use so far,
 in particular because of performance concerns.
 
-Besides the [Linked Data principles](cite:cites linkeddata),
-decentralization efforts such as Solid provide additional structural properties on top of these principles that allow us to make
-additional assumptions about data, documents, and their organization during query execution.
-For example, Solid makes use of the [Linked Data Platform specification](cite:cites spec:ldp)
-to provide completeness guarantees when finding data within vaults,
-and it provides the [Type Index](cite:cites spec:typeindex) to enable type-based document discovery.
+Personal data vaults tend to have more predictable structural properties
+compared to Linked Data in general,
+which we can exploit during query execution.
+For example, Solid makes use of [Linked Data Platform](cite:cites spec:ldp) containers
+to provide _completeness guarantees_ when finding data within vaults,
+and it provides the [Type Index](cite:cites spec:typeindex) to enable _type-based document discovery_.
 
 In this work, we prove that LTQP
-can be an effective paradigm,
+can be an effective paradigm for private data,
 if we exploit specific structural properties within decentralized environments
 for more effective source discovery and query optimization.
-We apply our research to the Solid ecosystem,
-but these concepts may be generalizable to [other decentralization initiatives](cite:cites bluesky, mastodon, decentralizednanopubs).
-To the best of our knowledge, this is the first querying analysis for the Solid ecosystem.
+While we apply our research to the Solid ecosystem,
+these concepts may be generalizable to [other decentralization initiatives](cite:cites bluesky, mastodon, decentralizednanopubs).
 
 This article is structured as follows.
 In the [next section](#related-work), we discuss the related work,
