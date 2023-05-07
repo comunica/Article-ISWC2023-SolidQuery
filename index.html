@@ -120,8 +120,10 @@ in which declarative queries shield developers from the inherent complexity of a
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Introduction</h2>
 
+        <p><span class="comment" data-author="RV">Note: I think it’s good here to start from Solid as we do (even if the abstract starts from LTQP)</span></p>
+
         <p>Despite transforming our world to be more interconnected than ever before,
-the Web has become increasingly <em>centralized</em> in recent years, contrary to its original vision <span class="references">[<a href="#ref-1">1</a>]</span>.
+the Web has become increasingly centralized in recent years, contrary to its original vision <span class="references">[<a href="#ref-1">1</a>]</span>.
 Today, the majority of data on the Web is flowing towards isolated <em>data silos</em>,
 which are in the hands of large companies.
 This siloization of data leads to various problems,
@@ -129,51 +131,53 @@ ranging from issues with cross-silo interoperability and vendor lock-in,
 to privacy issues and individuals’ data being controlled by companies instead of themselves.</p>
 
         <p>Because of these reasons, and the introduction of user-empowering legislature such as GDPR and CCPA,
-decentralization initiatives <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span> are gaining popularity.
+<a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">decentralization initiatives</a> <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span> are gaining popularity.
 Their common goal is
 to give people back control over their own data
 by guarding it in chosen locations on the Web instead of aggregated in silos.
-Initiatives such as Solid <span class="references">[<a href="#ref-2">2</a>]</span> and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">Bluesky</a> <span class="references">[<a href="#ref-3">3</a>]</span> do this by allowing users to store any kind of data in their own personal data vault,
+Initiatives such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">Solid</a> <span class="references">[<a href="#ref-2">2</a>]</span> and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">Bluesky</a> <span class="references">[<a href="#ref-3">3</a>]</span> achieve this by allowing users to store any kind of data in their own <em>personal data vault</em>,
 which they fully control.
-In Solid, these data vaults form personal Knowledge Graphs <span class="references">[<a href="#ref-6">6</a>]</span>, which are often represented as collections of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data documents</a> <span class="references">[<a href="#ref-7">7</a>]</span> containing <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">RDF triples</a> <span class="references">[<a href="#ref-8">8</a>]</span>.
-The presence of such data vaults results in a large-scale distribution of data,
+In Solid, these data vaults form personal Knowledge Graphs <span class="references">[<a href="#ref-6">6</a>]</span>, represented as collections of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data documents</a> <span class="references">[<a href="#ref-7">7</a>]</span> containing <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">RDF triples</a> <span class="references">[<a href="#ref-8">8</a>]</span>.
+<span class="comment" data-author="RV">Do we need to capitalize Knowledge Graphs? Fine either way, just seems unnecessary.</span>
+The presence of such data vaults results in a large-scale distribution of private data,
 where applications involving multiple individuals’ data require accessing
 thousands or even millions of documents
 across different data vaults across the Web.
 These applications cannot effectively be built today
 due to the lack of query processing techniques that can handle such decentralized environments.</p>
 
-        <p>The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on centralized use cases,
+        <p>The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on <em>centralized</em> use cases,
 where all data is captured in a single or a small number
 of sources, usually exposed as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">SPARQL endpoints</a> <span class="references">[<a href="#ref-9">9</a>]</span>.
 Even though several federated query execution approaches exist <span class="references">[<a href="#ref-10">10</a>, <a href="#ref-11">11</a>, <a href="#ref-12">12</a>, <a href="#ref-13">13</a>]</span>,
 they have been designed for federating over <em>a few (~10) large sources</em>,
 while decentralized environments such as Solid are identified by <em>a large number (~millions) of small sources</em>.
+<span class="comment" data-author="RV">Should perhaps be careful not to shoot ourself in the foot, if our evaluation does not reach millions (so it can remain here, but possibly mitigate in conclusion)</span>
 Furthermore, federated query execution techniques assume sources to be known prior to query execution,
 which is not feasible in decentralized environments due to the lack of a central index.
 Hence, they are unsuitable for decentralized environments.</p>
 
         <p><em>Link Traversal Query Processing (LTQP)</em> <span class="references">[<a href="#ref-14">14</a>, <a href="#ref-15">15</a>]</span>
-is an alternative query execution paradigm that is more promising for uncharted decentralized environments.
-It can query over a continuously growing range of documents that are discovered during query execution,
+is an alternative query execution paradigm that is more promising for uncharted decentralized environments,
+with private data that cannot be centralized.
+LTQP can query over a continuously growing range of documents that are discovered during query execution,
 by <em>following hyperlinks</em> between Linked Data documents using the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html"><em>follow-your-nose</em> principle</a> <span class="references">[<a href="#ref-7">7</a>]</span>.
 While LTQP has been theoretically interesting, it has not seen any practical use so far,
 in particular because of performance concerns.</p>
 
-        <p>Besides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data principles</a> <span class="references">[<a href="#ref-7">7</a>]</span>,
-decentralization efforts such as Solid provide additional structural properties on top of these principles that allow us to make
-additional assumptions about data, documents, and their organization during query execution.
-For example, Solid makes use of the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">Linked Data Platform specification</a> <span class="references">[<a href="#ref-16">16</a>]</span>
-to provide completeness guarantees when finding data within vaults,
-and it provides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-17">17</a>]</span> to enable type-based document discovery.</p>
+        <p>Personal data vaults tend to have more predictable structural properties
+compared to Linked Data in general,
+which we can exploit during query execution.
+For example, Solid makes use of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">Linked Data Platform</a> <span class="references">[<a href="#ref-16">16</a>]</span> containers
+to provide <em>completeness guarantees</em> when finding data within vaults,
+and it provides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-17">17</a>]</span> to enable <em>type-based document discovery</em>.</p>
 
         <p>In this work, we prove that LTQP
-can be an effective paradigm,
+can be an effective paradigm for private data,
 if we exploit specific structural properties within decentralized environments
 for more effective source discovery and query optimization.
-We apply our research to the Solid ecosystem,
-but these concepts may be generalizable to <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">other decentralization initiatives</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>.
-To the best of our knowledge, this is the first querying analysis for the Solid ecosystem.</p>
+While we apply our research to the Solid ecosystem,
+these concepts may be generalizable to <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">other decentralization initiatives</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>.</p>
 
         <p>This article is structured as follows.
 In the <a href="#related-work">next section</a>, we discuss the related work,
@@ -200,17 +204,17 @@ Contributions:
         <h2 property="schema:name">Related Work</h2>
 
         <p>The Link Traversal Query Processing (LTQP) paradigm was introduced more than a decade ago <span class="references">[<a href="#ref-18">18</a>]</span>
-as a way to query over the Web of Linked Data as if it was a globally distributed dataspace,
+as a way to query over the Web of Linked Open Data as if it was a globally distributed dataspace,
 without having to first index it in a single location.
 LTQP does this by employing the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html"><em>follow-your-nose</em> principle of Linked Data</a> <span class="references">[<a href="#ref-7">7</a>]</span> during query execution,
-where new RDF are continuously added to a local dataset while discovering new sources by following links between documents.
+in which new RDF are continuously added to a local dataset while discovering new sources by following links between documents.
 An iterator-based pipeline <span class="references">[<a href="#ref-18">18</a>]</span>
 allows execution to take place without waiting until all links have been followed.</p>
 
-        <p>LTQP is thus an <em>integrated</em> approach <span class="references">[<a href="#ref-19">19</a>]</span>
-with parallel source discovery and query execution,
-in contrast to <em>two-phase</em> approaches <span class="references">[<a href="#ref-20">20</a>, <a href="#ref-21">21</a>]</span>
-that perform data retrieval and indexing <em>before</em> query execution.
+        <p>in contrast to <em>two-phase</em> approaches <span class="references">[<a href="#ref-19">19</a>, <a href="#ref-20">20</a>]</span>
+that perform data retrieval and indexing <em>before</em> query execution,
+LTQP is thus an <em>integrated</em> approach <span class="references">[<a href="#ref-21">21</a>]</span>
+with <em>parallel</em> source discovery and query execution.
 As a one-phase approach,
 LTQP cannot rely on traditional pre-execution optimization algorithms
 that require prior dataset statistics.
@@ -218,7 +222,7 @@ A zero-knowledge query planning technique <span class="references">[<a href="#r
 instead orders triple patterns in a query based on link traversal-specific heuristics.
 LTQP is related to the idea of <em>SQL-based query execution over the Web</em> <span class="references">[<a href="#ref-23">23</a>, <a href="#ref-24">24</a>]</span>
 and to the concept of <em>focused crawling</em> <span class="references">[<a href="#ref-25">25</a>, <a href="#ref-26">26</a>]</span>.
-While LTQP considers the Web of Linked Data a large database using the RDF data model,
+While LTQP considers the Web of Linked Open Data a large database using the RDF data model,
 SQL-based approaches focus on querying attributes or content within Web pages.
 Focused crawlers search for Web pages of specific topics to populate a local database or index,
 using a two-phase approach where a preprocessing step precedes execution.
@@ -226,7 +230,7 @@ While two-phase approaches in general are able to produce better query plans usi
 waiting for data retrieval to be completed
 may be impractical or even impossible for certain queries.</p>
 
-        <p>The number of potential links to be followed within the Web of Linked Data can become prohibitively large.
+        <p>The number of potential links to be followed within the Web of Linked Open Data can become prohibitively large.
 In the worst case, a single query could theoretically require traversing the entire Web.
 Therefore, the formal LTQP model <span class="references">[<a href="#ref-15">15</a>]</span> enables different <em>reachability criteria</em>,
 which embody strategies for deciding what links to follow, each leading to different result completeness semantics.
@@ -238,7 +242,7 @@ to cope with property path expressions in the <a property="schema:citation http:
 Next to query-driven reachability, <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.bartbogaerts.eu/articles/2021/005-RuleML-GuidedLink-SubwebSpec/SubwebSpecifications.pdf">another extension</a> <span class="references">[<a href="#ref-29">29</a>]</span> introduces
 the ability for data publishers to express which links should be followed using <em>subweb specifications</em>.</p>
 
-        <p>Next to filtering links via different semantics,
+        <p>In addition to filtering links via different semantics,
 a second methodology for lowering query result arrival times is through <em>link prioritization</em> <span class="references">[<a href="#ref-30">30</a>]</span>.
 However, existing techniques only sometimes result in faster query results compared to no prioritization.</p>
 
@@ -249,8 +253,9 @@ we make use of it within this work.
 Nevertheless, the concepts within this work can be applied to other languages.</p>
 
         <p>In general, LTQP has mostly been applied to querying Linked <em>Open</em> Data on the Web.
-In contrast to our work, we apply LTQP to decentralized environments with specific structural properties,
-and where not all data is open and accessible to everyone.</p>
+In contrast,
+our work applies LTQP to decentralized environments with <em>private</em> personal data,
+organized in personal data vaults with specific structural properties.</p>
 
       </div>
 </section>
@@ -647,7 +652,7 @@ Each query template in the benchmark was instantiated five times, resulting in 4
 These query templates are available in the supplementary material.</p>
 
         <p>We were unable to compare our implementation to existing LTQP engines,
-because those systems (e.g. Lidaq <span class="references">[<a href="#ref-21">21</a>]</span>) would either require significant changes to work over Solid vaults,
+because those systems (e.g. Lidaq <span class="references">[<a href="#ref-20">20</a>]</span>) would either require significant changes to work over Solid vaults,
 they depend on a non-standard usage of the SPARQL syntax (e.g. SPARQL-LD <span class="references">[<a href="#ref-47">47</a>]</span>),
 or insufficient documentation was present to make them work (e.g. SQUIN <span class="references">[<a href="#ref-43">43</a>]</span>).
 Nevertheless, in order to ensure a fair and complete comparison,
@@ -1359,7 +1364,7 @@ and SPARQL query processing <span class="references">[<a href="#ref-54">54</a>,
         <p>Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance,
 and future work in the direction of implicit type knowledge in queries and query decomposition over different type index entries could be relevant.
 Furthermore, alternative structural properties could offer more expressivity,
-such as characteristics sets <span class="references">[<a href="#ref-57">57</a>]</span> and other summarization techniques <span class="references">[<a href="#ref-21">21</a>, <a href="#ref-58">58</a>]</span>.
+such as characteristics sets <span class="references">[<a href="#ref-57">57</a>]</span> and other summarization techniques <span class="references">[<a href="#ref-20">20</a>, <a href="#ref-58">58</a>]</span>.
 Next to that, the incorporation of more expressive Linked Data Fragments interfaces <span class="references">[<a href="#ref-59">59</a>, <a href="#ref-60">60</a>, <a href="#ref-61">61</a>, <a href="#ref-62">62</a>, <a href="#ref-63">63</a>, <a href="#ref-64">64</a>]</span> in certain Solid vaults
 could introduce interesting trade-offs in terms of server and client query execution effort,
 especially if they can be combined in a heterogeneous manner <span class="references">[<a href="#ref-65">65</a>, <a href="#ref-66">66</a>, <a href="#ref-67">67</a>]</span>.</p>
@@ -1392,7 +1397,7 @@ Benchmark: <a href="https://anonymous.4open.science/r/iswc-2023-querysolid-bench
   <dt id="ref-1">[1]</dt>
   <dd resource="#webproposal" typeof="schema:CreativeWork">Berners-Lee, T.J.: Information management: A proposal. (1989).</dd>
   <dt id="ref-2">[2]</dt>
-  <dd resource="#solid" typeof="schema:Article">Mansour, E., Sambra, A.V., Hawke, S., Zereba, M., Capadisli, S., Ghanem, A., Aboulnaga, A., Berners-Lee, T.: A Demonstration of the Solid platform for Social Web Applications. In: Proceedings of the 25th International Conference Companion on World Wide Web. pp. 223–226. International World Wide Web Conferences Steering Committee (2016).</dd>
+  <dd resource="https://ruben.verborgh.org/articles/redecentralizing-the-web/" typeof="schema:Chapter">Verborgh, R.: Re-decentralizing the Web, for good this time. In: Seneviratne, O. and Hendler, J. (eds.) Linking the World’s Information: A Collection of Essays on the Work of Sir Tim Berners-Lee. ACM (2022).</dd>
   <dt id="ref-3">[3]</dt>
   <dd resource="https://blueskyweb.xyz/" typeof="schema:CreativeWork">Bluesky: Bluesky. <a href="https://blueskyweb.xyz/">https:/​/​blueskyweb.xyz/</a> (2023).</dd>
   <dt id="ref-4">[4]</dt>
@@ -1426,11 +1431,11 @@ Benchmark: <a href="https://anonymous.4open.science/r/iswc-2023-querysolid-bench
   <dt id="ref-18">[18]</dt>
   <dd resource="#linktraversalsparql" typeof="schema:Article">Hartig, O.: SPARQL for a Web of Linked Data: Semantics and computability. In: Extended Semantic Web Conference. pp. 8–23. Springer (2012).</dd>
   <dt id="ref-19">[19]</dt>
-  <dd resource="https://dx.doi.org/10.1007/978-3-319-63962-8_76-1" typeof="schema:CreativeWork">Hartig, O., Hose, K., Sequeda, J.: Linked Data Management. In: Sakr, S. and Zomaya, A. (eds.) Encyclopedia of Big Data Technologies. Springer, Germany (2019). doi:10.1007/978-3-319-63962-8_76-1</dd>
-  <dt id="ref-20">[20]</dt>
   <dd resource="#summaries" typeof="schema:Article">Harth, A., Hose, K., Karnstedt, M., Polleres, A., Sattler, K.-U., Umbrich, J.: Data summaries for on-demand queries over linked data. In: Proceedings of the 19th international conference on World wide web. pp. 411–420 (2010).</dd>
-  <dt id="ref-21">[21]</dt>
+  <dt id="ref-20">[20]</dt>
   <dd resource="#comparingsummaries" typeof="schema:Article">Umbrich, J., Hose, K., Karnstedt, M., Harth, A., Polleres, A.: Comparing data summaries for processing live queries over linked data. World Wide Web. 14, 495–544 (2011).</dd>
+  <dt id="ref-21">[21]</dt>
+  <dd resource="https://dx.doi.org/10.1007/978-3-319-63962-8_76-1" typeof="schema:CreativeWork">Hartig, O., Hose, K., Sequeda, J.: Linked Data Management. In: Sakr, S. and Zomaya, A. (eds.) Encyclopedia of Big Data Technologies. Springer, Germany (2019). doi:10.1007/978-3-319-63962-8_76-1</dd>
   <dt id="ref-22">[22]</dt>
   <dd resource="#zeroknowldgequeryplanning" typeof="schema:Article">Hartig, O.: Zero-knowledge query planning for an iterator implementation of link traversal based query execution. In: Extended Semantic Web Conference. pp. 154–169. Springer (2011).</dd>
   <dt id="ref-23">[23]</dt>
