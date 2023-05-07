@@ -266,39 +266,41 @@ organized in personal data vaults with specific structural properties.</p>
 
         <p>In this section, we provide an analysis of the structural properties within the Solid ecosystem
 that are relevant for query processing.
-We start by explaining the concept of data vaults and its implications on applications.
+We start by explaining the concept of data vaults and their implications on applications.
 Next, we explain the WebID, which is used for identifying users.
 Finally, we discuss the Solid type index; a structural property that improves data discovery.</p>
 
         <h3 id="data-vault">Data Vault</h3>
 
-        <p>A primary element within the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solidproject.org/TR/protocol">Solid Protocol</a> <span class="references">[<a href="#ref-34">34</a>]</span> is
-the data vault (also known as <em>data pod</em>), which is a user-controlled space in which any kind of data can be stored.
-Users can choose where and how their vault is stored on the Web,
+        <p>The <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solidproject.org/TR/protocol">Solid Protocol</a> <span class="references">[<a href="#ref-34">34</a>]</span> supports the concept of
+a personal data vault (also known as <em>data pod</em>), which is a user-controlled space in which any kind of public and private data can be stored.
+Users can choose where their vault resides,
 by <a property="schema:citation http://purl.org/spar/cito/cites" href="https://github.com/CommunitySolidServer/CommunitySolidServer">hosting it themselves</a> <span class="references">[<a href="#ref-35">35</a>]</span>,
-obtaining service-provided space by <a property="schema:citation http://purl.org/spar/cito/cites" href="https://docs.inrupt.com/pod-spaces/">a company</a> <span class="references">[<a href="#ref-36">36</a>]</span> or <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.vlaanderen.be/digitaal-vlaanderen/het-vlaams-datanutsbedrijf/the-flemish-data-utility-company">government</a> <span class="references">[<a href="#ref-37">37</a>]</span>.
+or obtaining service-provided space by <a property="schema:citation http://purl.org/spar/cito/cites" href="https://docs.inrupt.com/pod-spaces/">a company</a> <span class="references">[<a href="#ref-36">36</a>]</span> or <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.vlaanderen.be/digitaal-vlaanderen/het-vlaams-datanutsbedrijf/the-flemish-data-utility-company">government</a> <span class="references">[<a href="#ref-37">37</a>]</span>.
 Data vaults are intended to be loosely coupled to applications,
 and applications must request explicit access to the user for interacting with specific data.
-This loose coupling enables different applications to use the same data interoperably.</p>
+This loose coupling enables different applications to use the same data in an interoperable way.</p>
 
         <p>Current data vaults are primarily document-oriented, and are exposed on the Web as a REST API
 using elements of the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">Linked Data Platform (LDP) specification</a> <span class="references">[<a href="#ref-16">16</a>]</span>.
 Directories are represented using <em>LDP Basic Containers</em>,
-which can contain any number of resources that correspond to RDF or non-RDF documents (via <code>ldp:contains</code> links),
+which can contain any number of resources that correspond to RDF or non-RDF resources (via <code>ldp:contains</code> links),
 or other nested basic containers.
-For the remainder of this article, we will only consider the processing of RDF documents within vaults.
+For the remainder of this article, we will only consider the processing of RDF resources and containers within vaults.
+<span class="comment" data-author="RV">Reads as if we are ignoring containers; but containers also have an RDF representation (and people might not realize that).</span>
 Resources within vaults can be read by sending HTTP <code>GET</code> requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
 Vaults may also support creation and modification using HTTP <code>PATCH</code> and <code>POST</code> requests.
-An example of such a basic container can be found in the <a href="#example-ldpcontainer">Listing 1</a>.</p>
+An example of such a basic container can be found in <a href="#example-ldpcontainer">Listing 1</a>.</p>
 
         <figure id="example-ldpcontainer" class="listing">
-<pre><code>@prefix ldp: &lt;http://www.w3.org/ns/ldp#&gt;.
+<pre><code>PREFIX ldp: &lt;http://www.w3.org/ns/ldp#&gt;
 </code><code>&lt;&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource;
 </code><code>   ldp:contains &lt;file.ttl&gt;, &lt;posts/&gt;, &lt;profile/&gt;.
 </code><code>&lt;file.ttl&gt; a ldp:Resource.
 </code><code>&lt;posts/&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource.
-</code><code>&lt;profile/&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource.</code></pre>
+</code><code>&lt;profile/&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource.
+</code></pre>
 <figcaption>
             <p><span class="label">Listing 1:</span> An LDP container in a Solid data vault containing one file and two directories in the Turtle serialization.</p>
           </figcaption>
@@ -314,8 +316,9 @@ This configuration is usually done by referring to the <em>WebID</em> of users.<
         <p>Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a <em>WebID</em>.
 These agents can authenticate themselves using the decentralized <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/solid-oidc/">Solid OIDC protocol</a> <span class="references">[<a href="#ref-40">40</a>]</span>,
 which is required for authorizing access during the reading and writing of resources.
-According to the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/webid-profile/">WebID profile specification</a> <span class="references">[<a href="#ref-41">41</a>]</span>,
-each WebID URI should be dereferenceable, and return a WebID profile document.
+<del class="comment" data-author="RV">According to the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/webid-profile/">WebID profile specification</a> <span class="references">[<a href="#ref-41">41</a>]</span>,
+each WebID URI should be dereferenceable, and return a WebID profile document.</del>
+<span class="comment" data-author="RV">I would not legitimize that spec (yet)</span>
 Next to basic information of the agent such as its name,
 this document contains links to
 1) the vault’s LDP container (via <code>pim:storage</code>), and
@@ -323,9 +326,9 @@ this document contains links to
 An example is shown in <a href="#example-webidprofile">Listing 2</a>.</p>
 
         <figure id="example-webidprofile" class="listing">
-<pre><code>@prefix pim: &lt;http://www.w3.org/ns/pim/space#&gt;.
-</code><code>@prefix foaf: &lt;http://xmlns.com/foaf/0.1/&gt;.
-</code><code>@prefix solid: &lt;http://www.w3.org/ns/solid/terms#&gt; .
+<pre><code>PREFIX pim: &lt;http://www.w3.org/ns/pim/space#&gt;
+</code><code>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
+</code><code>PREFIX solid: &lt;http://www.w3.org/ns/solid/terms#&gt;
 </code><code>&lt;#me&gt; foaf:name &quot;Zulma&quot;;
 </code><code>      pim:storage &lt;/&gt;;
 </code><code>      solid:oidcIssuer &lt;https://solidcommunity.net/&gt;;
@@ -337,20 +340,20 @@ An example is shown in <a href="#example-webidprofile">Listing 2</a>.</p>
 </figure>
 
         <h3 id="type-index">Type Index</h3>
-
-        <p>The <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-17">17</a>]</span> is a document that enables type-based resource discovery within a vault.
+        <p>Users are free to organize documents in their vault as they see fit.
+The <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-17">17</a>]</span> is a document that enables type-based resource discovery within a vault.
 Users may have public or private type indexes, which respectively refer to data that are and are not publicly discoverable.
 A type index can contain type registration entries for different classes,
 where each registration has a link to resources containing instances of the corresponding class.
 <a href="#example-typeindex">Listing 3</a> shows a type index example with type registrations for posts and comments,
-where the posts entry refers to a single posts file,
+where the posts entry refers to a single <em>posts</em> file,
 and the comments entry refers to a container with multiple comments files.
 If an application wants to obtain all posts of a user,
-it can follow the link within the type index entry corresponding to the post class.</p>
+it can follow the link within the type index entry corresponding to the <em>post</em> class.</p>
 
         <figure id="example-typeindex" class="listing">
-<pre><code>@prefix ldp: &lt;http://www.w3.org/ns/ldp#&gt;.
-</code><code>&lt;&gt; a solid:TypeIndex ;
+<pre><code>PREFIX ldp: &lt;http://www.w3.org/ns/ldp#&gt;
+</code><code>&lt;&gt; a solid:TypeIndex;
 </code><code>   a solid:ListedDocument.
 </code><code>&lt;#ab09fd&gt; a solid:TypeRegistration;
 </code><code>  solid:forClass &lt;http://example.org/Post&gt;;
