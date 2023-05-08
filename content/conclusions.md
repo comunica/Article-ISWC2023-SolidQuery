@@ -12,6 +12,7 @@ Up until now, LTQP has always been applied to querying Linked Open Data on the W
 In that context, it was assumed that [_"we should never expect complete results"_](cite:cites linktraversalsparql), because of the openness and distributed nature of the Web.
 However, when applying LTQP to specific decentralized environments such as Solid,
 this limitation does not hold anymore,
+<span class="comment" data-author="RV">Yes, so that was actually the elephant in the room for me. How do we connect this for the reader to the fact that we are not able to reach 100% accuracy?</span>
 since there are additional assumptions that we can make use of during query execution.
 For instance, the ability to close the world around Solid vaults,
 and the data discovery techniques that Solid vaults provide,
@@ -26,6 +27,7 @@ Due to the possibility of incomplete results,
 LTQP research over Linked Open Data is moving into the direction of
 [finding query-relevant documents as early as possible](cite:cites linktraversaloptimization).
 In the context of Solid, we have shown that finding all query-relevant documents is not the main bottleneck during query execution anymore.
+<span class="comment" data-author="RV">This is again where the 94% is bothering me; let's discuss tomorrow. Perhaps a measure of completeness of all relevant documents is needed?</span>
 Instead, the *effectiveness of the query plan* has become the new bottleneck.
 While finding query-relevant documents is still relevant for specific decentralized environments,
 we show the need for more research towards better query planning techniques.
@@ -35,6 +37,7 @@ So far, these techniques have only seem limited adoption within [LTQP](cite:cite
 and [SPARQL query processing](cite:cites sparql_adaptive_anapsid, sparql_adaptive_ldeddies, sparql_adaptive_robust).
 
 Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance,
+<span class="comment" data-author="RV">Can we name numbers here? <q>We see improvements up to xxx% compared to…</q></span>
 and future work in the direction of implicit type knowledge in queries and query decomposition over different type index entries could be relevant.
 Furthermore, alternative structural properties could offer more expressivity,
 such as [characteristics sets](cite:cites characteristicssets) and [other summarization techniques](cite:cites comparingsummaries, spec:shapetrees).
@@ -44,4 +47,4 @@ especially if they can be combined in a [heterogeneous manner](cite:cites hetero
 
 This work provides an answer to the increasing need of querying over decentralized environments,
 and uncovers next steps for resolving current limitations.
-Hence, bringing us closer towards querying a decentralized Web where users are in full control.
+Hence, it brings us closer towards querying a decentralized Web where users are in full control.

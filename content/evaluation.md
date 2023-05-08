@@ -84,6 +84,8 @@ The accuracy of each query execution is a percentage indicating the precision an
 
 <span class="comment" data-author="RV">What's our explanation for the repeated 99.14?</span>
 
+<span class="comment" data-author="RV">I'm probably missing something, but how can for cmatch-base the average time to first triple be larger than the average execution time? Unless there are many queries with zero results? It must be the zero accuracy causing this—does that also need to be an N/A? Or was there basically only one query that returned a triple, and that triple just came very late?</span>
+
 <figcaption markdown="block">
 Aggregated results for the different combinations across 8 **discover** queries.
 </figcaption>
