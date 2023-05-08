@@ -2,12 +2,12 @@
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 <head>
   <meta charset="utf-8" />
-  <title property="foaf:name schema:name">Structural Assumptions for Link Traversal Query Processing over Decentralized Private Data</title>
+  <title property="foaf:name schema:name">Link Traversal Query Processing over Decentralized Environments with Structural Assumptions</title>
   <link rel="stylesheet" media="screen" href="styles/screen.css" />
   <link rel="stylesheet" media="print"  href="styles/print.css" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <link rel="stylesheet" media="all"    href="styles/katex.css" />
-  <meta name="citation_title" content="Structural Assumptions for Link Traversal Query Processing over Decentralized Private Data">
+  <meta name="citation_title" content="Link Traversal Query Processing over Decentralized Environments with Structural Assumptions">
   <meta name="citation_author" content="Ruben Taelman" />
   <meta name="citation_author" content="Ruben Verborgh" />
   
@@ -16,7 +16,7 @@
 
 <body prefix="dctypes: http://purl.org/dc/dcmitype/ pimspace: http://www.w3.org/ns/pim/space# rsa: http://www.w3.org/ns/auth/rsa# cert: http://www.w3.org/ns/auth/cert# wgs: http://www.w3.org/2003/01/geo/wgs84_pos# biblio: http://purl.org/net/biblio# bibo: http://purl.org/ontology/bibo/ book: http://purl.org/NET/book/vocab# ov: http://open.vocab.org/terms/ doap: http://usefulinc.com/ns/doap# dbr: http://dbpedia.org/resource/ dbp: http://dbpedia.org/property/ sio: http://semanticscience.org/resource/ opmw: http://www.opmw.org/ontology/ deo: http://purl.org/spar/deo/ doco: http://purl.org/spar/doco/ cito: http://purl.org/spar/cito/ fabio: http://purl.org/spar/fabio/ solid: http://www.w3.org/ns/solid/terms# acl: http://www.w3.org/ns/auth/acl# dio: https://w3id.org/dio# lsc: http://linkedscience.org/lsc/ns#" typeof="schema:CreativeWork sioc:Post prov:Entity lsc:Research">
   <header>
-  <h1 id="structural-assumptions-for-link-traversal-query-processing-over-decentralized-private-data">Structural Assumptions for Link Traversal Query Processing over Decentralized Private Data</h1>
+  <h1 id="link-traversal-query-processing-over-decentralized-environments-with-structural-assumptions">Link Traversal Query Processing over Decentralized Environments with Structural Assumptions</h1>
 
   <!--
 {:#authors}
@@ -74,43 +74,6 @@ but that advances are needed in the area of query planning for LTQP to handle mo
 These insights open the door to query-driven decentralized applications,
 in which declarative queries shield developers from the inherent complexity of a decentralized landscape.</p>
 
-      <p><span class="comment" data-author="RV">Below, I’m trying an abstract with a different angle. It’s not necessarily better; it’s different. The aim with the abstract below is to strategically focus the minds of reviewers: yes, LTQP is an old technique and no one likes it. But the conditions have changed now.</span></p>
-
-      <!-- Context      -->
-      <p>The Link Traversal Query Processing (LTQP) technique,
-in which SPARQL queries are evaluated over an open Web of documents
-rather than a highly optimized quadstore,
-has failed to become more than a topic of theoretical interest
-due to severe practical issues such as limited performance.
-However,
-having so far only been applied to <em>public</em> data,
-<!-- Need         -->
-its applicability needs to be reconsidered for different environments.
-The incorporation of <em>private</em> data on the Web
-could tip the balance in favor of LTQP,
-with privacy concerns restricting
-the permitted expressivity of traditional quadstore query interfaces
-and the extent to which they are allowed to cache or aggregate data.
-Additionally,
-such closed contexts lead to more predicable data distributions,
-which can help mitigate longstanding LTQP performance issues.
-<!-- Task         -->
-We created an extension to LTQP
-that incorporates structural properties within decentralized environments.
-<!-- Object       -->
-In this article,
-we discuss relevant structural properties of personal data vaults,
-introduce novel LTQP algorithms leveraging these structural properties,
-and evaluate their effectiveness.
-<!-- Findings     -->
-We show that accurate results are obtained in the order of seconds,
-which existing algorithms cannot achieve.
-<!-- Conclusion   -->
-Our work reveals that LTQP method using structural assumptions can be effective for large-scale decentralized private data.
-<!-- Perspectives -->
-This insight opens the door to query-driven decentralized applications,
-in which declarative queries shield developers from the inherent complexity of a decentralized landscape.</p>
-
     </div>
 </section>
 
@@ -119,8 +82,6 @@ in which declarative queries shield developers from the inherent complexity of a
   <section id="introduction" inlist="" rel="schema:hasPart" resource="#introduction">
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Introduction</h2>
-
-        <p><span class="comment" data-author="RV">Note: I think it’s good here to start from Solid as we do (even if the abstract starts from LTQP)</span></p>
 
         <p>Despite transforming our world to be more interconnected than ever before,
 the Web has become increasingly centralized in recent years, contrary to its original vision <span class="references">[<a href="#ref-1">1</a>]</span>.
@@ -137,9 +98,8 @@ to give people back control over their own data
 by guarding it in chosen locations on the Web instead of aggregated in silos.
 Initiatives such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">Solid</a> <span class="references">[<a href="#ref-2">2</a>]</span> and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">Bluesky</a> <span class="references">[<a href="#ref-3">3</a>]</span> achieve this by allowing users to store any kind of data in their own <em>personal data vault</em>,
 which they fully control.
-In Solid, these data vaults form personal <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solidlabresearch.github.io/WhatsInAPod/">Knowledge Graphs</a> <span class="references">[<a href="#ref-6">6</a>]</span>, represented as collections of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data documents</a> <span class="references">[<a href="#ref-7">7</a>]</span> containing <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">RDF triples</a> <span class="references">[<a href="#ref-8">8</a>]</span>.
-<span class="comment" data-author="RV">Do we need to capitalize Knowledge Graphs? Fine either way, just seems unnecessary.</span>
-The presence of such data vaults results in a large-scale distribution of private data,
+In Solid, these data vaults form personal Knowledge Graphs <span class="references">[<a href="#ref-6">6</a>]</span>, represented as collections of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data documents</a> <span class="references">[<a href="#ref-7">7</a>]</span> containing <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">RDF triples</a> <span class="references">[<a href="#ref-8">8</a>]</span>.
+The presence of such data vaults results in a large-scale distribution of data,
 where applications involving multiple individuals’ data require accessing
 thousands or even millions of documents
 across different data vaults across the Web.
@@ -152,32 +112,31 @@ of sources, usually exposed as <a property="schema:citation http://purl.org/spar
 Even though several federated query execution approaches exist <span class="references">[<a href="#ref-10">10</a>, <a href="#ref-11">11</a>, <a href="#ref-12">12</a>, <a href="#ref-13">13</a>]</span>,
 they have been designed for federating over <em>a few (~10) large sources</em>,
 while decentralized environments such as Solid are identified by <em>a large number (~millions) of small sources</em>.
-<span class="comment" data-author="RV">Should perhaps be careful not to shoot ourself in the foot, if our evaluation does not reach millions (so it can remain here, but possibly mitigate in conclusion)</span>
 Furthermore, federated query execution techniques assume sources to be known prior to query execution,
 which is not feasible in decentralized environments due to the lack of a central index.
 Hence, they are unsuitable for decentralized environments.</p>
 
         <p><em>Link Traversal Query Processing (LTQP)</em> <span class="references">[<a href="#ref-14">14</a>, <a href="#ref-15">15</a>]</span>
-is an alternative query execution paradigm that is more promising for uncharted decentralized environments,
-with private data that cannot be centralized.
-LTQP can query over a continuously growing range of documents that are discovered during query execution,
+is an alternative query execution paradigm that is more promising for uncharted decentralized environments.
+It can query over a continuously growing range of documents that are discovered during query execution,
 by <em>following hyperlinks</em> between Linked Data documents using the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html"><em>follow-your-nose</em> principle</a> <span class="references">[<a href="#ref-7">7</a>]</span>.
 While LTQP has been theoretically interesting, it has not seen any practical use so far,
 in particular because of performance concerns.</p>
 
-        <p>Personal data vaults tend to have more predictable structural properties
-compared to Linked Data in general,
-which we can exploit during query execution.
+        <p>Besides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data principles</a> <span class="references">[<a href="#ref-7">7</a>]</span>,
+decentralization efforts such as Solid provide additional structural properties on top of these principles that allow us to make
+additional assumptions about data, documents, and their organization during query execution.
 For example, Solid makes use of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">Linked Data Platform</a> <span class="references">[<a href="#ref-16">16</a>]</span> containers
 to provide <em>completeness guarantees</em> when finding data within vaults,
 and it provides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-17">17</a>]</span> to enable <em>type-based document discovery</em>.</p>
 
         <p>In this work, we prove that LTQP
-can be an effective paradigm for private data,
+can be an effective paradigm,
 if we exploit specific structural properties within decentralized environments
 for more effective source discovery and query optimization.
 While we apply our research to the Solid ecosystem,
-these concepts may be generalizable to <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">other decentralization initiatives</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>.</p>
+these concepts may be generalizable to <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">other decentralization initiatives</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>.
+To the best of our knowledge, this is the first querying analysis for the Solid ecosystem.</p>
 
         <p>This article is structured as follows.
 In the <a href="#related-work">next section</a>, we discuss the related work,
@@ -211,7 +170,7 @@ in which new RDF are continuously added to a local dataset while discovering new
 An iterator-based pipeline <span class="references">[<a href="#ref-18">18</a>]</span>
 allows execution to take place without waiting until all links have been followed.</p>
 
-        <p>in contrast to <em>two-phase</em> approaches <span class="references">[<a href="#ref-19">19</a>, <a href="#ref-20">20</a>]</span>
+        <p>In contrast to <em>two-phase</em> approaches <span class="references">[<a href="#ref-19">19</a>, <a href="#ref-20">20</a>]</span>
 that perform data retrieval and indexing <em>before</em> query execution,
 LTQP is thus an <em>integrated</em> approach <span class="references">[<a href="#ref-21">21</a>]</span>
 with <em>parallel</em> source discovery and query execution.
@@ -273,8 +232,8 @@ Finally, we discuss the Solid type index; a structural property that improves da
         <h3 id="data-vault">Data Vault</h3>
 
         <p>The <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solidproject.org/TR/protocol">Solid Protocol</a> <span class="references">[<a href="#ref-34">34</a>]</span> supports the concept of
-a personal data vault (also known as <em>data pod</em>), which is a user-controlled space in which any kind of public and private data can be stored.
-Users can choose where their vault resides,
+a personal data vault (also known as <em>data pod</em>), which is a user-controlled space in which any kind of public and private data can be stored.
+Users can choose where and how their vault is stored on the Web,
 by <a property="schema:citation http://purl.org/spar/cito/cites" href="https://github.com/CommunitySolidServer/CommunitySolidServer">hosting it themselves</a> <span class="references">[<a href="#ref-35">35</a>]</span>,
 or obtaining service-provided space by <a property="schema:citation http://purl.org/spar/cito/cites" href="https://docs.inrupt.com/pod-spaces/">a company</a> <span class="references">[<a href="#ref-36">36</a>]</span> or <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.vlaanderen.be/digitaal-vlaanderen/het-vlaams-datanutsbedrijf/the-flemish-data-utility-company">government</a> <span class="references">[<a href="#ref-37">37</a>]</span>.
 Data vaults are intended to be loosely coupled to applications,
@@ -287,7 +246,6 @@ Directories are represented using <em>LDP Basic Containers</em>,
 which can contain any number of resources that correspond to RDF or non-RDF resources (via <code>ldp:contains</code> links),
 or other nested basic containers.
 For the remainder of this article, we will only consider the processing of RDF resources and containers within vaults.
-<span class="comment" data-author="RV">Reads as if we are ignoring containers; but containers also have an RDF representation (and people might not realize that).</span>
 Resources within vaults can be read by sending HTTP <code>GET</code> requests to their URLs,
 with optional content negotiation to return the documents in different RDF serializations.
 Vaults may also support creation and modification using HTTP <code>PATCH</code> and <code>POST</code> requests.
@@ -299,8 +257,7 @@ An example of such a basic container can be found in <a href="#example-ldpcontai
 </code><code>   ldp:contains &lt;file.ttl&gt;, &lt;posts/&gt;, &lt;profile/&gt;.
 </code><code>&lt;file.ttl&gt; a ldp:Resource.
 </code><code>&lt;posts/&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource.
-</code><code>&lt;profile/&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource.
-</code></pre>
+</code><code>&lt;profile/&gt; a ldp:Container, ldp:BasicContainer, ldp:Resource.</code></pre>
 <figcaption>
             <p><span class="label">Listing 1:</span> An LDP container in a Solid data vault containing one file and two directories in the Turtle serialization.</p>
           </figcaption>
@@ -316,9 +273,7 @@ This configuration is usually done by referring to the <em>WebID</em> of users.<
         <p>Any agent (person or organization) within the Solid ecosystem can establish their identity through a URI, called a <em>WebID</em>.
 These agents can authenticate themselves using the decentralized <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/solid-oidc/">Solid OIDC protocol</a> <span class="references">[<a href="#ref-40">40</a>]</span>,
 which is required for authorizing access during the reading and writing of resources.
-<del class="comment" data-author="RV">According to the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/webid-profile/">WebID profile specification</a> <span class="references">[<a href="#ref-41">41</a>]</span>,
-each WebID URI should be dereferenceable, and return a WebID profile document.</del>
-<span class="comment" data-author="RV">I would not legitimize that spec (yet)</span>
+Each WebID URI should be dereferenceable, and return a WebID profile document.
 Next to basic information of the agent such as its name,
 this document contains links to
 1) the vault’s LDP container (via <code>pim:storage</code>), and
@@ -328,7 +283,7 @@ An example is shown in <a href="#example-webidprofile">Listing 2</a>.</p>
         <figure id="example-webidprofile" class="listing">
 <pre><code>PREFIX pim: &lt;http://www.w3.org/ns/pim/space#&gt;
 </code><code>PREFIX foaf: &lt;http://xmlns.com/foaf/0.1/&gt;
-</code><code>PREFIX solid: &lt;http://www.w3.org/ns/solid/terms#&gt;
+</code><code>PREFIX solid: &lt;http://www.w3.org/ns/solid/terms#&gt; 
 </code><code>&lt;#me&gt; foaf:name &quot;Zulma&quot;;
 </code><code>      pim:storage &lt;/&gt;;
 </code><code>      solid:oidcIssuer &lt;https://solidcommunity.net/&gt;;
@@ -340,20 +295,21 @@ An example is shown in <a href="#example-webidprofile">Listing 2</a>.</p>
 </figure>
 
         <h3 id="type-index">Type Index</h3>
+
         <p>Users are free to organize documents in their vault as they see fit.
 The <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-17">17</a>]</span> is a document that enables type-based resource discovery within a vault.
 Users may have public or private type indexes, which respectively refer to data that are and are not publicly discoverable.
 A type index can contain type registration entries for different classes,
 where each registration has a link to resources containing instances of the corresponding class.
 <a href="#example-typeindex">Listing 3</a> shows a type index example with type registrations for posts and comments,
-where the posts entry refers to a single <em>posts</em> file,
+where the posts entry refers to a single posts file,
 and the comments entry refers to a container with multiple comments files.
 If an application wants to obtain all posts of a user,
 it can follow the link within the type index entry corresponding to the <em>post</em> class.</p>
 
         <figure id="example-typeindex" class="listing">
 <pre><code>PREFIX ldp: &lt;http://www.w3.org/ns/ldp#&gt;
-</code><code>&lt;&gt; a solid:TypeIndex;
+</code><code>&lt;&gt; a solid:TypeIndex ;
 </code><code>   a solid:ListedDocument.
 </code><code>&lt;#ab09fd&gt; a solid:TypeRegistration;
 </code><code>  solid:forClass &lt;http://example.org/Post&gt;;
@@ -375,27 +331,26 @@ it can follow the link within the type index entry corresponding to the <em>post
         <h2 property="schema:name">Approach</h2>
 
         <p>In this section, we introduce techniques for handling Solid’s structural properties discussed in <a href="#solid">Section 3</a>.
-We do not introduce any additional components or structural properties to the Solid ecosystem;
-instead, we use what Solid pods already provide today,
-and investigate how to query over them as efficiently as possible.
-We start by discussing the preliminaries of the formalizations we will introduce.
+Our goal is not to introduce additional components or structural properties to the Solid ecosystem,
+but instead, we use what the Solid ecosystem provides today,
+and investigate how to query over this as performant as possible.
+We start by discussing the preliminaries of the formalities we will introduce.
 Next, we discuss our pipeline-based link queue approach.
 Then, we discuss two novel discovery approaches for LTQP.
 Finally, we discuss their implementations.</p>
 
         <h3 id="formal-preliminaries">Formal preliminaries</h3>
 
-        <p>Hereafter, we summarize the semantics of SPARQL querying <span class="references">[<a href="#ref-42">42</a>]</span>
+        <p>Hereafter, we summarize the semantics of SPARQL querying <span class="references">[<a href="#ref-41">41</a>]</span>
 and LTQP <span class="references">[<a href="#ref-15">15</a>, <a href="#ref-29">29</a>]</span>.</p>
 
         <p>The infinite set of <em>RDF triples</em> is formalized as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">T</mi><mo>=</mo><mo stretchy="false">(</mo><mi mathvariant="script">I</mi><mo>&#x222a;</mo><mi mathvariant="script">B</mi><mo stretchy="false">)</mo><mo>&#xd7;</mo><mi mathvariant="script">I</mi><mo>&#xd7;</mo><mo stretchy="false">(</mo><mi mathvariant="script">I</mi><mo>&#x222a;</mo><mi mathvariant="script">B</mi><mo>&#x222a;</mo><mi mathvariant="script">L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mathcal{T} = (\mathcal{I} \cup \mathcal{B}) \times \mathcal{I} \times (\mathcal{I} \cup \mathcal{B} \cup \mathcal{L})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.25417em;">T</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.03041em;">B</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#xd7;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.7667em;vertical-align:-0.0833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#xd7;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.03041em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal">L</span><span class="mclose">)</span></span></span></span>,
-where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">I</mi></mrow><annotation encoding="application/x-tex">\mathcal{I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">B</mi></mrow><annotation encoding="application/x-tex">\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.03041em;">B</span></span></span></span>, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi></mrow><annotation encoding="application/x-tex">\mathcal{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal">L</span></span></span></span> respectively denote the disjoint, infinite sets of <em>IRIs</em>, <em>blank nodes</em>, and <em>literals</em>.
+where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">I</mi></mrow><annotation encoding="application/x-tex">\mathcal{I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">B</mi></mrow><annotation encoding="application/x-tex">\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.03041em;">B</span></span></span></span>, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi></mrow><annotation encoding="application/x-tex">\mathcal{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal">L</span></span></span></span> respectively denote the disjoint, infinite sets of IRIs, blank nodes, and literals.
 Furthermore, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">V</mi></mrow><annotation encoding="application/x-tex">\mathcal{V}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.08222em;">V</span></span></span></span> is the infinite set of all variables that is disjoint from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">I</mi></mrow><annotation encoding="application/x-tex">\mathcal{I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span></span></span></span>, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">B</mi></mrow><annotation encoding="application/x-tex">\mathcal{B}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.03041em;">B</span></span></span></span>, and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">L</mi></mrow><annotation encoding="application/x-tex">\mathcal{L}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal">L</span></span></span></span>.
-A tuple <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>p</mi><mo>&#x2208;</mo><mo stretchy="false">(</mo><mi mathvariant="script">V</mi><mo>&#x222a;</mo><mi mathvariant="script">I</mi><mo stretchy="false">)</mo><mo>&#xd7;</mo><mo stretchy="false">(</mo><mi mathvariant="script">V</mi><mo>&#x222a;</mo><mi mathvariant="script">I</mi><mo stretchy="false">)</mo><mo>&#xd7;</mo><mo stretchy="false">(</mo><mi mathvariant="script">V</mi><mo>&#x222a;</mo><mi mathvariant="script">I</mi><mo>&#x222a;</mo><mi mathvariant="script">L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">tp \in (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I} \cup \mathcal{L})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">tp</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#xd7;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#xd7;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal">L</span><span class="mclose">)</span></span></span></span> is called a <em>triple pattern</em>.
-A finite set of these triple pattern is called a <em>basic graph pattern</em> (BGP).
-For the formalization,
-we only consider BGPs since they form the foundational building block of a SPARQL query;
-our implementation incorporates all of SPARQL 1.1.
+A tuple <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>p</mi><mo>&#x2208;</mo><mo stretchy="false">(</mo><mi mathvariant="script">V</mi><mo>&#x222a;</mo><mi mathvariant="script">I</mi><mo stretchy="false">)</mo><mo>&#xd7;</mo><mo stretchy="false">(</mo><mi mathvariant="script">V</mi><mo>&#x222a;</mo><mi mathvariant="script">I</mi><mo stretchy="false">)</mo><mo>&#xd7;</mo><mo stretchy="false">(</mo><mi mathvariant="script">V</mi><mo>&#x222a;</mo><mi mathvariant="script">I</mi><mo>&#x222a;</mo><mi mathvariant="script">L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">tp \in (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I} \cup \mathcal{L})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8095em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">tp</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#xd7;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#xd7;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal">L</span><span class="mclose">)</span></span></span></span> is called a <em>triple pattern</em>.
+A finite set of these triple pattern is called a <em>basic graph pattern</em> (BGP).
+More complex SPARQL query operators exist,
+but since BGPs form the foundational building block of a SPARQL query,
 we only consider BGPs for the remainder of this work.
 The query results of a SPARQL query <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>P</mi></mrow><annotation encoding="application/x-tex">P</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span></span></span></span> over a set of RDF triples <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>G</mi></mrow><annotation encoding="application/x-tex">G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal">G</span></span></span></span> are called <em>solution mappings</em>,
 which are denoted by <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mo stretchy="false">[</mo><mi>P</mi><mo stretchy="false">]</mo><msub><mo stretchy="false">]</mo><mi>G</mi></msub></mrow><annotation encoding="application/x-tex">[[P]]_G</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">[[</span><span class="mord mathnormal" style="margin-right:0.13889em;">P</span><span class="mclose">]</span><span class="mclose"><span class="mclose">]</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:0em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathnormal mtight">G</span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span>, consisting of partial mappings <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3bc;</mi><mo>:</mo><mi mathvariant="script">V</mi><mo>&#x2192;</mo><mo stretchy="false">(</mo><mi mathvariant="script">I</mi><mo>&#x222a;</mo><mi mathvariant="script">B</mi><mo>&#x222a;</mo><mi mathvariant="script">L</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\mu : \mathcal{V} \rightarrow (\mathcal{I} \cup \mathcal{B}\cup \mathcal{L})</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.625em;vertical-align:-0.1944em;"></span><span class="mord mathnormal">&#x3bc;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.08222em;">V</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">(</span><span class="mord mathcal" style="margin-right:0.07382em;">I</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.03041em;">B</span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x222a;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathcal">L</span><span class="mclose">)</span></span></span></span>.
@@ -404,46 +359,37 @@ An RDF triple <span class="katex"><span class="katex-mathml"><math xmlns="http:/
         <p>Formally, the reachability approaches that were discussed in <a href="#related-work">Section 2</a>
 define which links should be followed during link traversal,
 and are usually captured as <em>reachability criteria</em> <span class="references">[<a href="#ref-15">15</a>]</span>.
-Since this formalization
-<span class="comment" data-author="RV">Which formalization? I’m not meaning to be picky, I genuinely do not understand. Do you mean the reachability semantics and the associated formalizations (the latter we do not mention)?</span>
-lacks expressive power to capture the structural properties we require,
+However, since this formalization lacks expressive power to capture the structural properties we require,
 we formalize new reachability criteria in this work as <em>source selectors</em>
 within the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.bartbogaerts.eu/articles/2021/005-RuleML-GuidedLink-SubwebSpec/SubwebSpecifications.pdf">subweb specification formalization</a> <span class="references">[<a href="#ref-29">29</a>]</span>.
 Within this formalization, a source selector <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3c3;</mi></mrow><annotation encoding="application/x-tex">\sigma</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c3;</span></span></span></span> is defined as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3c3;</mi><mo>:</mo><mi mathvariant="script">W</mi><mo>&#x2192;</mo><msup><mn>2</mn><mi mathvariant="script">I</mi></msup></mrow><annotation encoding="application/x-tex">\sigma : \mathcal{W} \rightarrow 2^{\mathcal{I}}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.4306em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c3;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">:</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.08222em;">W</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2192;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathcal mtight" style="margin-right:0.07382em;">I</span></span></span></span></span></span></span></span></span></span></span></span>,
 where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">W</mi></mrow><annotation encoding="application/x-tex">\mathcal{W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.08222em;">W</span></span></span></span> is a Web of Linked Data.
-The Web of Linked Data <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">W</mi></mrow><annotation encoding="application/x-tex">\mathcal{W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.08222em;">W</span></span></span></span> is a tuple <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">&#x27e8;</mo><mi>D</mi><mo separator="true">,</mo><mtext mathvariant="italic">data</mtext><mo separator="true">,</mo><mtext mathvariant="italic">adoc</mtext><mo stretchy="false">&#x27e9;</mo></mrow><annotation encoding="application/x-tex">\langle D, \textit{data}, \textit{adoc} \rangle</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">&#x27e8;</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord textit">data</span></span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord text"><span class="mord textit">adoc</span></span><span class="mclose">&#x27e9;</span></span></span></span>,
-where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> is a set <ins class="comment" data-author="RV">representing all available documents</ins>,
-<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">data</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span></span></span></span> a function from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi mathvariant="script">T</mi></msup></mrow><annotation encoding="application/x-tex">2^\mathcal{T}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathcal mtight" style="margin-right:0.25417em;">T</span></span></span></span></span></span></span></span></span></span></span>
-<ins class="comment" data-author="RV">associating each document with the triples it contains</ins>
-<del class="comment" data-author="RV">such that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">data</mtext><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">\textit{data}(d)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord textit">data</span></span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span> is finite for each <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>&#x2208;</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">d \in D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span></del>,
-and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">adoc</mtext></mrow><annotation encoding="application/x-tex">\textit{adoc}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord text"><span class="mord textit">adoc</span></span></span></span></span> a partial function from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">U</mi></mrow><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.09931em;">U</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span>
-<span class="comment" data-author="RV">shouldn’t we use <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">I</mi></mrow><annotation encoding="application/x-tex">\mathcal{I}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.07382em;">I</span></span></span></span> here for consistency with triples? <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">U</mi></mrow><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.09931em;">U</span></span></span></span> seems undefined</span>
-<ins class="comment" data-author="RV">allowing us to dereference documents</ins>.
-<span class="comment" data-author="RV">We’ll need to briefly explain all three components</span></p>
+The Web of Linked Data <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">W</mi></mrow><annotation encoding="application/x-tex">\mathcal{W}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.08222em;">W</span></span></span></span> is a tuple <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">&#x27e8;</mo><mi>D</mi><mo separator="true">,</mo><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi><mo separator="true">,</mo><mi>a</mi><mi>d</mi><mi>o</mi><mi>c</mi><mo stretchy="false">&#x27e9;</mo></mrow><annotation encoding="application/x-tex">\langle D, data, adoc \rangle</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">&#x27e8;</span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mpunct">,</span><span class="mspace" style="margin-right:0.1667em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord mathnormal">oc</span><span class="mclose">&#x27e9;</span></span></span></span>,
+where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> is a set of documents, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi></mrow><annotation encoding="application/x-tex">data</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span></span></span></span> a function from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mn>2</mn><mi mathvariant="script">T</mi></msup></mrow><annotation encoding="application/x-tex">2^\mathcal{T}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8413em;"></span><span class="mord"><span class="mord">2</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8413em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mathcal mtight" style="margin-right:0.25417em;">T</span></span></span></span></span></span></span></span></span></span></span>
+such that <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">data(d)</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)</span></span></span></span> is finite for each <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>d</mi><mo>&#x2208;</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">d \in D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span>,
+and <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>a</mi><mi>d</mi><mi>o</mi><mi>c</mi></mrow><annotation encoding="application/x-tex">adoc</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6944em;"></span><span class="mord mathnormal">a</span><span class="mord mathnormal">d</span><span class="mord mathnormal">oc</span></span></span></span> a partial dereferencing function from <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="script">U</mi></mrow><annotation encoding="application/x-tex">\mathcal{U}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.09931em;">U</span></span></span></span> to <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>D</mi></mrow><annotation encoding="application/x-tex">D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span>.</p>
 
-        <p>We define the set of all Solid data vaults as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">&#x3a5;</mi></mrow><annotation encoding="application/x-tex">\Upsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">&#x3a5;</span></span></span></span>,
-where we consider each vault <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3c5;</mi><mo>&#x2208;</mo><mi mathvariant="normal">&#x3a5;</mi></mrow><annotation encoding="application/x-tex">\upsilon \in \Upsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">&#x3a5;</span></span></span></span> to be <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solidlabresearch.github.io/WhatsInAPod/">defined by its set of triples</a> <span class="references">[<a href="#ref-6">6</a>]</span>, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">triples</mtext><mo stretchy="false">(</mo><mi>&#x3c5;</mi><mo stretchy="false">)</mo><mo>&#x2286;</mo><mi mathvariant="script">T</mi></mrow><annotation encoding="application/x-tex">\textit{triples}(\upsilon) \subseteq \mathcal{T}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord textit">triples</span></span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2286;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span></span></span>.
+        <p>Based on these definitions, we define the set of all Solid data vaults as <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi mathvariant="normal">&#x3a5;</mi></mrow><annotation encoding="application/x-tex">\Upsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">&#x3a5;</span></span></span></span>,
+where each vault <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>&#x3c5;</mi><mo>&#x2208;</mo><mi mathvariant="normal">&#x3a5;</mi></mrow><annotation encoding="application/x-tex">\upsilon \in \Upsilon</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5782em;vertical-align:-0.0391em;"></span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord">&#x3a5;</span></span></span></span> is defined as a set of triples, where <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>r</mi><mi>i</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>s</mi><mo stretchy="false">(</mo><mi>&#x3c5;</mi><mo stretchy="false">)</mo><mo>&#x2286;</mo><mi mathvariant="script">T</mi></mrow><annotation encoding="application/x-tex">triples(\upsilon) \subseteq \mathcal{T}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.01968em;">pl</span><span class="mord mathnormal">es</span><span class="mopen">(</span><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2286;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathcal" style="margin-right:0.25417em;">T</span></span></span></span>.
 For a vault <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>&#x3c5;</mi><mrow><mi>L</mi><mi>D</mi><mi>P</mi></mrow></msub></mrow><annotation encoding="application/x-tex">\upsilon_{LDP}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.5806em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span></span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span></span></span></span> exposed through the LDP interface,
 the triples contained in such a vault are captured in different documents <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>D</mi><mi>&#x3c5;</mi></msub><mo>&#x2286;</mo><mi>D</mi></mrow><annotation encoding="application/x-tex">D_{\upsilon} \subseteq D</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">&#x3c5;</span></span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2286;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.6833em;"></span><span class="mord mathnormal" style="margin-right:0.02778em;">D</span></span></span></span>.
-Hereby, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mtext mathvariant="italic">triples</mtext><mo stretchy="false">(</mo><msub><mi>&#x3c5;</mi><mrow><mi>L</mi><mi>D</mi><mi>P</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mi>t</mi><mo>&#x2223;</mo><mi mathvariant="normal">&#x2200;</mi><mi>d</mi><mo>&#x2208;</mo><msub><mi>D</mi><mi>&#x3c5;</mi></msub><mo>&#x2227;</mo><mi>t</mi><mo>&#x2208;</mo><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">\textit{triples}(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord text"><span class="mord textit">triples</span></span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span></span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2223;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord">&#x2200;</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">&#x3c5;</span></span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x2227;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6542em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)}</span></span></span></span>.</p>
+Hereby, <span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>t</mi><mi>r</mi><mi>i</mi><mi>p</mi><mi>l</mi><mi>e</mi><mi>s</mi><mo stretchy="false">(</mo><msub><mi>&#x3c5;</mi><mrow><mi>L</mi><mi>D</mi><mi>P</mi></mrow></msub><mo stretchy="false">)</mo><mo>=</mo><mo stretchy="false">{</mo><mi>t</mi><mo>&#x2223;</mo><mi mathvariant="normal">&#x2200;</mi><mi>d</mi><mo>&#x2208;</mo><msub><mi>D</mi><mi>&#x3c5;</mi></msub><mo>&#x2227;</mo><mi>t</mi><mo>&#x2208;</mo><mi>d</mi><mi>a</mi><mi>t</mi><mi>a</mi><mo stretchy="false">(</mo><mi>d</mi><mo stretchy="false">)</mo><mo stretchy="false">}</mo></mrow><annotation encoding="application/x-tex">triples(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">t</span><span class="mord mathnormal" style="margin-right:0.02778em;">r</span><span class="mord mathnormal">i</span><span class="mord mathnormal" style="margin-right:0.01968em;">pl</span><span class="mord mathnormal">es</span><span class="mopen">(</span><span class="mord"><span class="mord mathnormal" style="margin-right:0.03588em;">&#x3c5;</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.3283em;"><span style="top:-2.55em;margin-left:-0.0359em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight">L</span><span class="mord mathnormal mtight" style="margin-right:0.02778em;">D</span><span class="mord mathnormal mtight" style="margin-right:0.13889em;">P</span></span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mclose">)</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">=</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mopen">{</span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2223;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.7335em;vertical-align:-0.0391em;"></span><span class="mord">&#x2200;</span><span class="mord mathnormal">d</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:0.8333em;vertical-align:-0.15em;"></span><span class="mord"><span class="mord mathnormal" style="margin-right:0.02778em;">D</span><span class="msupsub"><span class="vlist-t vlist-t2"><span class="vlist-r"><span class="vlist" style="height:0.1514em;"><span style="top:-2.55em;margin-left:-0.0278em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight"><span class="mord mathnormal mtight" style="margin-right:0.03588em;">&#x3c5;</span></span></span></span></span><span class="vlist-s">&#x200b;</span></span><span class="vlist-r"><span class="vlist" style="height:0.15em;"><span></span></span></span></span></span></span><span class="mspace" style="margin-right:0.2222em;"></span><span class="mbin">&#x2227;</span><span class="mspace" style="margin-right:0.2222em;"></span></span><span class="base"><span class="strut" style="height:0.6542em;vertical-align:-0.0391em;"></span><span class="mord mathnormal">t</span><span class="mspace" style="margin-right:0.2778em;"></span><span class="mrel">&#x2208;</span><span class="mspace" style="margin-right:0.2778em;"></span></span><span class="base"><span class="strut" style="height:1em;vertical-align:-0.25em;"></span><span class="mord mathnormal">d</span><span class="mord mathnormal">a</span><span class="mord mathnormal">t</span><span class="mord mathnormal">a</span><span class="mopen">(</span><span class="mord mathnormal">d</span><span class="mclose">)}</span></span></span></span>.</p>
 
         <h3 id="pipeline-based-link-queue">Pipeline-based link queue</h3>
 
         <p>To execute a query,
 our approach builds upon the zero-knowledge query planning technique <span class="references">[<a href="#ref-22">22</a>]</span>
-to construct a logical query plan ahead of query execution.
+to construct a logical query plan ahead of query execution.
 This resulting plan produces a tree of logical query operators representing the query execution order.
 To execute this plan, the logical operators are executed by specific physical operators.
 Our physical query execution builds upon the iterator-based pipeline approach <span class="references">[<a href="#ref-18">18</a>]</span>,
-which is the most popular among LTQP implementations <span class="references">[<a href="#ref-43">43</a>, <a href="#ref-44">44</a>, <a href="#ref-45">45</a>]</span>.
-<span class="comment" data-author="RV">(optional) any better argument about fit than popularity?</span>
-We consider the execution plan as a pipeline <span class="references">[<a href="#ref-46">46</a>]</span> of iterator-based physical operators,
+which is the most popular among LTQP implementations <span class="references">[<a href="#ref-42">42</a>, <a href="#ref-43">43</a>, <a href="#ref-44">44</a>]</span>.
+We consider the execution plan as a pipeline <span class="references">[<a href="#ref-45">45</a>]</span> of iterator-based physical operators,
 where intermediary results flow through chained operators with pull-based results.</p>
 
         <p>Instead of letting operators trigger the dereferencing of URIs <span class="references">[<a href="#ref-18">18</a>]</span>,
 we follow a link queue-based approach <span class="references">[<a href="#ref-30">30</a>]</span>.
-<span class="comment" data-author="RV">…because</span>
-The <ins class="comment" data-author="RV">novel</ins> architecture of our approach is visualized in <a href="#figure-link-queue">Fig. 1</a>.
+The architecture of this approach is visualized in <a href="#figure-link-queue">Fig. 1</a>.
 Concretely, we consider a continuously growing <em>triple source</em> as the basis of the pipeline tree,
 which is able to produce a (possibly infinite) stream of RDF triples.
 This triple source is fed triples originating from a loop consisting of the <em>link queue</em>, <em>dereferencer</em>, and a set of <em>link extractors</em>.
@@ -458,7 +404,7 @@ this queue may virtually become infinitely long.</p>
         <figure id="figure-link-queue">
 <img src="img/link-queue.svg" alt="Link queue" class="img-narrow" />
 <figcaption>
-            <p><span class="label">Fig. 1:</span> Link queue, dereferencer, and link extractors feeding triples into a triple source,
+            <p><span class="label">Fig. 1:</span> Link queue, dereferencer and link extractors feeding triples into a triple source,
 producing a stream of triples to tuple-producing operators
 in a pipelined query execution.</p>
           </figcaption>
@@ -474,7 +420,7 @@ which enables context-based reachability semantics <span class="references">[<a
 Link extractors only consider URIs as links,
 and ignore matching blank nodes and literals.</p>
 
-        <p>The triple source is connected to all tuple-producing SPARQL operators <span class="references">[<a href="#ref-42">42</a>]</span> in the leaves of the query plan,
+        <p>The triple source is connected to all tuple-producing SPARQL operators <span class="references">[<a href="#ref-41">41</a>]</span> in the leaves of the query plan,
 such as triple patterns and property path operators,
 into which a stream of triples is sent.
 The source indexes all triples, to ensure that an operator
@@ -482,8 +428,7 @@ that is executed later in the execution process does not miss any triples.</p>
 
         <h3 id="discovery-of-data-vault">Discovery of data vault</h3>
 
-        <p>In this section, we introduce a discovery approach for traversing over Solid data vaults <del class="comment" data-author="RV">as discussed in <a href="#solid">Section 3</a></del>.
-<span class="comment" data-author="RV">It’s unclear at this point (or the reader has forgotten) why a new approach needs to be introduced. Traversal, following Section 3, seems trivial.</span></p>
+        <p>In this section, we introduce a novel discovery approach for traversing over Solid data vaults as discussed in <a href="#solid">Section 3</a>.</p>
 
         <h4 id="intuitive-description">Intuitive description</h4>
 
@@ -498,10 +443,7 @@ Next, all resources within this vault can be discovered by recursively following
 that have the current document URI as subject.
 If subjects contain fragment identifiers, we only consider them if the current document URI had this fragment identifier as well before it was dereferenced.
 For example, if a WebID with fragment identifier <code>#me</code> was discovered,
-then we only consider triples with the document URI + <code>#me</code> as subject.
-<span class="comment" data-author="RV">The previous reeks of URI construction, and I also don’t understand it. Surely both URIs are identical, i.e., <code>https:/​/​pod.example/#me</code>?</span></p>
-
-        <p><span class="comment" data-author="RV">So after reading: it seems trivial indeed. I wonder if we can just skip the intuitive description; we don’t really need a new algorithm IMHO, but just a formal description of what we are doing?</span></p>
+then we only consider triples with the document URI + <code>#me</code> as subject.</p>
 
         <h4 id="formal-description">Formal description</h4>
 
@@ -596,39 +538,35 @@ $$
         <h3 id="implementation">Implementation</h3>
 
         <p>We have implemented our system using an existing SPARQL query engine framework (<em>name and reference omitted for double-blindness</em>).
-<span class="comment" data-author="RV">Isn’t it worse to be double-blind here? In the sense that anyone could have use Comunica because it’s open, but only we would have to censor it? I don’t mind either way, but I dont think the ISWC rules ask for this.</span>
-Concretely, we implemented the pipeline-based link queue as a separate module,
+Concretely, we have implemented the pipeline-based link queue as a separate module,
 and we provide link extractors corresponding to the source selectors introduced in previous sections.
 Our implementation has full SPARQL 1.1 support, and consists of pipelined implementations of all monotonic SPARQL operators.
 This pipelined implementation is important for iterative tuple processing in a non-blocking manner,
 because the link queue and the resulting stream of triples may become infinitely long.</p>
 
         <p>Our implementation focuses on the SPARQL query language,
-instead of alternatives such as [LDQL <span class="references">[<a href="#ref-32">32</a>]</span> and SPARQL-LD <span class="references">[<a href="#ref-47">47</a>]</span>
-<span class="comment" data-author="RV">Something goes wrong with the [LDQL reference</span>
+instead of alternatives such as LDQL <span class="references">[<a href="#ref-32">32</a>]</span> and SPARQL-LD <span class="references">[<a href="#ref-46">46</a>]</span>
 that incorporate link navigation paths into the query.
 As discussed in <a href="#solid">Section 3</a>, different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
 Hence, link navigation must <em>decoupled</em> from the query to make queries reusable for different Solid users,
 as link paths to data may differ across different vaults.
-Our implementation uses LDP container traversal and the type index to replace explicit navigation links.</p>
+Instead, our implementation uses LDP container traversal and the type index to replace explicit navigation links.</p>
 
         <p>To provide a stable reference implementation that can be used for the experiments in this work and future research,
 our implementation focuses on extensibility and reusability.
-Our implementation builds upon best practices in LTQP and lessons learned from other implementations <span class="references">[<a href="#ref-43">43</a>]</span> including,
-the use of client-side caching <span class="references">[<a href="#ref-48">48</a>]</span>,
+Our implementation builds upon best practises in LTQP and lessons learned from other implementations <span class="references">[<a href="#ref-42">42</a>]</span> including,
+the use of client-side caching <span class="references">[<a href="#ref-47">47</a>]</span>,
 the different reachability semantics <span class="references">[<a href="#ref-15">15</a>]</span>,
 zero-knowledge query planning <span class="references">[<a href="#ref-22">22</a>]</span> applied to arbitrary join operations instead of only triple patterns in BGPs,
 and more <span class="references">[<a href="#ref-18">18</a>]</span>.
 Furthermore, our implementation allows users to explicitly pass seed URIs,
-but falls back to query-based seed URIs <span class="references">[<a href="#ref-43">43</a>]</span> if no seeds were provided.
+but falls back to query-based seed URIs <span class="references">[<a href="#ref-42">42</a>]</span> if no seeds were provided.
 This fallback considers all URIs within the query as seed URIs.</p>
 
-        <p>As a result, our implementation can query over one or more Solid data vaults.
+        <p>Hence, our implementation can query over one or more Solid data vaults.
 This also includes the ability to perform authenticated to documents within vaults behind access control.
-To ensure that common HTTP errors that may occur during link traversal do not terminate the query execution process,
-we enable a default <em>lenient</em> mode, which ignores dereferenced responses with HTTP status code in ranges <code>400</code> and <code>500</code>.</p>
-
-        <p><span class="comment" data-author="RV">The last 2 paragraphs read too much as advertising; not that I mind advertising, but in that it’s not clear where it is going for me / why we are stating it. We seem to be working towards multiple vaults, but that link is not explicit. Can we perhaps start the penultimate paragraph with <q>in order to query across multiple vaults</q> or <q>in order to whatever</q> such that the <em>why</em> becomes clear?</span></p>
+To ensure that common HTTP errors that may occur during link traversal don’t terminate the query execution process,
+we enable a default <em>lenient</em> mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.</p>
 
       </div>
 </section>
@@ -652,8 +590,9 @@ and a discussion of our results to answer our research question.</p>
 that simulates a realistic decentralized environment based on the Solid ecosystem.
 Concretely, the benchmark generates a configurable number of data vaults with configurable sizes containing social networking data,
 where a variety of fragmentation strategies are used to organize files in vaults.
+By default, it generates 158.233 RDF files over 1.531 data vaults with a total of 3.556.159 triples across all files.
 Furthermore, it provides SPARQL query templates that simulate a realistic workload for a social networking application.
-The underlying dataset and query templates are derived from the Social Network Benchmark (SNB) <span class="references">[<a href="#ref-49">49</a>]</span>.</p>
+The underlying dataset and query templates are derived from the Social Network Benchmark (SNB) <span class="references">[<a href="#ref-48">48</a>]</span>.</p>
 
         <p>We make use of a factorial experiment containing the following factors and values:</p>
 
@@ -674,8 +613,8 @@ These query templates are available in the supplementary material.</p>
 
         <p>We were unable to compare our implementation to existing LTQP engines,
 because those systems (e.g. Lidaq <span class="references">[<a href="#ref-20">20</a>]</span>) would either require significant changes to work over Solid vaults,
-they depend on a non-standard usage of the SPARQL syntax (e.g. SPARQL-LD <span class="references">[<a href="#ref-47">47</a>]</span>),
-or insufficient documentation was present to make them work (e.g. SQUIN <span class="references">[<a href="#ref-43">43</a>]</span>).
+they depend on a non-standard usage of the SPARQL syntax (e.g. SPARQL-LD <span class="references">[<a href="#ref-46">46</a>]</span>),
+or insufficient documentation was present to make them work (e.g. SQUIN <span class="references">[<a href="#ref-42">42</a>]</span>).
 Nevertheless, in order to ensure a fair and complete comparison,
 we have re-implemented the foundational LTQP algorithms (cNone, cMatch, cAll),
 and compare them against, and in combination with, our algorithms.</p>
@@ -1321,7 +1260,7 @@ The results of this are shown in <a href="#results-planning-effectiveness">Fig.�
 
         <p>These results show that the two-phase approach is on average two times faster for all queries compared to the integrated approach,
 even when taking into account time for dereferencing.
-The reason for this is that the two-phase approach is able to perform traditional query planning <span class="references">[<a href="#ref-50">50</a>, <a href="#ref-51">51</a>]</span>,
+The reason for this is that the two-phase approach is able to perform traditional query planning <span class="references">[<a href="#ref-49">49</a>, <a href="#ref-50">50</a>]</span>,
 since it has access to an indexed triple store with planning-relevant information such as cardinality estimates.
 Since the integrated approach finds new triples <em>during</em> query execution,
 it is unable to use them for traditional planning.
@@ -1349,7 +1288,7 @@ As such, there is a need for alternative query planners that consider the struct
 <div datatype="rdf:HTML" property="schema:description">
         <h2 property="schema:name">Conclusions</h2>
 
-        <p>User-oriented decentralized applications require results in the order of seconds or less to avoid losing the user’s attention <span class="references">[<a href="#ref-52">52</a>]</span>.
+        <p>User-oriented decentralized applications require results in the order of seconds or less to avoid losing the user’s attention <span class="references">[<a href="#ref-51">51</a>]</span>.
 Our work has shown that Link Traversal Query Processing is able to achieve such timings,
 especially as it is able to produce results in an iterative manner, with first results mostly being produced in less than a second.
 As such, LTQP with the algorithms introduced in this work are effective for querying over decentralized environments with specific structural properties,
@@ -1378,17 +1317,17 @@ Instead, the <em>effectiveness of the query plan</em> has become the new bottlen
 While finding query-relevant documents is still relevant for specific decentralized environments,
 we show the need for more research towards better query planning techniques.
 Since LTQP leads to data being discovered during query execution,
-adaptive query planning <span class="references">[<a href="#ref-53">53</a>]</span> techniques are highly promising.
+adaptive query planning <span class="references">[<a href="#ref-52">52</a>]</span> techniques are highly promising.
 So far, these techniques have only seem limited adoption within LTQP <span class="references">[<a href="#ref-30">30</a>]</span>
-and SPARQL query processing <span class="references">[<a href="#ref-54">54</a>, <a href="#ref-55">55</a>, <a href="#ref-56">56</a>]</span>.</p>
+and SPARQL query processing <span class="references">[<a href="#ref-53">53</a>, <a href="#ref-54">54</a>, <a href="#ref-55">55</a>]</span>.</p>
 
         <p>Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance,
 and future work in the direction of implicit type knowledge in queries and query decomposition over different type index entries could be relevant.
 Furthermore, alternative structural properties could offer more expressivity,
-such as characteristics sets <span class="references">[<a href="#ref-57">57</a>]</span> and other summarization techniques <span class="references">[<a href="#ref-20">20</a>, <a href="#ref-58">58</a>]</span>.
-Next to that, the incorporation of more expressive Linked Data Fragments interfaces <span class="references">[<a href="#ref-59">59</a>, <a href="#ref-60">60</a>, <a href="#ref-61">61</a>, <a href="#ref-62">62</a>, <a href="#ref-63">63</a>, <a href="#ref-64">64</a>]</span> in certain Solid vaults
+such as characteristics sets <span class="references">[<a href="#ref-56">56</a>]</span> and other summarization techniques <span class="references">[<a href="#ref-20">20</a>, <a href="#ref-57">57</a>]</span>.
+Next to that, the incorporation of more expressive Linked Data Fragments interfaces <span class="references">[<a href="#ref-58">58</a>, <a href="#ref-59">59</a>, <a href="#ref-60">60</a>, <a href="#ref-61">61</a>, <a href="#ref-62">62</a>, <a href="#ref-63">63</a>]</span> in certain Solid vaults
 could introduce interesting trade-offs in terms of server and client query execution effort,
-especially if they can be combined in a heterogeneous manner <span class="references">[<a href="#ref-65">65</a>, <a href="#ref-66">66</a>, <a href="#ref-67">67</a>]</span>.</p>
+especially if they can be combined in a heterogeneous manner <span class="references">[<a href="#ref-64">64</a>, <a href="#ref-65">65</a>, <a href="#ref-66">66</a>]</span>.</p>
 
         <p>This work provides an answer to the increasing need of querying over decentralized environments,
 and uncovers next steps for resolving current limitations.
@@ -1426,7 +1365,7 @@ Benchmark: <a href="https://anonymous.4open.science/r/iswc-2023-querysolid-bench
   <dt id="ref-5">[5]</dt>
   <dd resource="https://dx.doi.org/10.7717/peerj-cs.387" typeof="schema:Article">Kuhn, T., Taelman, R., Emonet, V., Antonatos, H., Soiland-Reyes, S., Dumontier, M.: Semantic micro-contributions with decentralized nanopublication services. PeerJ Computer Science. (2021). doi:10.7717/peerj-cs.387</dd>
   <dt id="ref-6">[6]</dt>
-  <dd resource="https://solidlabresearch.github.io/WhatsInAPod/" typeof="schema:Article">Dedecker, R., Slabbinck, W., Wright, J., Hochstenbach, P., Colpaert, P., Verborgh, R.: What’s in a Pod? – A knowledge graph interpretation for the Solid ecosystem. In: Saleem, M. and Ngonga Ngomo, A.-C. (eds.) Proceedings of the 6th Workshop on Storing, Querying and Benchmarking Knowledge Graphs. pp. 81–96 (2022).</dd>
+  <dd resource="#knowledgegraphs" typeof="schema:Article">Hogan, A., Blomqvist, E., Cochez, M., d’Amato, C., Melo, G.de, Gutierrez, C., Kirrane, S., Gayo, J.E.L., Navigli, R., Neumaier, S., others: Knowledge graphs. Synthesis Lectures on Data, Semantics, and Knowledge. 12, 1–257 (2021).</dd>
   <dt id="ref-7">[7]</dt>
   <dd resource="https://www.w3.org/DesignIssues/LinkedData.html" typeof="schema:CreativeWork">Berners-Lee, T.: Linked Data. <a href="https://www.w3.org/DesignIssues/LinkedData.html">https:/​/​www.w3.org/DesignIssues/LinkedData.html</a> (2009).</dd>
   <dt id="ref-8">[8]</dt>
@@ -1496,58 +1435,56 @@ Benchmark: <a href="https://anonymous.4open.science/r/iswc-2023-querysolid-bench
   <dt id="ref-40">[40]</dt>
   <dd resource="https://solid.github.io/solid-oidc/" typeof="schema:CreativeWork">Coburn, A., Pavlik, elf, Zagidulin, D.: Solid-OIDC. Solid, <a href="https://solid.github.io/solid-oidc/">https:/​/​solid.github.io/solid-oidc/</a> (2022).</dd>
   <dt id="ref-41">[41]</dt>
-  <dd resource="https://solid.github.io/webid-profile/" typeof="schema:CreativeWork">Capadisli, S., Berners-Lee, T.: Solid WebID Profile. Solid, <a href="https://solid.github.io/webid-profile/">https:/​/​solid.github.io/webid-profile/</a> (2022).</dd>
-  <dt id="ref-42">[42]</dt>
   <dd resource="#sparqlsemantics" typeof="schema:Article">Pérez, J., Arenas, M., Gutierrez, C.: Semantics and complexity of SPARQL. ACM Transactions on Database Systems (TODS). 34, 1–45 (2009).</dd>
-  <dt id="ref-43">[43]</dt>
+  <dt id="ref-42">[42]</dt>
   <dd resource="#squin" typeof="schema:Article">Hartig, O.: SQUIN: a traversal based query execution system for the web of linked data. In: Proceedings of the 2013 ACM SIGMOD International Conference on Management of Data. pp. 1081–1084 (2013).</dd>
-  <dt id="ref-44">[44]</dt>
+  <dt id="ref-43">[43]</dt>
   <dd resource="#sihjoin" typeof="schema:Article">Ladwig, G., Tran, T.: SIHJoin: Querying remote and local linked data. In: Extended Semantic Web Conference. pp. 139–153. Springer (2011).</dd>
-  <dt id="ref-45">[45]</dt>
+  <dt id="ref-44">[44]</dt>
   <dd resource="#diamondrete" typeof="schema:Article">Miranker, D.P., Depena, R.K., Jung, H., Sequeda, J.F., Reyna, C.: Diamond: A SPARQL query engine, for linked data based on the Rete match. In: Proc. of the Workshop on Artificial Intelligence meets the Web of Data (AImWD) (2012).</dd>
-  <dt id="ref-46">[46]</dt>
+  <dt id="ref-45">[45]</dt>
   <dd resource="#pipelining" typeof="schema:Article">Wilschut, A.N., Apers, P.M.G.: Pipelining in query execution. In: Proceedings. PARBASE-90: International Conference on Databases, Parallel Architectures, and Their Applications. p. 562. IEEE (1990).</dd>
-  <dt id="ref-47">[47]</dt>
+  <dt id="ref-46">[46]</dt>
   <dd resource="#sparqlld" typeof="schema:Article">Fafalios, P., Yannakis, T., Tzitzikas, Y.: Querying the Web of Data with SPARQL-LD. In: Research and Advanced Technology for Digital Libraries: 20th International Conference on Theory and Practice of Digital Libraries, TPDL 2016, Hannover, Germany, September 5–9, 2016, Proceedings 20. pp. 175–187. Springer (2016).</dd>
-  <dt id="ref-48">[48]</dt>
+  <dt id="ref-47">[47]</dt>
   <dd resource="#linktraversalcaching" typeof="schema:Article">Hartig, O.: How caching improves efficiency and result completeness for querying linked data. In: LDOW (2011).</dd>
-  <dt id="ref-49">[49]</dt>
+  <dt id="ref-48">[48]</dt>
   <dd resource="#ldbc_snb_interactive" typeof="schema:Article">Erling, O., Averbuch, A., Larriba-Pey, J., Chafi, H., Gubichev, A., Prat, A., Pham, M.-D., Boncz, P.: The LDBC social network benchmark: Interactive workload. In: Proceedings of the 2015 ACM SIGMOD International Conference on Management of Data. pp. 619–630 (2015).</dd>
-  <dt id="ref-50">[50]</dt>
+  <dt id="ref-49">[49]</dt>
   <dd resource="#sparqlqueryoptimization" typeof="schema:Article">Schmidt, M., Meier, M., Lausen, G.: Foundations of SPARQL query optimization. In: Proceedings of the 13th International Conference on Database Theory. pp. 4–33. ACM (2010).</dd>
-  <dt id="ref-51">[51]</dt>
+  <dt id="ref-50">[50]</dt>
   <dd resource="#sparqlbgpoptimization" typeof="schema:Article">Stocker, M., Seaborne, A., Bernstein, A., Kiefer, C., Reynolds, D.: SPARQL Basic Graph Pattern Optimization using Selectivity Estimation. In: Proceedings of the 17th international conference on World Wide Web. pp. 595–604. ACM (2008).</dd>
-  <dt id="ref-52">[52]</dt>
+  <dt id="ref-51">[51]</dt>
   <dd resource="#uiresponsetime" typeof="schema:Article">Nielsen, J.: Response times: the three important limits. Usability Engineering. (1993).</dd>
-  <dt id="ref-53">[53]</dt>
+  <dt id="ref-52">[52]</dt>
   <dd resource="#adaptive_book" typeof="schema:Article">Deshpande, A., Ives, Z., Raman, V.: Adaptive query processing. Foundations and Trends\textregistered in Databases. 1, 1–140 (2007).</dd>
-  <dt id="ref-54">[54]</dt>
+  <dt id="ref-53">[53]</dt>
   <dd resource="#sparql_adaptive_anapsid" typeof="schema:Article">Acosta, M., Vidal, M.-E., Lampo, T., Castillo, J., Ruckhaus, E.: ANAPSID: an adaptive query processing engine for SPARQL endpoints. In: International Semantic Web Conference. pp. 18–34. Springer (2011).</dd>
-  <dt id="ref-55">[55]</dt>
+  <dt id="ref-54">[54]</dt>
   <dd resource="#sparql_adaptive_ldeddies" typeof="schema:Article">Acosta, M., Vidal, M.-E.: Networks of linked data eddies: An adaptive web query processing engine for RDF data. In: International Semantic Web Conference. pp. 111–127. Springer (2015).</dd>
-  <dt id="ref-56">[56]</dt>
+  <dt id="ref-55">[55]</dt>
   <dd resource="#sparql_adaptive_robust" typeof="schema:Article">Heling, L., Acosta, M.: Robust query processing for linked data fragments. Semantic Web. 1–35 (2022).</dd>
-  <dt id="ref-57">[57]</dt>
+  <dt id="ref-56">[56]</dt>
   <dd resource="#characteristicssets" typeof="schema:Article">Neumann, T., Moerkotte, G.: Characteristic sets: Accurate cardinality estimation for RDF queries with multiple joins. In: 2011 IEEE 27th International Conference on Data Engineering. pp. 984–994. IEEE (2011).</dd>
-  <dt id="ref-58">[58]</dt>
+  <dt id="ref-57">[57]</dt>
   <dd resource="https://shapetrees.org/TR/specification/" typeof="schema:CreativeWork">Prud’hommeaux, E., Bingham, J.: Shape Trees Specification. W3C, <a href="https://shapetrees.org/TR/specification/">https:/​/​shapetrees.org/TR/specification/</a> (2021).</dd>
-  <dt id="ref-59">[59]</dt>
+  <dt id="ref-58">[58]</dt>
   <dd resource="#ldf" typeof="schema:Article">Verborgh, R., Vander Sande, M., Hartig, O., Van Herwegen, J., De Vocht, L., De Meester, B., Haesendonck, G., Colpaert, P.: Triple Pattern Fragments: a low-cost Knowledge Graph Interface for the Web. Journal of Web Semantics. 37, 184–206 (2016).</dd>
-  <dt id="ref-60">[60]</dt>
+  <dt id="ref-59">[59]</dt>
   <dd resource="#smartkg" typeof="schema:Article">Azzam, A., Fernández, J.D., Acosta, M., Beno, M., Polleres, A.: SMART-KG: hybrid shipping for SPARQL querying on the web. In: Proceedings of The Web Conference 2020. pp. 984–994 (2020).</dd>
-  <dt id="ref-61">[61]</dt>
+  <dt id="ref-60">[60]</dt>
   <dd resource="#sage" typeof="schema:Article">Minier, T., Skaf-Molli, H., Molli, P.: SaGe: Web preemption for public SPARQL query services. In: The World Wide Web Conference. pp. 1268–1278 (2019).</dd>
-  <dt id="ref-62">[62]</dt>
+  <dt id="ref-61">[61]</dt>
   <dd resource="#wisekg" typeof="schema:Article">Azzam, A., Aebeloe, C., Montoya, G., Keles, I., Polleres, A., Hose, K.: WiseKG: Balanced access to web knowledge graphs. In: Proceedings of the Web Conference 2021. pp. 1422–1434 (2021).</dd>
-  <dt id="ref-63">[63]</dt>
+  <dt id="ref-62">[62]</dt>
   <dd resource="#spf" typeof="schema:Article">Aebeloe, C., Keles, I., Montoya, G., Hose, K.: Star Pattern Fragments: Accessing Knowledge Graphs through Star Patterns. arXiv preprint arXiv:2002.09172. (2020).</dd>
-  <dt id="ref-64">[64]</dt>
+  <dt id="ref-63">[63]</dt>
   <dd resource="#brtpf" typeof="schema:Article">Hartig, O., Buil-Aranda, C.: Bindings-restricted triple pattern fragments. In: OTM Confederated International Conferences&#8221; On the Move to Meaningful Internet Systems&#8221;. pp. 762–779. Springer (2016).</dd>
-  <dt id="ref-65">[65]</dt>
+  <dt id="ref-64">[64]</dt>
   <dd resource="#heterogeneous_lars" typeof="schema:Article">Heling, L., Acosta, M.: Federated SPARQL Query Processing over Heterogeneous Linked Data Fragments. In: Proceedings of the ACM Web Conference 2022. pp. 1047–1057 (2022).</dd>
-  <dt id="ref-66">[66]</dt>
+  <dt id="ref-65">[65]</dt>
   <dd resource="#heterogeneous_fedqpl" typeof="schema:Article">Cheng, S., Hartig, O.: FedQPL: A Language for Logical Query Plans over Heterogeneous Federations of RDF Data Sources. In: Proceedings of the 22nd International Conference on Information Integration and Web-based Applications &amp; Services. pp. 436–445 (2020).</dd>
-  <dt id="ref-67">[67]</dt>
+  <dt id="ref-66">[66]</dt>
   <dd resource="#heterogeneous_replicas" typeof="schema:Article">Montoya, G., Aebeloe, C., Hose, K.: Towards efficient query processing over heterogeneous RDF interfaces. In: 2nd Workshop on Decentralizing the Semantic Web, DeSemWeb 2018. CEUR Workshop Proceedings (2018).</dd>
 </dl>
 </section>
