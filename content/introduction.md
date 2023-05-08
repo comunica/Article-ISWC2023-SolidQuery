@@ -29,7 +29,7 @@ where all data is captured in a single or a small number
 of sources, usually exposed as [SPARQL endpoints](cite:cites spec:sparqlprot).
 Even though [several federated query execution approaches exist](cite:cites fedx, tpf, hibiscus, splendid),
 they have been designed for federating over *a few (~10) large sources*,
-while decentralized environments such as Solid are identified by *a large number (~millions) of small sources*.
+while decentralized environments such as Solid are identified by *a large number (~thousands) of small sources*.
 Furthermore, federated query execution techniques assume sources to be known prior to query execution,
 which is not feasible in decentralized environments due to the lack of a central index.
 Hence, they are unsuitable for decentralized environments.
