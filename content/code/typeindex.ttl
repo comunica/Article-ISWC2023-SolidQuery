@@ -1,4 +1,4 @@
-@prefix ldp: <http://www.w3.org/ns/ldp#>.
+PREFIX ldp: <http://www.w3.org/ns/ldp#>
 <> a solid:TypeIndex ;
    a solid:ListedDocument.
 <#ab09fd> a solid:TypeRegistration;
