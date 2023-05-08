@@ -2,10 +2,10 @@
 {:#approach}
 
 In this section, we introduce techniques for handling Solid's structural properties discussed in [](#solid).
-Our goal is not to introduce additional components or structural properties to the Solid ecosystem,
-but instead, we use what the Solid ecosystem provides today,
-and investigate how to query over this as performant as possible.
-We start by discussing the preliminaries of the formalities we will introduce.
+We do not introduce any additional components or structural properties to the Solid ecosystem;
+instead, we use what Solid vaults already provide today,
+and investigate how to query over them as efficiently as possible.
+We start by discussing the preliminaries of the formalizations we will introduce.
 Next, we discuss our pipeline-based link queue approach.
 Then, we discuss two novel discovery approaches for LTQP.
 Finally, we discuss their implementations.
@@ -16,13 +16,13 @@ Hereafter, we summarize the semantics of [SPARQL querying](cite:cites sparqlsema
 and [LTQP](cite:cites linktraversalfoundations, guidedlinktraversal).
 
 The infinite set of *RDF triples* is formalized as $$ \mathcal{T} = (\mathcal{I} \cup \mathcal{B}) \times \mathcal{I} \times (\mathcal{I} \cup \mathcal{B} \cup \mathcal{L}) $$,
-where $$\mathcal{I}$$, $$\mathcal{B}$$, and $$\mathcal{L}$$ respectively denote the disjoint, infinite sets of IRIs, blank nodes, and literals.
+where $$\mathcal{I}$$, $$\mathcal{B}$$, and $$\mathcal{L}$$ respectively denote the disjoint, infinite sets of *IRIs*, *blank nodes*, and *literals*.
 Furthermore, $$\mathcal{V}$$ is the infinite set of all variables that is disjoint from $$\mathcal{I}$$, $$\mathcal{B}$$, and $$\mathcal{L}$$.
 A tuple $$tp \in (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I}) \times (\mathcal{V} \cup \mathcal{I} \cup \mathcal{L})$$ is called a *triple pattern*.
-A finite set of these triple pattern is called a *basic graph pattern* (BGP).
-More complex SPARQL query operators exist,
-but since BGPs form the foundational building block of a SPARQL query,
-we only consider BGPs for the remainder of this work.
+A finite set of these triple patterns is called a *basic graph pattern* (BGP).
+For the formalization,
+we only consider BGPs since they form the foundational building block of a SPARQL query;
+our implementation incorporates all of SPARQL 1.1.
 The query results of a SPARQL query $$P$$ over a set of RDF triples $$G$$ are called *solution mappings*,
 which are denoted by $$[[P]]_G$$, consisting of partial mappings $$\mu : \mathcal{V} \rightarrow (\mathcal{I} \cup \mathcal{B}\cup \mathcal{L})$$.
 An RDF triple $$t$$ *matches* a triple pattern $$tp$$ if $$\exists \mu : t = \mu[tp]$$, where $$\mu[tp]$$ is the triple pattern that is obtained by replacing all variables from $$\mu$$ in $$tp$$.
@@ -30,21 +30,24 @@ An RDF triple $$t$$ *matches* a triple pattern $$tp$$ if $$\exists \mu : t = \mu
 Formally, the reachability approaches that were discussed in [](#related-work)
 define which links should be followed during link traversal,
 and are usually captured as [*reachability criteria*](cite:cites linktraversalfoundations).
-However, since this formalization lacks expressive power to capture the structural properties we require,
+Since these reachability semantics lack expressive power to capture the structural properties we require,
 we formalize new reachability criteria in this work as *source selectors*
 within the [subweb specification formalization](cite:cites guidedlinktraversal).
 Within this formalization, a source selector $$\sigma$$ is defined as $$\sigma : \mathcal{W} \rightarrow 2^{\mathcal{I}}$$,
 where $$\mathcal{W}$$ is a Web of Linked Data.
-The Web of Linked Data $$\mathcal{W}$$ is a tuple $$\langle D, data, adoc \rangle$$,
-where $$D$$ is a set of documents, $$data$$ a function from $$D$$ to $$2^\mathcal{T}$$
-such that $$data(d)$$ is finite for each $$d \in D$$,
-and $$adoc$$ a partial dereferencing function from $$\mathcal{U}$$ to $$D$$.
+The Web of Linked Data $$\mathcal{W}$$ is a tuple $$\langle D, \textit{data}, \textit{adoc} \rangle$$,
+where $$D$$ is a set of available documents,
+$$\textit{data}$$ a function from $$D$$ to $$2^\mathcal{T}$$
+associating each document with its contained triples,
+and $$\textit{adoc}$$ a partial function from $$\mathcal{I}$$ to $$D$$
+to dereference documents.
 
-Based on these definitions, we define the set of all Solid data vaults as $$\Upsilon$$,
-where each vault $$\upsilon \in \Upsilon$$ is defined as a set of triples, where $$triples(\upsilon) \subseteq \mathcal{T}$$.
+We define the set of all Solid data vaults as $$\Upsilon$$,
+where each vault $$\upsilon \in \Upsilon$$ is [defined by its set of triples](cite:cites dedecker_quweda_2022),
+where $$triples(\upsilon) \subseteq \mathcal{T}$$.
 For a vault $$\upsilon_{LDP}$$ exposed through the LDP interface,
 the triples contained in such a vault are captured in different documents $$D_{\upsilon} \subseteq D$$.
-Hereby, $$triples(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}$$.
+Hereby, $$\textit{triples}(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}$$.
 
 ### Pipeline-based link queue
 
@@ -75,8 +78,8 @@ this queue may virtually become infinitely long.
 <figure id="figure-link-queue">
 <img src="img/link-queue.svg" alt="Link queue" class="img-narrow">
 <figcaption markdown="block">
-Link queue, dereferencer and link extractors feeding triples into a triple source,
-producing a stream of triples to tuple-producing operators
+Link queue, dereferencer, and link extractors feeding triples into a triple source,
+producing triples to tuple-producing operators
 in a pipelined query execution.
 </figcaption>
 </figure>
@@ -99,7 +102,7 @@ that is executed later in the execution process does not miss any triples.
 
 ### Discovery of data vault
 
-In this section, we introduce a novel discovery approach for traversing over Solid data vaults as discussed in [](#solid).
+Below, we introduce a novel discovery approach for traversing over Solid data vaults.
 
 #### Intuitive description
 
@@ -114,7 +117,7 @@ We only consider triples for the `pim:storage` and `ldp:contains` predicates
 that have the current document URI as subject.
 If subjects contain fragment identifiers, we only consider them if the current document URI had this fragment identifier as well before it was dereferenced.
 For example, if a WebID with fragment identifier `#me` was discovered,
-then we only consider triples with the document URI + `#me` as subject.
+then we only consider triples with that full WebID as subject.
 
 #### Formal description
 
@@ -213,11 +216,11 @@ $$
 ### Implementation
 
 We have implemented our system using an existing SPARQL query engine framework (*name and reference omitted for double-blindness*).
-Concretely, we have implemented the pipeline-based link queue as a separate module,
+Concretely, we implemented the pipeline-based link queue as a separate module,
 and we provide link extractors corresponding to the source selectors introduced in previous sections.
-Our implementation has full SPARQL 1.1 support, and consists of pipelined implementations of all monotonic SPARQL operators.
-This pipelined implementation is important for iterative tuple processing in a non-blocking manner,
-because the link queue and the resulting stream of triples may become infinitely long.
+We fully support SPARQL 1.1, and have pipelined implementations of all monotonic SPARQL operators.
+Pipelining is important for iterative tuple processing in a non-blocking manner,
+as the link queue and the resulting stream of triples may become infinitely long.
 
 Our implementation focuses on the SPARQL query language,
 instead of alternatives such as [LDQL](cite:cites ldql) and [SPARQL-LD](cite:cites sparqlld)
@@ -225,11 +228,11 @@ that incorporate link navigation paths into the query.
 As discussed in [](#solid), different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
 Hence, link navigation must *decoupled* from the query to make queries reusable for different Solid users,
 as link paths to data may differ across different vaults.
-Instead, our implementation uses LDP container traversal and the type index to replace explicit navigation links.
+Our implementation uses LDP container traversal and the type index to replace explicit navigation links.
 
 To provide a stable reference implementation that can be used for the experiments in this work and future research,
 our implementation focuses on extensibility and reusability.
-Our implementation builds upon best practises in LTQP and lessons learned from [other implementations](cite:cites squin) including,
+Our implementation builds upon best practices in LTQP and lessons learned from [other implementations](cite:cites squin) including,
 the use of [client-side caching](cite:cites linktraversalcaching),
 the different [reachability semantics](cite:cites linktraversalfoundations),
 [zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) applied to arbitrary join operations instead of only triple patterns in BGPs,
@@ -238,7 +241,7 @@ Furthermore, our implementation allows users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
 This fallback considers all URIs within the query as seed URIs.
 
-Hence, our implementation can query over one or more Solid data vaults.
+As a result, our implementation can query over one or more Solid data vaults.
 This also includes the ability to perform authenticated to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.
