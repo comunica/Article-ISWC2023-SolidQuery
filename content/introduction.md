@@ -18,7 +18,7 @@ to give people back control over their own data
 by guarding it in chosen locations on the Web instead of aggregated in silos.
 Initiatives such as [Solid](cite:cites solid) and [Bluesky](cite:cites bluesky) achieve this by allowing users to store any kind of data in their own _personal data vault_,
 which they fully control.
-In Solid, these data vaults form personal [Knowledge Graphs](cite:cites knowledgegraphs), represented as collections of [Linked Data documents](cite:cites linkeddata) containing [RDF triples](cite:cites spec:rdf).
+In Solid, these data vaults form personal [Knowledge Graphs](cite:cites dedecker_quweda_2022), represented as collections of [Linked Data documents](cite:cites linkeddata) containing [RDF triples](cite:cites spec:rdf).
 <span class="comment" data-author="RV">Do we need to capitalize Knowledge Graphs? Fine either way, just seems unnecessary.</span>
 The presence of such data vaults results in a large-scale distribution of private data,
 where applications involving multiple individuals' data require accessing
