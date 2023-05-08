@@ -2,12 +2,13 @@
 {:#evaluation}
 
 In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties"_.
+<span class="comment" data-author="RV">I think you are giving many more answers; might be worth having more detailed questions</span>
 Within this work, we apply our experiments to the structural properties of the decentralized environment provided by Solid,
 but findings may be generalizable to other decentralized environments.
 We provide an answer to this research question by evaluating different approaches based on the implementation discussed in [](#approach),
 using a benchmark that simulates Solid data vaults.
 We first introduce the design of our experiment,
-followed by presenting our experimental results,
+followed by a presentation of our experimental results,
 and a discussion of our results to answer our research question.
 
 ### Experimental Design
@@ -29,18 +30,20 @@ the Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidType
 and the Filtered Type Index to $$\sigma_{\text{LdpContainer}}$$ and $$\sigma_{\text{SolidTypeIndex}}$$ with $$\phi_{\text{QueryClass}}$$.
 
 Our experiments were performed on a 64-bit Ubuntu 14.04 machine with a 24-core 2.40 GHz CPU and 128 GB of RAM.
-The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network.
+The Solid vaults and query client were executed in isolated Docker containers on dedicated CPU cores with a simulated network
+in order to precisely replicate network circumstances.
 All queries were configured with a timeout of two minutes, and were executed three times to average metrics over.
 Each query template in the benchmark was instantiated five times, resulting in 40 discover queries, 35 short queries, and 60 complex queries.
 These query templates are available in the supplementary material.
 
-We were unable to compare our implementation to existing LTQP engines,
-because those systems (e.g. [Lidaq](cite:cites comparingsummaries)) would either require significant changes to work over Solid vaults,
-they depend on a non-standard usage of the SPARQL syntax (e.g. [SPARQL-LD](cite:cites sparqlld)),
-or insufficient documentation was present to make them work (e.g. [SQUIN](cite:cites squin)).
-Nevertheless, in order to ensure a fair and complete comparison,
+Existing LTQP engines could not produce adequate results,
+because these systems (e.g. [Lidaq](cite:cites comparingsummaries)) require significant changes to work over Solid vaults,
+depend on a non-standard usage of the SPARQL syntax (e.g. [SPARQL-LD](cite:cites sparqlld)),
+or contain insufficient documentation to make them work (e.g. [SQUIN](cite:cites squin)).
+<span class="comment" data-author="RV">Suggest to drop the last clause, makes us seem lazy</span>
+Therefor, in order to ensure a fair and complete comparison,
 we have re-implemented the foundational LTQP algorithms (cNone, cMatch, cAll),
-and compare them against, and in combination with, our algorithms.
+and compare them against, and in combination with, our new algorithms.
 
 ### Experimental Results
 
@@ -49,6 +52,7 @@ In this section, we present results that offer insights into our research questi
 show the aggregated results for the different combinations of our setup
 for the discover and short queries of the benchmark, respectively.
 We omit results from complex queries, as none of the approaches achieve a level of accuracy significantly higher than 0%.
+<span class="comment" data-author="RV">How do we define accuracy? Is it completeness (and if so, can we replace the word)?</span>
 Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with different post multiplication factors.
 Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
@@ -77,6 +81,8 @@ The accuracy of each query execution is a percentage indicating the precision an
 | cnone-ldp-idx-filt | 1,552 | 1,006 | 425 | 331 | 357 | 20.50 | 74.14% | 0 |
 | **cmatch-ldp-idx-filt** | **12,483** | **2,372** | **2,309** | **925** | **2,708** | **39.13** | **99.14%** | **0** |
 | call-ldp-idx-filt | 123,979 | 125,235 | 48,382 | 10,368 | 16,623 | 3.13 | 17.40% | 7 |
+
+<span class="comment" data-author="RV">What's our explanation for the repeated 99.14?</span>
 
 <figcaption markdown="block">
 Aggregated results for the different combinations across 8 **discover** queries.
@@ -147,7 +153,10 @@ Discover queries therefore depend on an overview of the vault, while short queri
 The remainder of this discussion only focuses on discover queries, since these achieve the highest level of accuracy.
 As such, the short and complex queries highlight opportunities for future improvement.
 
+<span class="comment" data-author="RV">Definitely interesting results; in future work, we'll need to understand what we need more in order to achieve 100%. The conclusion should hint at this.</span>
+
 #### Type index and LDP discovery perform similarly
+<span class="comment" data-author="RV">similarly wrt time? or also completeness?</span>
 
 <figure id="figure-queries_indexvsstorage">
 
@@ -164,6 +173,8 @@ Execution times.
 Number of HTTP requests.
 </figcaption>
 </figure>
+
+<span class="comment" data-author="RV">Unit of y axis?</span>
 
 <figcaption markdown="block">
 Relative measurements for discover queries with different discovery methods under cMatch.
