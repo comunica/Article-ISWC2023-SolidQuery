@@ -212,6 +212,19 @@ While it may seem obvious to assume that higher query execution times are caused
 we observe only a weak correlation (*$$\rho$$ = 0.32*) of this within the cMatch-based discovery approaches discussed before.
 The main bottleneck in this case appears not primarily to be the number of links to traverse.
 Instead, our analysis suggests that query plan efficiency is the primary influencer of execution times.
+This is in contrast to [earlier research over Linked Open Data](cite:cites linktraversaloptimization),
+where we instead consider structural properties with more selective link traversal.
+
+To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMatch with filtered type index discovery)
+with a two-phase query execution approach that we implemented in the same query engine.
+Instead of following links during query execution as in the integrated approach,
+the two-phase approach first follows links at the same rate to index all discovered triples,
+and processes the query in the traditional *optimize-then-execute* manner.
+This two-phase approach is based on an oracle that provides all query-relevant links, which we determined by analyzing the request logs during the execution of the integrated approach.
+Therefore, this two-phase approach is merely a theoretical case,
+which delays time until first results due to prior indexing,
+and may not always be achievable due to infinitely growing link queues for some queries.
+The results of this are in [](#results-planning-effectiveness).
 
 <figure id="results-planning-effectiveness" class="table" class="table-smaller-font" markdown="1">
 
@@ -231,17 +244,6 @@ Integrated and two-phase execution times (ms) of discover queries, with number o
 </figcaption>
 </figure>
 
-To empirically prove this finding, we compare the execution times of our default integrated query execution approach (cMatch with filtered type index discovery)
-with a two-phase query execution approach that we implemented in the same query engine.
-Instead of following links during query execution as in the integrated approach,
-the two-phase approach first follows links to index all discovered triples,
-and processes the query in the traditional *optimize-then-execute* manner.
-This two-phase approach is based on an oracle that provides all query-relevant links, which we determined by analyzing the request logs during the execution of the integrated approach.
-Therefore, this two-phase approach is merely a theoretical case,
-which delays time until first results due to prior indexing,
-and which may not always be achievable due to infinitely growing link queues for some queries.
-The results of this are shown in [](#results-planning-effectiveness).
-
 These results show that the two-phase approach is on average two times faster for all queries compared to the integrated approach,
 even when taking into account time for dereferencing.
 The reason for this is that the two-phase approach is able to perform [traditional query planning](cite:cites sparqlqueryoptimization, sparqlbgpoptimization),
@@ -251,10 +253,10 @@ it is unable to use them for traditional planning.
 Instead, our integrated approach makes use of the [zero-knowledge query planning technique](cite:cites zeroknowldgequeryplanning)
 that uses heuristics to plan the query before execution.
 
-Since the only difference between the implementations of the integrated and two-phase approach is in how they plan the query,
-we can derive the query plan of the integrated approach is very ineffective.
-As such, there is clear need for better query planning during integrated execution,
-and the two-phase approach shows that performance could become more than two times better.
+Since the only difference between the integrated and two-phase implementations is in how they plan the query,
+we can derive that the query plan of the integrated approach is ineffective.
+Hence, there is a need for better query planning during integrated execution,
+where performance could ideally become more than two times better.
 
 [Zero-knowledge query planning](cite:cites zeroknowldgequeryplanning) is ineffective in our experiments
 because it has been designed under the assumptions of Linked Open Data,
