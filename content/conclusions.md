@@ -31,16 +31,22 @@ While finding query-relevant documents is still relevant for specific decentrali
 we show the need for more research towards better query planning techniques.
 Since LTQP leads to data being discovered during query execution,
 [adaptive query planning](cite:cites adaptive_book) techniques are highly promising.
-So far, these techniques have only seem limited adoption within [LTQP](cite:cites linktraversaloptimization)
+So far, these techniques have only seen limited adoption within [LTQP](cite:cites linktraversaloptimization)
 and [SPARQL query processing](cite:cites sparql_adaptive_anapsid, sparql_adaptive_ldeddies, sparql_adaptive_robust).
 
 Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance,
-and future work in the direction of implicit type knowledge in queries and query decomposition over different type index entries could be relevant.
+and future work in the direction of implicit type knowledge in queries (e.g. through RDFS reasoning)
+and query decomposition over different type index entries could be relevant.
 Furthermore, alternative structural properties could offer more expressivity,
 such as [characteristics sets](cite:cites characteristicssets) and [other summarization techniques](cite:cites comparingsummaries, spec:shapetrees).
+Additionally, more work is needed to investigate the impact of [privacy](cite:cites privacy_aggregation) and [security](cite:cites ldtraversalsecurity) during LTQP over decentralized environments.
 Next to that, the incorporation of more expressive [Linked Data Fragments interfaces](cite:cites ldf, smartkg, sage, wisekg, spf, brtpf) in certain Solid vaults
 could introduce interesting trade-offs in terms of server and client query execution effort,
 especially if they can be combined in a [heterogeneous manner](cite:cites heterogeneous_lars, heterogeneous_fedqpl, heterogeneous_replicas).
+
+In summary, traversal-based querying over decentralized environments can be practically feasible performance-wise.
+Furthermore, it is useful given the lack of alternatives, because centralization of private data may not be feasible or legal.
+However, for complex queries, more improvements through future research are needed.
 
 This work provides an answer to the increasing need of querying over decentralized environments,
 and uncovers next steps for resolving current limitations.

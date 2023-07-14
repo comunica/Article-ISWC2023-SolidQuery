@@ -1,7 +1,7 @@
 ## Evaluation
 {:#evaluation}
 
-In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties"_.
+In this section, we tackle the research question _"How well does link traversal query processing perform over decentralized environments with structural properties?"_.
 Within this work, we apply our experiments to the structural properties of the decentralized environment provided by Solid,
 but findings may be generalizable to other decentralized environments.
 We provide an answer to this research question by evaluating different approaches based on the implementation discussed in [](#approach),
@@ -12,17 +12,18 @@ and a discussion of our results to answer our research question.
 
 ### Experimental Design
 
-Our experimental design is based on an existing benchmark (*name and reference omitted for double-blindness*)
+Our experimental design is based on the [SolidBench benchmark](https://github.com/SolidBench/SolidBench.js)
 that simulates a realistic decentralized environment based on the Solid ecosystem.
 Concretely, the benchmark generates a configurable number of data vaults with configurable sizes containing social networking data,
 where a variety of fragmentation strategies are used to organize files in vaults.
 By default, it generates 158.233 RDF files over 1.531 data vaults with a total of 3.556.159 triples across all files.
 Furthermore, it provides SPARQL query templates that simulate a realistic workload for a social networking application.
 The underlying dataset and query templates are derived from the [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive).
+A full description of all queries can be found on [https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
 
 We make use of a factorial experiment containing the following factors and values:
 
-- **Vault discovery**: None, LDP, Type Index, Filtered Type Index, LDP + Type Index, LDP + Filtered Type Index
+- **Vault discovery combinations**: None, LDP, Type Index, Filtered Type Index, LDP + Type Index, LDP + Filtered Type Index
 - **Reachability semantics**: cNone, cMatch, cAll
 
 The LDP strategy corresponds to the disjunction of the source selectors $$\sigma_{\text{SolidVault}}$$ and $$\sigma_{\text{LdpContainer}}$$,
@@ -50,7 +51,6 @@ In this section, we present results that offer insights into our research questi
 show the aggregated results for the different combinations of our setup
 for the discover and short queries of the benchmark, respectively.
 We omit results from complex queries, as none of the approaches achieve a level of accuracy significantly higher than 0%.
-Furthermore, [](#results-queries-fragmentation) shows the aggregated results of all discover queries over different fragmentation strategies with different post multiplication factors.
 Concretely, each table shows the average ($$\overline{t}$$) and median ($$\tilde{t}$$) execution times (ms), the average ($$\overline{t}_1$$) and median ($$\tilde{t}_1$$) time until first result (ms), average number of HTTP requests per query ($$\overline{req}$$), total number of results on average per query ($$\sum ans$$), average accuracy ($$\overline{acc}$$), and number of timeouts ($$\sum to$$) across all queries. The combinations with the highest accuracy value are marked in bold.
 The number of HTTP requests is counted across all query executions that did not time out within each combination.
 The timeout column represents the number of query templates that lead to a timeout for a given combination.
@@ -263,6 +263,6 @@ because it has been designed under the assumptions of Linked Open Data,
 while it does not match with the structural assumptions of specific decentralized environments such as Solid.
 For example, one of the heuristics within this planner deprioritizes triple patterns with vocabulary terms, such as `rdf:type`,
 since they are usually the least selective.
-However, when a Solid type index is present, such vocabulary terms may instead become _very selective_,
+However, when a Solid type index is present, such types may instead become _very selective_,
 which means that those would benefit from prioritization.
 As such, there is a need for alternative query planners that consider the structural assumptions within specific decentralized environments.

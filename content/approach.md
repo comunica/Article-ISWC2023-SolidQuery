@@ -47,7 +47,7 @@ where each vault $$\upsilon \in \Upsilon$$ is [defined by its set of triples](ci
 where $$triples(\upsilon) \subseteq \mathcal{T}$$.
 For a vault $$\upsilon_{LDP}$$ exposed through the LDP interface,
 the triples contained in such a vault are captured in different documents $$D_{\upsilon} \subseteq D$$.
-Hereby, $$\textit{triples}(\upsilon_{LDP}) = \{ t \mid \forall d \in D_{\upsilon} \land t \in data(d) \}$$.
+Hereby, $$\textit{triples}(\upsilon_{LDP}) = \cup_{d \in D_{\upsilon}} data(d)$$.
 
 ### Pipeline-based link queue
 
@@ -170,12 +170,12 @@ we formalize the following source selector from a given WebID with URI $$s$$ whe
 $$
 \sigma_{\text{SolidTypeIndex}}(W) = \{ o \mid \forall t,r,c : \phi(B, c) \\
 \begin{array}{ll}
-    \land & (\langle s \text{ solid:publicTypeIndex } t \rangle \lor \langle s \text{ solid:privateTypeIndex } t \rangle) \\
-          & \in data(adoc(s))\\
-    \land & (\langle r \text{ rdf:type solid:TypeRegistration} \rangle \\
-          & \land \langle r \text{ solid:forClass } c \rangle) \in data(adoc(t))\\
-    \land & (\langle r \text{ solid:instance } o \rangle \lor \langle r \text{ solid:instanceContainer } o \rangle) \\
-          & \in data(adoc(t))\}
+    \land & (\langle s \text{ solid:publicTypeIndex } t \rangle \in data(adoc(s)) \\
+          & \lor \langle s \text{ solid:privateTypeIndex } t \rangle \in data(adoc(s)))\\
+    \land & (\langle r \text{ rdf:type solid:TypeRegistration} \rangle \in data(adoc(t)) \\
+          & \land \langle r \text{ solid:forClass } c \rangle \in data(adoc(t)))\\
+    \land & (\langle r \text{ solid:instance } o \rangle \in data(adoc(t)) \\
+          & \lor \langle r \text{ solid:instanceContainer } o \rangle \in data(adoc(t)))\}
 \end{array}
 $$
 
@@ -215,7 +215,7 @@ $$
 
 ### Implementation
 
-We have implemented our system using an existing SPARQL query engine framework (*name and reference omitted for double-blindness*).
+We have implemented our system as new components for the [Comunica SPARQL framework](cite:cites comunica).
 Concretely, we implemented the pipeline-based link queue as a separate module,
 and we provide link extractors corresponding to the source selectors introduced in previous sections.
 We fully support SPARQL 1.1, and have pipelined implementations of all monotonic SPARQL operators.
@@ -226,7 +226,7 @@ Our implementation focuses on the SPARQL query language,
 instead of alternatives such as [LDQL](cite:cites ldql) and [SPARQL-LD](cite:cites sparqlld)
 that incorporate link navigation paths into the query.
 As discussed in [](#solid), different Solid apps or user preferences may lead to the storage of similar data at different locations within vaults.
-Hence, link navigation must *decoupled* from the query to make queries reusable for different Solid users,
+Hence, link navigation must be *decoupled* from the query to make queries reusable for different Solid users,
 as link paths to data may differ across different vaults.
 Our implementation uses LDP container traversal and the type index to replace explicit navigation links.
 
@@ -241,7 +241,11 @@ Furthermore, our implementation allows users to explicitly pass seed URIs,
 but falls back to [query-based seed URIs](cite:cites squin) if no seeds were provided.
 This fallback considers all URIs within the query as seed URIs.
 
+As Solid performs access control at document-level, we enable users to authenticate to the client-side query engine.
+This allows the query engine to perform authenticated requests on behalf of the user.
+Since authenticated requests happen purely on the HTTP layer, other parts of the query engine do not have to be concerned about authentication,
+and the processing of public and private data can happen together transparently in the client-side query engine.
+
 As a result, our implementation can query over one or more Solid data vaults.
-This also includes the ability to perform authenticated to documents within vaults behind access control.
 To ensure that common HTTP errors that may occur during link traversal don't terminate the query execution process,
 we enable a default _lenient_ mode, which ignores dereference responses with HTTP status code in ranges 400 and 500.
