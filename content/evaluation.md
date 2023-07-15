@@ -19,7 +19,8 @@ where a variety of fragmentation strategies are used to organize files in vaults
 By default, it generates 158.233 RDF files over 1.531 data vaults with a total of 3.556.159 triples across all files.
 Furthermore, it provides SPARQL query templates that simulate a realistic workload for a social networking application.
 The underlying dataset and query templates are derived from the [Social Network Benchmark (SNB)](cite:cites ldbc_snb_interactive).
-A full description of all queries can be found on [https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
+A full description of all queries can be found on [https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/
+README.md](https://github.com/SolidBench/SolidBench.js/blob/master/templates/queries/README.md).
 
 We make use of a factorial experiment containing the following factors and values:
 
