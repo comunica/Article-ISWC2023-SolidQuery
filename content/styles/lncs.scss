@@ -326,7 +326,8 @@ main {
 
     &::before {
       counter-increment: section;
-      content: counter(section) ". ";
+      content: counter(section);
+      padding-right: 15px;
     }
   }
 
@@ -334,7 +335,8 @@ main {
   h3 {
     &::before {
       counter-increment: subsection;
-      content: counter(section) "." counter(subsection) ". ";
+      content: counter(section) "." counter(subsection);
+      padding-right: 15px;
     }
   }
 
@@ -383,9 +385,12 @@ header {
 
 #affiliations {
   list-style: none;
-  margin: 1em 0;
+  margin: 1em auto;
   padding: 0;
   letter-spacing: -.1px;
+  font-size: 0.8em;
+  text-align: center;
+  width: 375px;
 
   sup {
     margin-right: .1em;
@@ -571,6 +576,7 @@ white-space:pre;
 #contact-us h3:before,
 #contact-us h4:before {
 content:"";
+padding: 0;
 }
 
 #document-identifier dt:after,
