@@ -5,7 +5,7 @@ efforts such as Solid strive to reclaim private data by storing it in permission
 <!-- Need         -->
 Building applications on top of such a decentralized Knowledge Graph
 involves significant technical challenges:
-centralized aggregation prior to query processing is excluded for legal reasons,
+centralized aggregation prior to query processing is impossible for legal reasons,
 and current federated querying techniques cannot handle this large scale of distribution
 at the expected performance.
 <!-- Task         -->
@@ -18,10 +18,10 @@ we analyze the structural properties of the Solid decentralization ecosystem tha
 we introduce novel LTQP algorithms leveraging these structural properties,
 and evaluate their effectiveness.
 <!-- Findings     -->
-Our experiments indicate that these new algorithms obtain accurate results in the order of seconds,
+Our experiments indicate that these new algorithms obtain correct results in the order of seconds,
 which existing algorithms cannot achieve.
 <!-- Conclusion   -->
-This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization,
+This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization,
 but that advances are needed in the area of query planning for LTQP to handle more complex queries.
 <!-- Perspectives -->
 These insights open the door to query-driven decentralized applications,
