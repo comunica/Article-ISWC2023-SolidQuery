@@ -11,7 +11,7 @@
   <meta name="citation_author" content="Ruben Taelman" />
   <meta name="citation_author" content="Ruben Verborgh" />
   
-  <meta name="citation_publication_date" content="2023/08/08" />
+  <meta name="citation_publication_date" content="2023/08/10" />
 </head>
 
 <body prefix="dctypes: http://purl.org/dc/dcmitype/ pimspace: http://www.w3.org/ns/pim/space# rsa: http://www.w3.org/ns/auth/rsa# cert: http://www.w3.org/ns/auth/cert# wgs: http://www.w3.org/2003/01/geo/wgs84_pos# biblio: http://purl.org/net/biblio# bibo: http://purl.org/ontology/bibo/ book: http://purl.org/NET/book/vocab# ov: http://open.vocab.org/terms/ doap: http://usefulinc.com/ns/doap# dbr: http://dbpedia.org/resource/ dbp: http://dbpedia.org/property/ sio: http://semanticscience.org/resource/ opmw: http://www.opmw.org/ontology/ deo: http://purl.org/spar/deo/ doco: http://purl.org/spar/doco/ cito: http://purl.org/spar/cito/ fabio: http://purl.org/spar/fabio/ solid: http://www.w3.org/ns/solid/terms# acl: http://www.w3.org/ns/auth/acl# dio: https://w3id.org/dio# lsc: http://linkedscience.org/lsc/ns#" typeof="schema:CreativeWork sioc:Post prov:Entity lsc:Research">
@@ -50,7 +50,7 @@ efforts such as Solid strive to reclaim private data by storing it in permission
 <!-- Need         -->
 Building applications on top of such a decentralized Knowledge Graph
 involves significant technical challenges:
-centralized aggregation prior to query processing is excluded for legal reasons,
+centralized aggregation prior to query processing is impossible for legal reasons,
 and current federated querying techniques cannot handle this large scale of distribution
 at the expected performance.
 <!-- Task         -->
@@ -63,14 +63,15 @@ we analyze the structural properties of the Solid decentralization ecosystem tha
 we introduce novel LTQP algorithms leveraging these structural properties,
 and evaluate their effectiveness.
 <!-- Findings     -->
-Our experiments indicate that these new algorithms obtain accurate results in the order of seconds,
+Our experiments indicate that these new algorithms obtain correct results in the order of seconds,
 which existing algorithms cannot achieve.
 <!-- Conclusion   -->
-This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization,
+This work reveals that a traversal-based querying method using structural assumptions can be effective for large-scale decentralization,
 but that advances are needed in the area of query planning for LTQP to handle more complex queries.
 <!-- Perspectives -->
 These insights open the door to query-driven decentralized applications,
 in which declarative queries shield developers from the inherent complexity of a decentralized landscape.</p>
+
     </div>
 </section>
 
@@ -84,13 +85,13 @@ in which declarative queries shield developers from the inherent complexity of a
 
         <p>Despite transforming our world to be more interconnected than ever before,
 the Web has become increasingly centralized in recent years, contrary to its original vision <span class="references">[<a href="#ref-1">1</a>]</span>.
-Today, the majority of data on the Web is flowing towards isolated <em>data silos</em>,
+The majority of data on the Web today is flowing towards <em>data silos</em>,
 which are in the hands of large companies.
 This siloization of data leads to various problems,
 ranging from issues with cross-silo interoperability and vendor lock-in,
-to privacy issues and individuals’ data being controlled by companies instead of themselves.</p>
+to privacy breaches and individuals’ data being controlled by companies instead of themselves.</p>
 
-        <p>Because of these reasons, and the introduction of user-empowering legislature such as GDPR and CCPA,
+        <p>Because of increasing awareness and user-empowering legislation such as the GDPR and CCPA,
 <a property="schema:citation http://purl.org/spar/cito/cites" href="https://ruben.verborgh.org/articles/redecentralizing-the-web/">decentralization initiatives</a> <span class="references">[<a href="#ref-2">2</a>, <a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span> are gaining popularity.
 Their common goal is
 to give people back control over their own data
@@ -99,46 +100,61 @@ Initiatives such as <a property="schema:citation http://purl.org/spar/cito/cites
 which they fully control.
 In Solid, these data vaults form personal Knowledge Graphs <span class="references">[<a href="#ref-6">6</a>, <a href="#ref-7">7</a>]</span>, represented as collections of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data documents</a> <span class="references">[<a href="#ref-8">8</a>]</span> containing <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2014/REC-rdf11-concepts-20140225/">RDF triples</a> <span class="references">[<a href="#ref-9">9</a>]</span>.
 The presence of such data vaults results in a large-scale distribution of data,
-where applications involving multiple individuals’ data require accessing
-thousands or even millions of documents
-across different data vaults across the Web.
-These applications cannot effectively be built today
-due to the lack of query processing techniques that can handle such decentralized environments.</p>
+where applications involving multiple individuals’ data
+will require accessing thousands or even millions of access-controlled data items
+in data vaults across the Web.</p>
 
-        <p>The majority of research in the domain of query execution over Knowledge Graphs on the Web has been focused on <em>centralized</em> use cases,
-where all data is captured in a single or a small number
-of sources, usually exposed as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">SPARQL endpoints</a> <span class="references">[<a href="#ref-10">10</a>]</span>.
-Even though several federated query execution approaches exist <span class="references">[<a href="#ref-11">11</a>, <a href="#ref-12">12</a>, <a href="#ref-13">13</a>, <a href="#ref-14">14</a>]</span>,
-they have been designed for federating over <em>a few (~10) large sources</em>,
-while decentralized environments such as Solid are identified by <em>a large number (~thousands) of small sources</em>.
+        <p>The state of the art in RDF query processing does not support such applications,
+as it is unprepared to handle large-scale decentralization.
+The RDF querying research of the past two decades
+has focused on data that either <em>is</em> or <em>can be</em> centralized.
+Some datasets would be in a <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/2013/REC-sparql11-protocol-20130321/">private or public quadstore</a> <span class="references">[<a href="#ref-10">10</a>]</span>,
+specifically designed to enable efficient query processing.
+Other datasets would be Linked Open Data with a permissive license,
+making it possible to copy or cache data in a local quadstore.
+This permanent option to centralize
+limited the need for decentralized query techniques
+that allow data to remain at its source.
+After all,
+downloading and aggregating datasets
+would nearly always be more efficient.
+Yet when we use Linked Data for permissioned or sensitive data,
+it becomes impossible to download datasets in their entirety.</p>
+
+        <p>While <em>federated</em> query execution approaches do exist <span class="references">[<a href="#ref-11">11</a>, <a href="#ref-12">12</a>, <a href="#ref-13">13</a>, <a href="#ref-14">14</a>]</span>,
+they currently handle a <em>small</em> number (~<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>10</mn></mrow><annotation encoding="application/x-tex">10</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.6444em;"></span><span class="mord">10</span></span></span></span>) of <em>large</em> sources,
+whereas decentralized environments such as Solid are characterized
+by a <em>large</em> number (&gt;<span class="katex"><span class="katex-mathml"><math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1</mn><msup><mn>0</mn><mn>3</mn></msup></mrow><annotation encoding="application/x-tex">10^3</annotation></semantics></math></span><span class="katex-html" aria-hidden="true"><span class="base"><span class="strut" style="height:0.8141em;"></span><span class="mord">1</span><span class="mord"><span class="mord">0</span><span class="msupsub"><span class="vlist-t"><span class="vlist-r"><span class="vlist" style="height:0.8141em;"><span style="top:-3.063em;margin-right:0.05em;"><span class="pstrut" style="height:2.7em;"></span><span class="sizing reset-size6 size3 mtight"><span class="mord mtight">3</span></span></span></span></span></span></span></span></span></span></span>) of <em>small</em> sources.
 Furthermore, federated query execution techniques assume sources to be known prior to query execution,
 which is not feasible in decentralized environments due to the lack of a central index.
-Hence, they are unsuitable for decentralized environments.</p>
+Hence, existing techniques are ill-suited for the envisaged scale of decentralization.</p>
 
         <p><em>Link Traversal Query Processing (LTQP)</em> <span class="references">[<a href="#ref-15">15</a>, <a href="#ref-16">16</a>]</span>
 is an alternative query execution paradigm that is more promising for uncharted decentralized environments.
-It can query over a continuously growing range of documents that are discovered during query execution,
-by <em>following hyperlinks</em> between Linked Data documents using the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html"><em>follow-your-nose</em> principle</a> <span class="references">[<a href="#ref-8">8</a>]</span>.
-While LTQP has been theoretically interesting, it has not seen any practical use so far,
+LTQP allows querying over a continuously growing selection of source documents that are discovered <em>during</em> query execution,
+by following hyperlinks between Linked Data documents using the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html"><em>follow-your-nose</em> principle</a> <span class="references">[<a href="#ref-8">8</a>]</span>.
+Although LTQP has been theoretically interesting, it has not seen any practical use so far,
 in particular because of performance concerns.</p>
 
-        <p>Besides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/DesignIssues/LinkedData.html">Linked Data principles</a> <span class="references">[<a href="#ref-8">8</a>]</span>,
-decentralization efforts such as Solid provide additional structural properties on top of these principles that allow us to make
-additional assumptions about data, documents, and their organization during query execution.
+        <p>Fortunately,
+decentralized ecosystems such as Solid exhibit additional structural properties
+in addition to the Linked Data principles,
+allowing us to improve query performance
+through assumptions about data, documents, and their organization.
 For example, Solid makes use of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">Linked Data Platform</a> <span class="references">[<a href="#ref-17">17</a>]</span> containers
 to provide <em>completeness guarantees</em> when finding data within vaults,
-and it provides the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-18">18</a>]</span> to enable <em>type-based document discovery</em>.</p>
+and provides a <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-18">18</a>]</span> to enable <em>type-based document discovery</em>.</p>
 
-        <p>In this work, we prove that LTQP
-can be an effective paradigm,
-if we exploit specific structural properties within decentralized environments
+        <p>In this work,
+we prove that LTQP can be an effective paradigm
+for the structured retrieval of data from unindexed decentralized Knowledge Graphs.
+The key is to exploit the aforementioned structural properties
 for more effective source discovery and query optimization.
 While we apply our research to the Solid ecosystem,
-these concepts may be generalizable to <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">other decentralization initiatives</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>.
-To the best of our knowledge, this is the first querying analysis for the Solid ecosystem.</p>
+these concepts may be generalizable to <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">other decentralization initiatives</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>, <a href="#ref-5">5</a>]</span>.</p>
 
         <p>This article is structured as follows.
-In the <a href="#related-work">next section</a>, we discuss the related work,
+In the <a href="#related-work">next section</a>, we discuss related work,
 after which we provide an analysis of the structural properties of Solid data vaults in <a href="#solid">Section 3</a>.
 In <a href="#approach">Section 4</a>, we introduce LTQP algorithms that make use of these structural properties,
 which are evaluated in <a href="#evaluation">Section 5</a>.
