@@ -19,10 +19,17 @@ code {
     padding: 0;
     font-size: 0.6em !important;
   }
+  th {
+    font-weight: bold;
+  }
 }
 
 pre {
   font-size: 0.75em;
+}
+
+q {
+  font-style: italic;
 }
 
 .img-narrow {

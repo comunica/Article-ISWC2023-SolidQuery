@@ -151,6 +151,14 @@ As such, the short and complex queries highlight opportunities for future improv
 
 #### Type index and LDP discovery perform similarly
 
+When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in [](#results-queries-discover),
+we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery on average.
+To explain this behaviour in more detail, [](#figure-queries_indexvsstorage_time_relative) shows the average query execution times of each discover query separately,
+for the different combinations of data vault discovery approaches.
+To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
+Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
+which are also made relative to the maximum number of requests per query for better comparability.
+
 <figure id="figure-queries_indexvsstorage">
 
 <figure id="figure-queries_indexvsstorage_time_relative" class="subfigure">
@@ -174,13 +182,6 @@ and stars indicate average time until first result.
 </figcaption>
 </figure>
 
-When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in [](#results-queries-discover),
-we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery on average.
-To explain this behaviour in more detail, [](#figure-queries_indexvsstorage_time_relative) shows the average query execution times of each discover query separately,
-for the different combinations of data vault discovery approaches.
-To simplify comparability, the execution times within this figure are [relative to the maximum query execution time per query](cite:cites linktraversaloptimization).
-Furthermore, [](#figure-queries_indexvsstorage_http_relative) shows the average number of HTTP requests for each of those discover queries,
-which are also made relative to the maximum number of requests per query for better comparability.
 
 While [](#figure-queries_indexvsstorage_time_relative) shows that for all queries
 using just the type index is slightly faster or comparable to just LDP-based discovery,
