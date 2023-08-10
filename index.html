@@ -1139,6 +1139,14 @@ As such, the short and complex queries highlight opportunities for future improv
 
         <h4 id="type-index-and-ldp-discovery-perform-similarly">Type index and LDP discovery perform similarly</h4>
 
+        <p>When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in <a href="#results-queries-discover">Table 1</a>,
+we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery on average.
+To explain this behaviour in more detail, <a href="#figure-queries_indexvsstorage_time_relative">Subfig. 2.1</a> shows the average query execution times of each discover query separately,
+for the different combinations of data vault discovery approaches.
+To simplify comparability, the execution times within this figure are relative to the maximum query execution time per query <span class="references">[<a href="#ref-31">31</a>]</span>.
+Furthermore, <a href="#figure-queries_indexvsstorage_http_relative">Subfig. 2.2</a> shows the average number of HTTP requests for each of those discover queries,
+which are also made relative to the maximum number of requests per query for better comparability.</p>
+
         <figure id="figure-queries_indexvsstorage">
 
 <figure id="figure-queries_indexvsstorage_time_relative" class="subfigure">
@@ -1161,14 +1169,6 @@ Bars indicate average values, whiskers indicate the maxima and minima,
 and stars indicate average time until first result.</p>
           </figcaption>
 </figure>
-
-        <p>When comparing the number of HTTP requests and query execution times for different data vault discovery approaches under cMatch in <a href="#results-queries-discover">Table 1</a>,
-we can observe that using the type index leads to fewer HTTP requests and faster query execution compared to LDP-based discovery on average.
-To explain this behaviour in more detail, <a href="#figure-queries_indexvsstorage_time_relative">Subfig. 2.1</a> shows the average query execution times of each discover query separately,
-for the different combinations of data vault discovery approaches.
-To simplify comparability, the execution times within this figure are relative to the maximum query execution time per query <span class="references">[<a href="#ref-31">31</a>]</span>.
-Furthermore, <a href="#figure-queries_indexvsstorage_http_relative">Subfig. 2.2</a> shows the average number of HTTP requests for each of those discover queries,
-which are also made relative to the maximum number of requests per query for better comparability.</p>
 
         <p>While <a href="#figure-queries_indexvsstorage_time_relative">Subfig. 2.1</a> shows that for all queries
 using just the type index is slightly faster or comparable to just LDP-based discovery,
@@ -1315,28 +1315,34 @@ As such, there is a need for alternative query planners that consider the struct
 
         <p>User-oriented decentralized applications require results in the order of seconds or less to avoid losing the user’s attention <span class="references">[<a href="#ref-53">53</a>]</span>.
 Our work has shown that Link Traversal Query Processing is able to achieve such timings,
-especially as it is able to produce results in an iterative manner, with first results mostly being produced in less than a second.
-As such, LTQP with the algorithms introduced in this work are effective for querying over decentralized environments with specific structural properties,
+especially as it is able to produce results in an iterative manner, with first results mostly being produced in less than a second.
+As such, LTQP with the algorithms introduced in this work is effective for querying over decentralized environments with specific structural properties,
 but there are open research opportunities for optimizing more complex queries as provided by the benchmark.
 We have shown this by applying LTQP to simulated Solid environments, for which we have introduced algorithms to capture these structural properties.</p>
 
-        <p>Up until now, LTQP has always been applied to querying Linked Open Data on the Web.
-In that context, it was assumed that <em>“we should never expect complete results”</em> <span class="references">[<a href="#ref-19">19</a>]</span>, because of the openness and distributed nature of the Web.
-However, when applying LTQP to specific decentralized environments such as Solid,
-this limitation does not hold anymore,
-since there are additional assumptions that we can make use of during query execution.
+        <p>Before this work, LTQP tended to exclusively focus on Linked Open Data,
+which centralized quadstores handle better anyway.
+After all, in addition to major performance concerns,
+it was assumed that <q>we should never expect complete results</q> <span class="references">[<a href="#ref-19">19</a>]</span>  with LTQP because of the unbounded and distributed nature of the Web.
+Prior aggregation was therefore always the logical option for efficient queries,
+limiting the evaluation space to fixed datasets with a compatible license.</p>
+
+        <p>However, LTQP becomes relevant again within decentralized environments such as Solid,
+where aggregation is not an option because of permissioning.
+Performance concerns can be addressed
+through the usage of additional assumptions during query execution.
 For instance, the ability to close the world around Solid vaults,
 and the data discovery techniques that Solid vaults provide,
 create opportunities for query execution that allow us to guarantee complete results.
 While we have investigated the specific case of querying Solid vaults,
 these concepts may be generalizable to other <a property="schema:citation http://purl.org/spar/cito/cites" href="https://blueskyweb.xyz/">decentralization efforts</a> <span class="references">[<a href="#ref-3">3</a>, <a href="#ref-4">4</a>]</span>.
 This is possible, because our approach solely relies on the structural properties
-provided by standards such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">LDP</a> <span class="references">[<a href="#ref-17">17</a>]</span> and the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-18">18</a>]</span>,
+provided by specifications such as <a property="schema:citation http://purl.org/spar/cito/cites" href="https://www.w3.org/TR/ldp/">LDP</a> <span class="references">[<a href="#ref-17">17</a>]</span> and the <a property="schema:citation http://purl.org/spar/cito/cites" href="https://solid.github.io/type-indexes/">Type Index</a> <span class="references">[<a href="#ref-18">18</a>]</span>,
 which can be used outside of the Solid ecosystem.</p>
 
-        <p>Due to the possibility of incomplete results,
-LTQP research over Linked Open Data is moving into the direction of
-finding query-relevant documents as early as possible <span class="references">[<a href="#ref-31">31</a>]</span>.
+        <p>LTQP research over Linked Open Data is exploring the direction of
+finding query-relevant documents as early as possible <span class="references">[<a href="#ref-31">31</a>]</span>
+due to the possibility of incomplete results.
 In the context of Solid, we have shown that finding all query-relevant documents is not the main bottleneck during query execution anymore.
 Instead, the <em>effectiveness of the query plan</em> has become the new bottleneck.
 While finding query-relevant documents is still relevant for specific decentralized environments,
@@ -1346,23 +1352,23 @@ adaptive query planning <span class="references">[<a href="#ref-54">54</a>]</sp
 So far, these techniques have only seen limited adoption within LTQP <span class="references">[<a href="#ref-31">31</a>]</span>
 and SPARQL query processing <span class="references">[<a href="#ref-55">55</a>, <a href="#ref-56">56</a>, <a href="#ref-57">57</a>]</span>.</p>
 
-        <p>Our findings indicate that discovery approaches such as the Solid type index have a great potential for improving query performance,
-and future work in the direction of implicit type knowledge in queries (e.g. through RDFS reasoning)
-and query decomposition over different type index entries could be relevant.
+        <p>Our findings indicate that discovery approaches such as the Solid Type Index harbor a great potential for improving query performance,
+and future work in the direction of <em>implicit type knowledge</em> within queries (e.g., through RDFS reasoning)
+and query decomposition over <em>different type index entries</em> could be relevant.
 Furthermore, alternative structural properties could offer more expressivity,
-such as characteristics sets <span class="references">[<a href="#ref-58">58</a>]</span> and other summarization techniques <span class="references">[<a href="#ref-21">21</a>, <a href="#ref-59">59</a>]</span>.
+such as <em>characteristics sets</em> <span class="references">[<a href="#ref-58">58</a>]</span> and other <em>summarization techniques</em> <span class="references">[<a href="#ref-21">21</a>, <a href="#ref-59">59</a>]</span>.
 Additionally, more work is needed to investigate the impact of <a property="schema:citation http://purl.org/spar/cito/cites" href="https://rubensworks.github.io/article-privacy-decentralized/">privacy</a> <span class="references">[<a href="#ref-60">60</a>]</span> and <a property="schema:citation http://purl.org/spar/cito/cites" href="https://rubensworks.github.io/article-ldtraversal-security-short/">security</a> <span class="references">[<a href="#ref-61">61</a>]</span> during LTQP over decentralized environments.
-Next to that, the incorporation of more expressive Linked Data Fragments interfaces <span class="references">[<a href="#ref-62">62</a>, <a href="#ref-63">63</a>, <a href="#ref-64">64</a>, <a href="#ref-65">65</a>, <a href="#ref-66">66</a>, <a href="#ref-67">67</a>]</span> in certain Solid vaults
+The incorporation of more expressive Linked Data Fragments interfaces <span class="references">[<a href="#ref-62">62</a>, <a href="#ref-63">63</a>, <a href="#ref-64">64</a>, <a href="#ref-65">65</a>, <a href="#ref-66">66</a>, <a href="#ref-67">67</a>]</span> in certain Solid vaults
 could introduce interesting trade-offs in terms of server and client query execution effort,
 especially if they can be combined in a heterogeneous manner <span class="references">[<a href="#ref-68">68</a>, <a href="#ref-69">69</a>, <a href="#ref-70">70</a>]</span>.</p>
 
-        <p>In summary, traversal-based querying over decentralized environments can be practically feasible performance-wise.
+        <p>In summary, traversal-based querying over decentralized environments can become practically feasible performance-wise.
 Furthermore, it is useful given the lack of alternatives, because centralization of private data may not be feasible or legal.
 However, for complex queries, more improvements through future research are needed.</p>
 
-        <p>This work provides an answer to the increasing need of querying over decentralized environments,
+        <p>This work provides answers to the increasing need of querying over decentralized environments,
 and uncovers next steps for resolving current limitations.
-Hence, bringing us closer towards querying a decentralized Web where users are in full control.</p>
+Hence, it brings us closer to querying a decentralized Web where users are in full control.</p>
 
       </div>
 </section>
